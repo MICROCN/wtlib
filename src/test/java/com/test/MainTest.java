@@ -19,8 +19,7 @@ public class MainTest{
 	public void test1() throws Exception {	
 		InterfaceUrlInti.init();
 		
-//		MemcacheDemo.Demo();
-		
+//		MemcacheDemo.Demo();dddddddddddddddddddddddddddddddddddddddddddddddd		
 		
 //		RedisDemo.Demo();
 		
