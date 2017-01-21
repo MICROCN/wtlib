@@ -18,7 +18,7 @@ public class MainTest{
 	@Test
 	public void test1() throws Exception {	
 		InterfaceUrlInti.init();
-		
+		System.out.println("i add oneline in my computer and ready to push it to origin");		
 //		MemcacheDemo.Demo();dddddddddddddddddddddddddddddddddddddddddddddddd		
 		
 //		RedisDemo.Demo();
