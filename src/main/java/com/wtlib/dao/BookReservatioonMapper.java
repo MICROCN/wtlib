@@ -2,16 +2,9 @@ package com.wtlib.dao;
 
 import com.wtlib.pojo.BookReservatioon;
 
-public interface BookReservatioonMapper {
-    int deleteByPrimaryKey(Integer id);
-
-    int insert(BookReservatioon record);
-
-    int insertSelective(BookReservatioon record);
-
-    BookReservatioon selectByPrimaryKey(Integer id);
-
-    int updateByPrimaryKeySelective(BookReservatioon record);
-
-    int updateByPrimaryKey(BookReservatioon record);
+/**
+ * @author zongzi
+ * @date 2017年1月21日 下午6:16:40
+ */
+public interface BookReservatioonMapper extends BaseDao<BookReservatioon> {
 }

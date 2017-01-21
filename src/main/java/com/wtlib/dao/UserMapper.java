@@ -2,16 +2,9 @@ package com.wtlib.dao;
 
 import com.wtlib.pojo.User;
 
-public interface UserMapper {
-    int deleteByPrimaryKey(Integer id);
-
-    int insert(User record);
-
-    int insertSelective(User record);
-
-    User selectByPrimaryKey(Integer id);
-
-    int updateByPrimaryKeySelective(User record);
-
-    int updateByPrimaryKey(User record);
+/**
+ * @author zongzi
+ * @date 2017年1月21日 下午6:14:59
+ */
+public interface UserMapper extends BaseDao<User> {
 }

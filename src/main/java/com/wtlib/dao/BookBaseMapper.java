@@ -2,16 +2,10 @@ package com.wtlib.dao;
 
 import com.wtlib.pojo.BookBase;
 
-public interface BookBaseMapper {
-    int deleteByPrimaryKey(Integer id);
+/**
+ * @author zongzi
+ * @date 2017年1月21日 下午6:16:26
+ */
+public interface BookBaseMapper extends BaseDao<BookBase> {
 
-    int insert(BookBase record);
-
-    int insertSelective(BookBase record);
-
-    BookBase selectByPrimaryKey(Integer id);
-
-    int updateByPrimaryKeySelective(BookBase record);
-
-    int updateByPrimaryKey(BookBase record);
 }

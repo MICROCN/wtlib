@@ -2,16 +2,9 @@ package com.wtlib.dao;
 
 import com.wtlib.pojo.BorrowRecord;
 
-public interface BorrowRecordMapper {
-    int deleteByPrimaryKey(Integer id);
-
-    int insert(BorrowRecord record);
-
-    int insertSelective(BorrowRecord record);
-
-    BorrowRecord selectByPrimaryKey(Integer id);
-
-    int updateByPrimaryKeySelective(BorrowRecord record);
-
-    int updateByPrimaryKey(BorrowRecord record);
+/**
+ * @author zongzi
+ * @date 2017年1月21日 下午6:17:13
+ */
+public interface BorrowRecordMapper extends BaseDao<BorrowRecord> {
 }

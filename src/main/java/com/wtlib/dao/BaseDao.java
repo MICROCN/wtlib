@@ -3,7 +3,7 @@ package com.wtlib.dao;
 import java.util.List;
 
 /**
- * @author dapengniao
+ * @author zongzi
  *   基类
  * @param <T>
  */
