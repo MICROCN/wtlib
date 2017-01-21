@@ -1,27 +1,27 @@
-package com.wtlib.redis;
+                    package com.wtlib.redis;
 
 /**
  * ClassName: RedisAdapter
  * 
- * @Description: 统一管理redis命名空间,防止存储不同对象时key重复
+ * @Description: 缁熶竴绠＄悊redis鍛藉悕绌洪棿,闃叉瀛樺偍涓嶅悓瀵硅薄鏃秌ey閲嶅
  * @author dapengniao
- * @date 2016年7月4日 下午2:57:12
+ * @date 2016骞�鏈�鏃�涓嬪崍2:57:12
  */
 public enum RedisAdapter {
-	IP_LOCATION("a", "以ip为key存放这个ip所属的地址"), LATEST_MESSAGE("b",
-			"list结构存储用户最近n条消息"), USER("c", "string结构存储已登入用户的唯一cookie和userId");
+	IP_LOCATION("a", "CHUAN"), LATEST_MESSAGE("b",
+			"lis"), USER("c", "USER_serId");
 
-	// 缓存名称
+	// 缂撳瓨鍚嶇О
 	private String cacheName;
-	// 命名空间，作为key的前缀用于区分不同存储类型之间的key
+	// 鍛藉悕绌洪棿锛屼綔涓簁ey鐨勫墠缂�敤浜庡尯鍒嗕笉鍚屽瓨鍌ㄧ被鍨嬩箣闂寸殑key
 	private String nameSpace;
 
 	/**
 	 * @Description: TODO
-	 * @param @param nameSpace 命名空间，作为key的前缀用于区分不同存储类型之间的key
-	 * @param @param cacheName 缓存名称
+	 * @param @param nameSpace 鍛藉悕绌洪棿锛屼綔涓簁ey鐨勫墠缂�敤浜庡尯鍒嗕笉鍚屽瓨鍌ㄧ被鍨嬩箣闂寸殑key
+	 * @param @param cacheName 缂撳瓨鍚嶇О
 	 * @author dapengniao
-	 * @date 2016年7月4日 下午2:57:29
+	 * @date 2016骞�鏈�鏃�涓嬪崍2:57:29
 	 */
 	private RedisAdapter(String nameSpace, String cacheName) {
 		this.nameSpace = nameSpace;
