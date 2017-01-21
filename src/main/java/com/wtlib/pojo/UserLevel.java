@@ -2,12 +2,16 @@ package com.wtlib.pojo;
 
 import java.util.Date;
 
-public class User {
+public class UserLevel {
     private Integer id;
 
-    private String loginId;
+    private String levelName;
 
-    private String password;
+    private String levelMinCreditValue;
+
+    private Double levelWeight;
+
+    private String levelDesc;
 
     private Integer creator;
 
@@ -27,20 +31,36 @@ public class User {
         this.id = id;
     }
 
-    public String getLoginId() {
-        return loginId;
+    public String getLevelName() {
+        return levelName;
     }
 
-    public void setLoginId(String loginId) {
-        this.loginId = loginId == null ? null : loginId.trim();
+    public void setLevelName(String levelName) {
+        this.levelName = levelName == null ? null : levelName.trim();
     }
 
-    public String getPassword() {
-        return password;
+    public String getLevelMinCreditValue() {
+        return levelMinCreditValue;
     }
 
-    public void setPassword(String password) {
-        this.password = password == null ? null : password.trim();
+    public void setLevelMinCreditValue(String levelMinCreditValue) {
+        this.levelMinCreditValue = levelMinCreditValue == null ? null : levelMinCreditValue.trim();
+    }
+
+    public Double getLevelWeight() {
+        return levelWeight;
+    }
+
+    public void setLevelWeight(Double levelWeight) {
+        this.levelWeight = levelWeight;
+    }
+
+    public String getLevelDesc() {
+        return levelDesc;
+    }
+
+    public void setLevelDesc(String levelDesc) {
+        this.levelDesc = levelDesc == null ? null : levelDesc.trim();
     }
 
     public Integer getCreator() {

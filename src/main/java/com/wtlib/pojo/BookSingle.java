@@ -2,12 +2,18 @@ package com.wtlib.pojo;
 
 import java.util.Date;
 
-public class User {
+public class BookSingle {
     private Integer id;
 
-    private String loginId;
+    private Integer bookBaseId;
 
-    private String password;
+    private String bookHash;
+
+    private Integer currentOwner;
+
+    private Integer lastLender;
+
+    private Date lastLendTime;
 
     private Integer creator;
 
@@ -27,20 +33,44 @@ public class User {
         this.id = id;
     }
 
-    public String getLoginId() {
-        return loginId;
+    public Integer getBookBaseId() {
+        return bookBaseId;
     }
 
-    public void setLoginId(String loginId) {
-        this.loginId = loginId == null ? null : loginId.trim();
+    public void setBookBaseId(Integer bookBaseId) {
+        this.bookBaseId = bookBaseId;
     }
 
-    public String getPassword() {
-        return password;
+    public String getBookHash() {
+        return bookHash;
     }
 
-    public void setPassword(String password) {
-        this.password = password == null ? null : password.trim();
+    public void setBookHash(String bookHash) {
+        this.bookHash = bookHash == null ? null : bookHash.trim();
+    }
+
+    public Integer getCurrentOwner() {
+        return currentOwner;
+    }
+
+    public void setCurrentOwner(Integer currentOwner) {
+        this.currentOwner = currentOwner;
+    }
+
+    public Integer getLastLender() {
+        return lastLender;
+    }
+
+    public void setLastLender(Integer lastLender) {
+        this.lastLender = lastLender;
+    }
+
+    public Date getLastLendTime() {
+        return lastLendTime;
+    }
+
+    public void setLastLendTime(Date lastLendTime) {
+        this.lastLendTime = lastLendTime;
     }
 
     public Integer getCreator() {

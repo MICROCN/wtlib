@@ -20,10 +20,6 @@ public class MainTest{
 		InterfaceUrlInti.init();
 		System.out.println("i add oneline in my computer and ready to push it to origin");		
 		System.out.println("i fix this conflict in my computer and it's okey to push it to origin");
-//		MemcacheDemo.Demo();dddddddddddddddddddddddddddddddddddddddddddddddd		
-		
-//		RedisDemo.Demo();
-		
 		MQDemo.Demo();
 	 }
 	

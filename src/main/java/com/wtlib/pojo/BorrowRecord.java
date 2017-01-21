@@ -2,12 +2,18 @@ package com.wtlib.pojo;
 
 import java.util.Date;
 
-public class User {
+public class BorrowRecord {
     private Integer id;
 
-    private String loginId;
+    private Integer bookId;
 
-    private String password;
+    private Integer userId;
+
+    private String borrowStatus;
+
+    private Date borrowDeadLine;
+
+    private Date returnTime;
 
     private Integer creator;
 
@@ -27,20 +33,44 @@ public class User {
         this.id = id;
     }
 
-    public String getLoginId() {
-        return loginId;
+    public Integer getBookId() {
+        return bookId;
     }
 
-    public void setLoginId(String loginId) {
-        this.loginId = loginId == null ? null : loginId.trim();
+    public void setBookId(Integer bookId) {
+        this.bookId = bookId;
     }
 
-    public String getPassword() {
-        return password;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setPassword(String password) {
-        this.password = password == null ? null : password.trim();
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public String getBorrowStatus() {
+        return borrowStatus;
+    }
+
+    public void setBorrowStatus(String borrowStatus) {
+        this.borrowStatus = borrowStatus == null ? null : borrowStatus.trim();
+    }
+
+    public Date getBorrowDeadLine() {
+        return borrowDeadLine;
+    }
+
+    public void setBorrowDeadLine(Date borrowDeadLine) {
+        this.borrowDeadLine = borrowDeadLine;
+    }
+
+    public Date getReturnTime() {
+        return returnTime;
+    }
+
+    public void setReturnTime(Date returnTime) {
+        this.returnTime = returnTime;
     }
 
     public Integer getCreator() {

@@ -2,12 +2,12 @@ package com.wtlib.pojo;
 
 import java.util.Date;
 
-public class User {
+public class BookReservatioon {
     private Integer id;
 
-    private String loginId;
+    private Integer userId;
 
-    private String password;
+    private Integer bookId;
 
     private Integer creator;
 
@@ -27,20 +27,20 @@ public class User {
         this.id = id;
     }
 
-    public String getLoginId() {
-        return loginId;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setLoginId(String loginId) {
-        this.loginId = loginId == null ? null : loginId.trim();
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
-    public String getPassword() {
-        return password;
+    public Integer getBookId() {
+        return bookId;
     }
 
-    public void setPassword(String password) {
-        this.password = password == null ? null : password.trim();
+    public void setBookId(Integer bookId) {
+        this.bookId = bookId;
     }
 
     public Integer getCreator() {

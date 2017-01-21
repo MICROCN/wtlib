@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.wtlib.dao.UserMapper" >
-  <resultMap id="BaseResultMap" type="com.wtlib.pojo.User" >
+<mapper namespace="com.wtlib.dao.UserLevelMapper" >
+  <resultMap id="BaseResultMap" type="com.wtlib.pojo.UserLevel" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="login_id" property="loginId" jdbcType="VARCHAR" />
-    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="level_name" property="levelName" jdbcType="VARCHAR" />
+    <result column="level_min_credit_value" property="levelMinCreditValue" jdbcType="VARCHAR" />
+    <result column="level_weight" property="levelWeight" jdbcType="DOUBLE" />
+    <result column="level_desc" property="levelDesc" jdbcType="VARCHAR" />
     <result column="creator" property="creator" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="reviser" property="reviser" jdbcType="INTEGER" />
@@ -12,37 +14,46 @@
     <result column="data_status" property="dataStatus" jdbcType="CHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, login_id, password, creator, create_time, reviser, update_time, data_status
+    id, level_name, level_min_credit_value, level_weight, level_desc, creator, create_time, 
+    reviser, update_time, data_status
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from t_user
+    from t_user_level
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from t_user
+    delete from t_user_level
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.wtlib.pojo.User" >
-    insert into t_user (id, login_id, password, 
-      creator, create_time, reviser, 
-      update_time, data_status)
-    values (#{id,jdbcType=INTEGER}, #{loginId,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{creator,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{reviser,jdbcType=INTEGER}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{dataStatus,jdbcType=CHAR})
+  <insert id="insert" parameterType="com.wtlib.pojo.UserLevel" >
+    insert into t_user_level (id, level_name, level_min_credit_value, 
+      level_weight, level_desc, creator, 
+      create_time, reviser, update_time, 
+      data_status)
+    values (#{id,jdbcType=INTEGER}, #{levelName,jdbcType=VARCHAR}, #{levelMinCreditValue,jdbcType=VARCHAR}, 
+      #{levelWeight,jdbcType=DOUBLE}, #{levelDesc,jdbcType=VARCHAR}, #{creator,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{reviser,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{dataStatus,jdbcType=CHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.wtlib.pojo.User" >
-    insert into t_user
+  <insert id="insertSelective" parameterType="com.wtlib.pojo.UserLevel" >
+    insert into t_user_level
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
       </if>
-      <if test="loginId != null" >
-        login_id,
+      <if test="levelName != null" >
+        level_name,
       </if>
-      <if test="password != null" >
-        password,
+      <if test="levelMinCreditValue != null" >
+        level_min_credit_value,
+      </if>
+      <if test="levelWeight != null" >
+        level_weight,
+      </if>
+      <if test="levelDesc != null" >
+        level_desc,
       </if>
       <if test="creator != null" >
         creator,
@@ -64,11 +75,17 @@
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="loginId != null" >
-        #{loginId,jdbcType=VARCHAR},
+      <if test="levelName != null" >
+        #{levelName,jdbcType=VARCHAR},
       </if>
-      <if test="password != null" >
-        #{password,jdbcType=VARCHAR},
+      <if test="levelMinCreditValue != null" >
+        #{levelMinCreditValue,jdbcType=VARCHAR},
+      </if>
+      <if test="levelWeight != null" >
+        #{levelWeight,jdbcType=DOUBLE},
+      </if>
+      <if test="levelDesc != null" >
+        #{levelDesc,jdbcType=VARCHAR},
       </if>
       <if test="creator != null" >
         #{creator,jdbcType=INTEGER},
@@ -87,14 +104,20 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.wtlib.pojo.User" >
-    update t_user
+  <update id="updateByPrimaryKeySelective" parameterType="com.wtlib.pojo.UserLevel" >
+    update t_user_level
     <set >
-      <if test="loginId != null" >
-        login_id = #{loginId,jdbcType=VARCHAR},
+      <if test="levelName != null" >
+        level_name = #{levelName,jdbcType=VARCHAR},
       </if>
-      <if test="password != null" >
-        password = #{password,jdbcType=VARCHAR},
+      <if test="levelMinCreditValue != null" >
+        level_min_credit_value = #{levelMinCreditValue,jdbcType=VARCHAR},
+      </if>
+      <if test="levelWeight != null" >
+        level_weight = #{levelWeight,jdbcType=DOUBLE},
+      </if>
+      <if test="levelDesc != null" >
+        level_desc = #{levelDesc,jdbcType=VARCHAR},
       </if>
       <if test="creator != null" >
         creator = #{creator,jdbcType=INTEGER},
@@ -114,10 +137,12 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.wtlib.pojo.User" >
-    update t_user
-    set login_id = #{loginId,jdbcType=VARCHAR},
-      password = #{password,jdbcType=VARCHAR},
+  <update id="updateByPrimaryKey" parameterType="com.wtlib.pojo.UserLevel" >
+    update t_user_level
+    set level_name = #{levelName,jdbcType=VARCHAR},
+      level_min_credit_value = #{levelMinCreditValue,jdbcType=VARCHAR},
+      level_weight = #{levelWeight,jdbcType=DOUBLE},
+      level_desc = #{levelDesc,jdbcType=VARCHAR},
       creator = #{creator,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       reviser = #{reviser,jdbcType=INTEGER},

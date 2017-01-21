@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.wtlib.dao.UserMapper" >
-  <resultMap id="BaseResultMap" type="com.wtlib.pojo.User" >
+<mapper namespace="com.wtlib.dao.UserInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.wtlib.pojo.UserInfo" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="login_id" property="loginId" jdbcType="VARCHAR" />
-    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="current_credit_level" property="currentCreditLevel" jdbcType="CHAR" />
+    <result column="current_credit_value" property="currentCreditValue" jdbcType="INTEGER" />
     <result column="creator" property="creator" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="reviser" property="reviser" jdbcType="INTEGER" />
@@ -12,37 +13,43 @@
     <result column="data_status" property="dataStatus" jdbcType="CHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, login_id, password, creator, create_time, reviser, update_time, data_status
+    id, user_id, current_credit_level, current_credit_value, creator, create_time, reviser, 
+    update_time, data_status
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from t_user
+    from t_user_info
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from t_user
+    delete from t_user_info
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.wtlib.pojo.User" >
-    insert into t_user (id, login_id, password, 
-      creator, create_time, reviser, 
-      update_time, data_status)
-    values (#{id,jdbcType=INTEGER}, #{loginId,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{creator,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{reviser,jdbcType=INTEGER}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{dataStatus,jdbcType=CHAR})
+  <insert id="insert" parameterType="com.wtlib.pojo.UserInfo" >
+    insert into t_user_info (id, user_id, current_credit_level, 
+      current_credit_value, creator, create_time, 
+      reviser, update_time, data_status
+      )
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{currentCreditLevel,jdbcType=CHAR}, 
+      #{currentCreditValue,jdbcType=INTEGER}, #{creator,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{reviser,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, #{dataStatus,jdbcType=CHAR}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.wtlib.pojo.User" >
-    insert into t_user
+  <insert id="insertSelective" parameterType="com.wtlib.pojo.UserInfo" >
+    insert into t_user_info
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
       </if>
-      <if test="loginId != null" >
-        login_id,
+      <if test="userId != null" >
+        user_id,
       </if>
-      <if test="password != null" >
-        password,
+      <if test="currentCreditLevel != null" >
+        current_credit_level,
+      </if>
+      <if test="currentCreditValue != null" >
+        current_credit_value,
       </if>
       <if test="creator != null" >
         creator,
@@ -64,11 +71,14 @@
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="loginId != null" >
-        #{loginId,jdbcType=VARCHAR},
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
       </if>
-      <if test="password != null" >
-        #{password,jdbcType=VARCHAR},
+      <if test="currentCreditLevel != null" >
+        #{currentCreditLevel,jdbcType=CHAR},
+      </if>
+      <if test="currentCreditValue != null" >
+        #{currentCreditValue,jdbcType=INTEGER},
       </if>
       <if test="creator != null" >
         #{creator,jdbcType=INTEGER},
@@ -87,14 +97,17 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.wtlib.pojo.User" >
-    update t_user
+  <update id="updateByPrimaryKeySelective" parameterType="com.wtlib.pojo.UserInfo" >
+    update t_user_info
     <set >
-      <if test="loginId != null" >
-        login_id = #{loginId,jdbcType=VARCHAR},
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
       </if>
-      <if test="password != null" >
-        password = #{password,jdbcType=VARCHAR},
+      <if test="currentCreditLevel != null" >
+        current_credit_level = #{currentCreditLevel,jdbcType=CHAR},
+      </if>
+      <if test="currentCreditValue != null" >
+        current_credit_value = #{currentCreditValue,jdbcType=INTEGER},
       </if>
       <if test="creator != null" >
         creator = #{creator,jdbcType=INTEGER},
@@ -114,10 +127,11 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.wtlib.pojo.User" >
-    update t_user
-    set login_id = #{loginId,jdbcType=VARCHAR},
-      password = #{password,jdbcType=VARCHAR},
+  <update id="updateByPrimaryKey" parameterType="com.wtlib.pojo.UserInfo" >
+    update t_user_info
+    set user_id = #{userId,jdbcType=INTEGER},
+      current_credit_level = #{currentCreditLevel,jdbcType=CHAR},
+      current_credit_value = #{currentCreditValue,jdbcType=INTEGER},
       creator = #{creator,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       reviser = #{reviser,jdbcType=INTEGER},

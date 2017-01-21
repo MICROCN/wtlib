@@ -2,16 +2,16 @@ package com.wtlib.pojo;
 
 import java.util.Date;
 
-public class User {
+public class FeedBack {
     private Integer id;
 
-    private String loginId;
+    private Integer userId;
 
-    private String password;
+    private String desc;
 
     private Integer creator;
 
-    private Date createTime;
+    private String createTime;
 
     private Integer reviser;
 
@@ -27,20 +27,20 @@ public class User {
         this.id = id;
     }
 
-    public String getLoginId() {
-        return loginId;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setLoginId(String loginId) {
-        this.loginId = loginId == null ? null : loginId.trim();
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
-    public String getPassword() {
-        return password;
+    public String getDesc() {
+        return desc;
     }
 
-    public void setPassword(String password) {
-        this.password = password == null ? null : password.trim();
+    public void setDesc(String desc) {
+        this.desc = desc == null ? null : desc.trim();
     }
 
     public Integer getCreator() {
@@ -51,12 +51,12 @@ public class User {
         this.creator = creator;
     }
 
-    public Date getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime == null ? null : createTime.trim();
     }
 
     public Integer getReviser() {

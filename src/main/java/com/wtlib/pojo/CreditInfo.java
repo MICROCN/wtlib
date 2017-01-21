@@ -2,12 +2,16 @@ package com.wtlib.pojo;
 
 import java.util.Date;
 
-public class User {
+public class CreditInfo {
     private Integer id;
 
-    private String loginId;
+    private String creditName;
 
-    private String password;
+    private Integer miniUserLevelId;
+
+    private String isPlus;
+
+    private Integer creditValue;
 
     private Integer creator;
 
@@ -27,20 +31,36 @@ public class User {
         this.id = id;
     }
 
-    public String getLoginId() {
-        return loginId;
+    public String getCreditName() {
+        return creditName;
     }
 
-    public void setLoginId(String loginId) {
-        this.loginId = loginId == null ? null : loginId.trim();
+    public void setCreditName(String creditName) {
+        this.creditName = creditName == null ? null : creditName.trim();
     }
 
-    public String getPassword() {
-        return password;
+    public Integer getMiniUserLevelId() {
+        return miniUserLevelId;
     }
 
-    public void setPassword(String password) {
-        this.password = password == null ? null : password.trim();
+    public void setMiniUserLevelId(Integer miniUserLevelId) {
+        this.miniUserLevelId = miniUserLevelId;
+    }
+
+    public String getIsPlus() {
+        return isPlus;
+    }
+
+    public void setIsPlus(String isPlus) {
+        this.isPlus = isPlus == null ? null : isPlus.trim();
+    }
+
+    public Integer getCreditValue() {
+        return creditValue;
+    }
+
+    public void setCreditValue(Integer creditValue) {
+        this.creditValue = creditValue;
     }
 
     public Integer getCreator() {
