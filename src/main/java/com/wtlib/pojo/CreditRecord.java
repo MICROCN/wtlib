@@ -1,135 +1,92 @@
 package com.wtlib.pojo;
 
-import java.util.Date;
+/**
+ * 信用记录实体
+ * 
+ * @author zongzi
+ * @date 2017年1月21日 下午5:57:36
+ */
+public class CreditRecord extends BaseEntity {
+	private static final long serialVersionUID = -4328967727538309100L;
 
-public class CreditRecord {
-    private Integer id;
+	private Integer id;
 
-    private Integer userId;
+	private Integer userId;
 
-    private Integer creditInfoId;
+	private Integer creditInfoId;
 
-    private Integer creditIsPlus;
+	private Integer creditIsPlus;
 
-    private String creditName;
+	private String creditName;
 
-    private Integer creditBeforeValue;
+	private Integer creditBeforeValue;
 
-    private Integer creditValue;
+	private Integer creditValue;
 
-    private Integer creditAfterValue;
+	private Integer creditAfterValue;
 
-    private Integer creator;
+	public Integer getId() {
+		return id;
+	}
 
-    private Date createTime;
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    private Integer reviser;
+	public Integer getUserId() {
+		return userId;
+	}
 
-    private Date updateTime;
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
 
-    private String dataStatus;
+	public Integer getCreditInfoId() {
+		return creditInfoId;
+	}
 
-    public Integer getId() {
-        return id;
-    }
+	public void setCreditInfoId(Integer creditInfoId) {
+		this.creditInfoId = creditInfoId;
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public Integer getCreditIsPlus() {
+		return creditIsPlus;
+	}
 
-    public Integer getUserId() {
-        return userId;
-    }
+	public void setCreditIsPlus(Integer creditIsPlus) {
+		this.creditIsPlus = creditIsPlus;
+	}
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
+	public String getCreditName() {
+		return creditName;
+	}
 
-    public Integer getCreditInfoId() {
-        return creditInfoId;
-    }
+	public void setCreditName(String creditName) {
+		this.creditName = creditName == null ? null : creditName.trim();
+	}
 
-    public void setCreditInfoId(Integer creditInfoId) {
-        this.creditInfoId = creditInfoId;
-    }
+	public Integer getCreditBeforeValue() {
+		return creditBeforeValue;
+	}
 
-    public Integer getCreditIsPlus() {
-        return creditIsPlus;
-    }
+	public void setCreditBeforeValue(Integer creditBeforeValue) {
+		this.creditBeforeValue = creditBeforeValue;
+	}
 
-    public void setCreditIsPlus(Integer creditIsPlus) {
-        this.creditIsPlus = creditIsPlus;
-    }
+	public Integer getCreditValue() {
+		return creditValue;
+	}
 
-    public String getCreditName() {
-        return creditName;
-    }
+	public void setCreditValue(Integer creditValue) {
+		this.creditValue = creditValue;
+	}
 
-    public void setCreditName(String creditName) {
-        this.creditName = creditName == null ? null : creditName.trim();
-    }
+	public Integer getCreditAfterValue() {
+		return creditAfterValue;
+	}
 
-    public Integer getCreditBeforeValue() {
-        return creditBeforeValue;
-    }
+	public void setCreditAfterValue(Integer creditAfterValue) {
+		this.creditAfterValue = creditAfterValue;
+	}
 
-    public void setCreditBeforeValue(Integer creditBeforeValue) {
-        this.creditBeforeValue = creditBeforeValue;
-    }
-
-    public Integer getCreditValue() {
-        return creditValue;
-    }
-
-    public void setCreditValue(Integer creditValue) {
-        this.creditValue = creditValue;
-    }
-
-    public Integer getCreditAfterValue() {
-        return creditAfterValue;
-    }
-
-    public void setCreditAfterValue(Integer creditAfterValue) {
-        this.creditAfterValue = creditAfterValue;
-    }
-
-    public Integer getCreator() {
-        return creator;
-    }
-
-    public void setCreator(Integer creator) {
-        this.creator = creator;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Integer getReviser() {
-        return reviser;
-    }
-
-    public void setReviser(Integer reviser) {
-        this.reviser = reviser;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public String getDataStatus() {
-        return dataStatus;
-    }
-
-    public void setDataStatus(String dataStatus) {
-        this.dataStatus = dataStatus == null ? null : dataStatus.trim();
-    }
 }

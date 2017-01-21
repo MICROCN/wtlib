@@ -2,114 +2,75 @@ package com.wtlib.pojo;
 
 import java.util.Date;
 
-public class BookSingle {
-    private Integer id;
+/**
+ * 单个图书实体
+ * 
+ * @author zongzi
+ * @date 2017年1月21日 下午6:05:01
+ */
+public class BookSingle extends BaseEntity {
+	/**
+	 */
+	private static final long serialVersionUID = 8557673828122550240L;
 
-    private Integer bookBaseId;
+	private Integer id;
 
-    private String bookHash;
+	private Integer bookBaseId;
 
-    private Integer currentOwner;
+	private String bookHash;
 
-    private Integer lastLender;
+	private Integer currentOwner;
 
-    private Date lastLendTime;
+	private Integer lastLender;
 
-    private Integer creator;
+	private Date lastLendTime;
 
-    private Date createTime;
+	public Integer getId() {
+		return id;
+	}
 
-    private Integer reviser;
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    private Date updateTime;
+	public Integer getBookBaseId() {
+		return bookBaseId;
+	}
 
-    private String dataStatus;
+	public void setBookBaseId(Integer bookBaseId) {
+		this.bookBaseId = bookBaseId;
+	}
 
-    public Integer getId() {
-        return id;
-    }
+	public String getBookHash() {
+		return bookHash;
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public void setBookHash(String bookHash) {
+		this.bookHash = bookHash == null ? null : bookHash.trim();
+	}
 
-    public Integer getBookBaseId() {
-        return bookBaseId;
-    }
+	public Integer getCurrentOwner() {
+		return currentOwner;
+	}
 
-    public void setBookBaseId(Integer bookBaseId) {
-        this.bookBaseId = bookBaseId;
-    }
+	public void setCurrentOwner(Integer currentOwner) {
+		this.currentOwner = currentOwner;
+	}
 
-    public String getBookHash() {
-        return bookHash;
-    }
+	public Integer getLastLender() {
+		return lastLender;
+	}
 
-    public void setBookHash(String bookHash) {
-        this.bookHash = bookHash == null ? null : bookHash.trim();
-    }
+	public void setLastLender(Integer lastLender) {
+		this.lastLender = lastLender;
+	}
 
-    public Integer getCurrentOwner() {
-        return currentOwner;
-    }
+	public Date getLastLendTime() {
+		return lastLendTime;
+	}
 
-    public void setCurrentOwner(Integer currentOwner) {
-        this.currentOwner = currentOwner;
-    }
+	public void setLastLendTime(Date lastLendTime) {
+		this.lastLendTime = lastLendTime;
+	}
 
-    public Integer getLastLender() {
-        return lastLender;
-    }
-
-    public void setLastLender(Integer lastLender) {
-        this.lastLender = lastLender;
-    }
-
-    public Date getLastLendTime() {
-        return lastLendTime;
-    }
-
-    public void setLastLendTime(Date lastLendTime) {
-        this.lastLendTime = lastLendTime;
-    }
-
-    public Integer getCreator() {
-        return creator;
-    }
-
-    public void setCreator(Integer creator) {
-        this.creator = creator;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Integer getReviser() {
-        return reviser;
-    }
-
-    public void setReviser(Integer reviser) {
-        this.reviser = reviser;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public String getDataStatus() {
-        return dataStatus;
-    }
-
-    public void setDataStatus(String dataStatus) {
-        this.dataStatus = dataStatus == null ? null : dataStatus.trim();
-    }
 }

@@ -2,114 +2,73 @@ package com.wtlib.pojo;
 
 import java.util.Date;
 
-public class BorrowRecord {
-    private Integer id;
+/**
+ * 图书借阅实体
+ * 
+ * @author zongzi
+ * @date 2017年1月21日 下午6:05:27
+ */
+public class BorrowRecord extends BaseEntity {
+	private static final long serialVersionUID = -3738003781396004091L;
 
-    private Integer bookId;
+	private Integer id;
 
-    private Integer userId;
+	private Integer bookId;
 
-    private String borrowStatus;
+	private Integer userId;
 
-    private Date borrowDeadLine;
+	private String borrowStatus;
 
-    private Date returnTime;
+	private Date borrowDeadLine;
 
-    private Integer creator;
+	private Date returnTime;
 
-    private Date createTime;
+	public Integer getId() {
+		return id;
+	}
 
-    private Integer reviser;
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    private Date updateTime;
+	public Integer getBookId() {
+		return bookId;
+	}
 
-    private String dataStatus;
+	public void setBookId(Integer bookId) {
+		this.bookId = bookId;
+	}
 
-    public Integer getId() {
-        return id;
-    }
+	public Integer getUserId() {
+		return userId;
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
 
-    public Integer getBookId() {
-        return bookId;
-    }
+	public String getBorrowStatus() {
+		return borrowStatus;
+	}
 
-    public void setBookId(Integer bookId) {
-        this.bookId = bookId;
-    }
+	public void setBorrowStatus(String borrowStatus) {
+		this.borrowStatus = borrowStatus == null ? null : borrowStatus.trim();
+	}
 
-    public Integer getUserId() {
-        return userId;
-    }
+	public Date getBorrowDeadLine() {
+		return borrowDeadLine;
+	}
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
+	public void setBorrowDeadLine(Date borrowDeadLine) {
+		this.borrowDeadLine = borrowDeadLine;
+	}
 
-    public String getBorrowStatus() {
-        return borrowStatus;
-    }
+	public Date getReturnTime() {
+		return returnTime;
+	}
 
-    public void setBorrowStatus(String borrowStatus) {
-        this.borrowStatus = borrowStatus == null ? null : borrowStatus.trim();
-    }
+	public void setReturnTime(Date returnTime) {
+		this.returnTime = returnTime;
+	}
 
-    public Date getBorrowDeadLine() {
-        return borrowDeadLine;
-    }
-
-    public void setBorrowDeadLine(Date borrowDeadLine) {
-        this.borrowDeadLine = borrowDeadLine;
-    }
-
-    public Date getReturnTime() {
-        return returnTime;
-    }
-
-    public void setReturnTime(Date returnTime) {
-        this.returnTime = returnTime;
-    }
-
-    public Integer getCreator() {
-        return creator;
-    }
-
-    public void setCreator(Integer creator) {
-        this.creator = creator;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Integer getReviser() {
-        return reviser;
-    }
-
-    public void setReviser(Integer reviser) {
-        this.reviser = reviser;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public String getDataStatus() {
-        return dataStatus;
-    }
-
-    public void setDataStatus(String dataStatus) {
-        this.dataStatus = dataStatus == null ? null : dataStatus.trim();
-    }
 }

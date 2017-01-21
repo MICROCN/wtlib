@@ -1,95 +1,53 @@
 package com.wtlib.pojo;
 
-import java.util.Date;
+/**
+ * 用户附加信息实体
+ * 
+ * @author zongzi
+ * @date 2017年1月21日 下午6:02:04
+ */
+public class UserInfo extends BaseEntity {
+	private static final long serialVersionUID = 8929791798236546341L;
 
-public class UserInfo {
-    private Integer id;
+	private Integer id;
 
-    private Integer userId;
+	private Integer userId;
 
-    private String currentCreditLevel;
+	private String currentCreditLevel;
 
-    private Integer currentCreditValue;
+	private Integer currentCreditValue;
 
-    private Integer creator;
+	public Integer getId() {
+		return id;
+	}
 
-    private Date createTime;
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    private Integer reviser;
+	public Integer getUserId() {
+		return userId;
+	}
 
-    private Date updateTime;
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
 
-    private String dataStatus;
+	public String getCurrentCreditLevel() {
+		return currentCreditLevel;
+	}
 
-    public Integer getId() {
-        return id;
-    }
+	public void setCurrentCreditLevel(String currentCreditLevel) {
+		this.currentCreditLevel = currentCreditLevel == null ? null
+				: currentCreditLevel.trim();
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public Integer getCurrentCreditValue() {
+		return currentCreditValue;
+	}
 
-    public Integer getUserId() {
-        return userId;
-    }
+	public void setCurrentCreditValue(Integer currentCreditValue) {
+		this.currentCreditValue = currentCreditValue;
+	}
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public String getCurrentCreditLevel() {
-        return currentCreditLevel;
-    }
-
-    public void setCurrentCreditLevel(String currentCreditLevel) {
-        this.currentCreditLevel = currentCreditLevel == null ? null : currentCreditLevel.trim();
-    }
-
-    public Integer getCurrentCreditValue() {
-        return currentCreditValue;
-    }
-
-    public void setCurrentCreditValue(Integer currentCreditValue) {
-        this.currentCreditValue = currentCreditValue;
-    }
-
-    public Integer getCreator() {
-        return creator;
-    }
-
-    public void setCreator(Integer creator) {
-        this.creator = creator;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Integer getReviser() {
-        return reviser;
-    }
-
-    public void setReviser(Integer reviser) {
-        this.reviser = reviser;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public String getDataStatus() {
-        return dataStatus;
-    }
-
-    public void setDataStatus(String dataStatus) {
-        this.dataStatus = dataStatus == null ? null : dataStatus.trim();
-    }
 }

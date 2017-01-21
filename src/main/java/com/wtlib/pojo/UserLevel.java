@@ -1,105 +1,63 @@
 package com.wtlib.pojo;
 
-import java.util.Date;
+/**
+ * 用户等级实体
+ * 
+ * @author zongzi
+ * @date 2017年1月21日 下午6:02:57
+ */
+public class UserLevel extends BaseEntity {
+	private static final long serialVersionUID = 3732239083609170031L;
 
-public class UserLevel {
-    private Integer id;
+	private Integer id;
 
-    private String levelName;
+	private String levelName;
 
-    private String levelMinCreditValue;
+	private String levelMinCreditValue;
 
-    private Double levelWeight;
+	private Double levelWeight;
 
-    private String levelDesc;
+	private String levelDesc;
 
-    private Integer creator;
+	public Integer getId() {
+		return id;
+	}
 
-    private Date createTime;
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    private Integer reviser;
+	public String getLevelName() {
+		return levelName;
+	}
 
-    private Date updateTime;
+	public void setLevelName(String levelName) {
+		this.levelName = levelName == null ? null : levelName.trim();
+	}
 
-    private String dataStatus;
+	public String getLevelMinCreditValue() {
+		return levelMinCreditValue;
+	}
 
-    public Integer getId() {
-        return id;
-    }
+	public void setLevelMinCreditValue(String levelMinCreditValue) {
+		this.levelMinCreditValue = levelMinCreditValue == null ? null
+				: levelMinCreditValue.trim();
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public Double getLevelWeight() {
+		return levelWeight;
+	}
 
-    public String getLevelName() {
-        return levelName;
-    }
+	public void setLevelWeight(Double levelWeight) {
+		this.levelWeight = levelWeight;
+	}
 
-    public void setLevelName(String levelName) {
-        this.levelName = levelName == null ? null : levelName.trim();
-    }
+	public String getLevelDesc() {
+		return levelDesc;
+	}
 
-    public String getLevelMinCreditValue() {
-        return levelMinCreditValue;
-    }
+	public void setLevelDesc(String levelDesc) {
+		this.levelDesc = levelDesc == null ? null : levelDesc.trim();
+	}
 
-    public void setLevelMinCreditValue(String levelMinCreditValue) {
-        this.levelMinCreditValue = levelMinCreditValue == null ? null : levelMinCreditValue.trim();
-    }
-
-    public Double getLevelWeight() {
-        return levelWeight;
-    }
-
-    public void setLevelWeight(Double levelWeight) {
-        this.levelWeight = levelWeight;
-    }
-
-    public String getLevelDesc() {
-        return levelDesc;
-    }
-
-    public void setLevelDesc(String levelDesc) {
-        this.levelDesc = levelDesc == null ? null : levelDesc.trim();
-    }
-
-    public Integer getCreator() {
-        return creator;
-    }
-
-    public void setCreator(Integer creator) {
-        this.creator = creator;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Integer getReviser() {
-        return reviser;
-    }
-
-    public void setReviser(Integer reviser) {
-        this.reviser = reviser;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public String getDataStatus() {
-        return dataStatus;
-    }
-
-    public void setDataStatus(String dataStatus) {
-        this.dataStatus = dataStatus == null ? null : dataStatus.trim();
-    }
 }

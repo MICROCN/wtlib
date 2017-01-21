@@ -1,85 +1,42 @@
 package com.wtlib.pojo;
 
-import java.util.Date;
+/**
+ * 借阅回馈实体
+ * 
+ * @author zongzi
+ * @date 2017年1月21日 下午5:59:39
+ */
+public class FeedBack extends BaseEntity {
+	private static final long serialVersionUID = 6543108093033209276L;
 
-public class FeedBack {
-    private Integer id;
+	private Integer id;
 
-    private Integer userId;
+	private Integer userId;
 
-    private String desc;
+	private String desc;
 
-    private Integer creator;
+	public Integer getId() {
+		return id;
+	}
 
-    private String createTime;
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    private Integer reviser;
+	public Integer getUserId() {
+		return userId;
+	}
 
-    private Date updateTime;
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
 
-    private String dataStatus;
+	public String getDesc() {
+		return desc;
+	}
 
-    public Integer getId() {
-        return id;
-    }
+	public void setDesc(String desc) {
+		this.desc = desc == null ? null : desc.trim();
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public String getDesc() {
-        return desc;
-    }
-
-    public void setDesc(String desc) {
-        this.desc = desc == null ? null : desc.trim();
-    }
-
-    public Integer getCreator() {
-        return creator;
-    }
-
-    public void setCreator(Integer creator) {
-        this.creator = creator;
-    }
-
-    public String getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(String createTime) {
-        this.createTime = createTime == null ? null : createTime.trim();
-    }
-
-    public Integer getReviser() {
-        return reviser;
-    }
-
-    public void setReviser(Integer reviser) {
-        this.reviser = reviser;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public String getDataStatus() {
-        return dataStatus;
-    }
-
-    public void setDataStatus(String dataStatus) {
-        this.dataStatus = dataStatus == null ? null : dataStatus.trim();
-    }
 }

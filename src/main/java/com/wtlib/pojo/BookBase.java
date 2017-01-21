@@ -1,156 +1,106 @@
 package com.wtlib.pojo;
 
 import java.math.BigDecimal;
-import java.util.Date;
 
-public class BookBase {
-    private Integer id;
+/**
+ * 基本图书实体
+ * 
+ * @author zongzi
+ * @date 2017年1月21日 下午6:03:40
+ */
+public class BookBase extends BaseEntity {
 
-    private String bookTitle;
+	private static final long serialVersionUID = 9168395443616353176L;
 
-    private String bookCoverUrl;
+	private Integer id;
 
-    private String bookDesc;
+	private String bookTitle;
 
-    private String bookWriter;
+	private String bookCoverUrl;
 
-    private String bookPublisher;
+	private String bookDesc;
 
-    private Integer bookPageNum;
+	private String bookWriter;
 
-    private BigDecimal bookPrice;
+	private String bookPublisher;
 
-    private String isReservated;
+	private Integer bookPageNum;
 
-    private Integer creator;
+	private BigDecimal bookPrice;
 
-    private Integer bookNum;
+	private String isReservated;
 
-    private Date createTime;
+	public Integer getId() {
+		return id;
+	}
 
-    private Integer reviser;
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    private Date updateTime;
+	public String getBookTitle() {
+		return bookTitle;
+	}
 
-    private String dataStatus;
+	public void setBookTitle(String bookTitle) {
+		this.bookTitle = bookTitle == null ? null : bookTitle.trim();
+	}
 
-    public Integer getId() {
-        return id;
-    }
+	public String getBookCoverUrl() {
+		return bookCoverUrl;
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public void setBookCoverUrl(String bookCoverUrl) {
+		this.bookCoverUrl = bookCoverUrl == null ? null : bookCoverUrl.trim();
+	}
 
-    public String getBookTitle() {
-        return bookTitle;
-    }
+	public String getBookDesc() {
+		return bookDesc;
+	}
 
-    public void setBookTitle(String bookTitle) {
-        this.bookTitle = bookTitle == null ? null : bookTitle.trim();
-    }
+	public void setBookDesc(String bookDesc) {
+		this.bookDesc = bookDesc == null ? null : bookDesc.trim();
+	}
 
-    public String getBookCoverUrl() {
-        return bookCoverUrl;
-    }
+	public String getBookWriter() {
+		return bookWriter;
+	}
 
-    public void setBookCoverUrl(String bookCoverUrl) {
-        this.bookCoverUrl = bookCoverUrl == null ? null : bookCoverUrl.trim();
-    }
+	public void setBookWriter(String bookWriter) {
+		this.bookWriter = bookWriter == null ? null : bookWriter.trim();
+	}
 
-    public String getBookDesc() {
-        return bookDesc;
-    }
+	public String getBookPublisher() {
+		return bookPublisher;
+	}
 
-    public void setBookDesc(String bookDesc) {
-        this.bookDesc = bookDesc == null ? null : bookDesc.trim();
-    }
+	public void setBookPublisher(String bookPublisher) {
+		this.bookPublisher = bookPublisher == null ? null : bookPublisher
+				.trim();
+	}
 
-    public String getBookWriter() {
-        return bookWriter;
-    }
+	public Integer getBookPageNum() {
+		return bookPageNum;
+	}
 
-    public void setBookWriter(String bookWriter) {
-        this.bookWriter = bookWriter == null ? null : bookWriter.trim();
-    }
+	public void setBookPageNum(Integer bookPageNum) {
+		this.bookPageNum = bookPageNum;
+	}
 
-    public String getBookPublisher() {
-        return bookPublisher;
-    }
+	public BigDecimal getBookPrice() {
+		return bookPrice;
+	}
 
-    public void setBookPublisher(String bookPublisher) {
-        this.bookPublisher = bookPublisher == null ? null : bookPublisher.trim();
-    }
+	public void setBookPrice(BigDecimal bookPrice) {
+		this.bookPrice = bookPrice;
+	}
 
-    public Integer getBookPageNum() {
-        return bookPageNum;
-    }
+	public String getIsReservated() {
+		return isReservated;
+	}
 
-    public void setBookPageNum(Integer bookPageNum) {
-        this.bookPageNum = bookPageNum;
-    }
+	public void setIsReservated(String isReservated) {
+		this.isReservated = isReservated == null ? null : isReservated.trim();
+	}
 
-    public BigDecimal getBookPrice() {
-        return bookPrice;
-    }
-
-    public void setBookPrice(BigDecimal bookPrice) {
-        this.bookPrice = bookPrice;
-    }
-
-    public String getIsReservated() {
-        return isReservated;
-    }
-
-    public void setIsReservated(String isReservated) {
-        this.isReservated = isReservated == null ? null : isReservated.trim();
-    }
-
-    public Integer getCreator() {
-        return creator;
-    }
-
-    public void setCreator(Integer creator) {
-        this.creator = creator;
-    }
-
-    public Integer getBookNum() {
-        return bookNum;
-    }
-
-    public void setBookNum(Integer bookNum) {
-        this.bookNum = bookNum;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Integer getReviser() {
-        return reviser;
-    }
-
-    public void setReviser(Integer reviser) {
-        this.reviser = reviser;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public String getDataStatus() {
-        return dataStatus;
-    }
-
-    public void setDataStatus(String dataStatus) {
-        this.dataStatus = dataStatus == null ? null : dataStatus.trim();
-    }
 }

@@ -1,105 +1,63 @@
 package com.wtlib.pojo;
 
-import java.util.Date;
+/**
+ * 信用描述实体
+ * 
+ * @author zongzi
+ * @date 2017年1月21日 下午5:56:44
+ */
+public class CreditInfo extends BaseEntity {
 
-public class CreditInfo {
-    private Integer id;
+	private static final long serialVersionUID = 7858840203780280153L;
 
-    private String creditName;
+	private Integer id;
 
-    private Integer miniUserLevelId;
+	private String creditName;
 
-    private String isPlus;
+	private Integer miniUserLevelId;
 
-    private Integer creditValue;
+	private String isPlus;
 
-    private Integer creator;
+	private Integer creditValue;
 
-    private Date createTime;
+	public Integer getId() {
+		return id;
+	}
 
-    private Integer reviser;
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    private Date updateTime;
+	public String getCreditName() {
+		return creditName;
+	}
 
-    private String dataStatus;
+	public void setCreditName(String creditName) {
+		this.creditName = creditName == null ? null : creditName.trim();
+	}
 
-    public Integer getId() {
-        return id;
-    }
+	public Integer getMiniUserLevelId() {
+		return miniUserLevelId;
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public void setMiniUserLevelId(Integer miniUserLevelId) {
+		this.miniUserLevelId = miniUserLevelId;
+	}
 
-    public String getCreditName() {
-        return creditName;
-    }
+	public String getIsPlus() {
+		return isPlus;
+	}
 
-    public void setCreditName(String creditName) {
-        this.creditName = creditName == null ? null : creditName.trim();
-    }
+	public void setIsPlus(String isPlus) {
+		this.isPlus = isPlus == null ? null : isPlus.trim();
+	}
 
-    public Integer getMiniUserLevelId() {
-        return miniUserLevelId;
-    }
+	public Integer getCreditValue() {
+		return creditValue;
+	}
 
-    public void setMiniUserLevelId(Integer miniUserLevelId) {
-        this.miniUserLevelId = miniUserLevelId;
-    }
+	public void setCreditValue(Integer creditValue) {
+		this.creditValue = creditValue;
+	}
 
-    public String getIsPlus() {
-        return isPlus;
-    }
-
-    public void setIsPlus(String isPlus) {
-        this.isPlus = isPlus == null ? null : isPlus.trim();
-    }
-
-    public Integer getCreditValue() {
-        return creditValue;
-    }
-
-    public void setCreditValue(Integer creditValue) {
-        this.creditValue = creditValue;
-    }
-
-    public Integer getCreator() {
-        return creator;
-    }
-
-    public void setCreator(Integer creator) {
-        this.creator = creator;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Integer getReviser() {
-        return reviser;
-    }
-
-    public void setReviser(Integer reviser) {
-        this.reviser = reviser;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public String getDataStatus() {
-        return dataStatus;
-    }
-
-    public void setDataStatus(String dataStatus) {
-        this.dataStatus = dataStatus == null ? null : dataStatus.trim();
-    }
 }
