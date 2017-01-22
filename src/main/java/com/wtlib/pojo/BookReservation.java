@@ -6,7 +6,7 @@ package com.wtlib.pojo;
  * @author zongzi
  * @date 2017年1月21日 下午5:54:06
  */
-public class BookReservatioon extends BaseEntity {
+public class BookReservation extends BaseEntity {
 	private static final long serialVersionUID = -8455033077397948605L;
 
 	private Integer id;
