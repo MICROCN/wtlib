@@ -3,17 +3,11 @@ package com.wtlib.pojo.request;
 import java.io.Serializable;
 
 /**
- * ClassName: Request
- * 
  * @Description: 请求分页参数基类
  * @author dapengniao
  * @date 2016年7月27日 下午2:03:38
  */
 public class Page implements Serializable {
-
-	/**
-	 * @Fields serialVersionUID : TODO
-	 */
 	private static final long serialVersionUID = -4527112189386545207L;
 	// 当前页
 	private Integer pageIndex;

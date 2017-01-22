@@ -19,33 +19,4 @@ public class UserController {
 	
 	@Autowired UserService userService;
 	
-//	@RequestMapping("save")
-//	public @ResponseBody
-//	String save() {
-//		User user = new User("tinys", "123456", "0");
-//		userService.save(user);
-//		return "save ok";
-//	}
-//
-//	@RequestMapping("update")
-//	public @ResponseBody
-//	String update() {
-//		User user = new User("tinys", "123456", "1");
-//		userService.update(user);
-//		return "update ok";
-//	}
-//
-//	@RequestMapping("delete")
-//	public @ResponseBody
-//	String delete() {
-//		userService.delete("tinys");
-//		return "delete ok";
-//	}
-//
-//	@RequestMapping("find")
-//	public @ResponseBody
-//	String find() {
-//		User user = userService.find("tinys");
-//		return user.getName() + user.getPwd() + user.getRole();
-//	}
 }

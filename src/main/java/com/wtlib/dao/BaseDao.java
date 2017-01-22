@@ -62,6 +62,4 @@ public interface BaseDao<T> {
 	 */
 	public int update(T entity) throws Exception;
 
-
-
 }

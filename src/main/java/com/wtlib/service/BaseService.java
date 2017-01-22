@@ -1,8 +1,6 @@
 package com.wtlib.service;
 
 import java.util.List;
-
-
 /**
  * 服务类基类
  * ClassName: BaseService
