@@ -99,7 +99,7 @@ public class HttpUtils {
 
 					request.setHeader("Accept-Encoding", "gzip");
 					request.setEntity(new UrlEncodedFormEntity(list, HTTP.UTF_8));
-
+					
 					HttpResponse response = client.execute(request);
 
 					InputStream inputStream = response.getEntity().getContent();

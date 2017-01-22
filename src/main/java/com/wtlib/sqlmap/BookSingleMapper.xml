@@ -50,9 +50,6 @@
       <if test="creator != null" >
         creator,
       </if>
-      <if test="createTime != null" >
-        create_time,
-      </if>
       <if test="reviser != null" >
         reviser,
       </if>
@@ -62,6 +59,7 @@
       <if test="dataStatus != null" >
         data_status,
       </if>
+        create_time
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
      
@@ -83,9 +81,6 @@
       <if test="creator != null" >
         #{creator,jdbcType=INTEGER},
       </if>
-      <if test="createTime != null" >
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
       <if test="reviser != null" >
         #{reviser,jdbcType=INTEGER},
       </if>
@@ -95,6 +90,7 @@
       <if test="dataStatus != null" >
         #{dataStatus,jdbcType=CHAR},
       </if>
+      now()
     </trim>
   </insert>
   <update id="updateById" parameterType="com.wtlib.pojo.BookSingle" >
@@ -124,12 +120,10 @@
       <if test="reviser != null" >
         reviser = #{reviser,jdbcType=INTEGER},
       </if>
-      <if test="updateTime != null" >
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
-      </if>
       <if test="dataStatus != null" >
         data_status = #{dataStatus,jdbcType=CHAR},
       </if>
+        update_time = now()
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>

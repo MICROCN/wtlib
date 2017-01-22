@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public int insert(User entity) throws Exception {
-		return 0;
+		return userMapper.insert(entity);
 	}
 
 	@Override
