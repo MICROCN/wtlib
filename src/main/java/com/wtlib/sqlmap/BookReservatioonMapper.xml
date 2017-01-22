@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.wtlib.dao.BookReservatioonMapper" >
-  <resultMap id="BaseResultMap" type="com.wtlib.pojo.BookReservatioon" >
+<mapper namespace="com.wtlib.dao.BookReservationMapper" >
+  <resultMap id="BookReservationMap" type="com.wtlib.pojo.BookReservation" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="book_id" property="bookId" jdbcType="INTEGER" />
@@ -11,33 +11,22 @@
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="data_status" property="dataStatus" jdbcType="CHAR" />
   </resultMap>
-  <sql id="Base_Column_List" >
+  <sql id="comList" >
     id, user_id, book_id, creator, create_time, reviser, update_time, data_status
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectById" resultMap="BookReservationMap" parameterType="java.lang.Integer" >
     select 
-    <include refid="Base_Column_List" />
+    <include refid="comList" />
     from t_book_reservation
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from t_book_reservation
-    where id = #{id,jdbcType=INTEGER}
+  <delete id="deleteById" parameterType="java.lang.Integer" >
+
   </delete>
-  <insert id="insert" parameterType="com.wtlib.pojo.BookReservatioon" >
-    insert into t_book_reservation (id, user_id, book_id, 
-      creator, create_time, reviser, 
-      update_time, data_status)
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{bookId,jdbcType=INTEGER}, 
-      #{creator,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{reviser,jdbcType=INTEGER}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{dataStatus,jdbcType=CHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="com.wtlib.pojo.BookReservatioon" >
+  
+  <insert id="insert" parameterType="com.wtlib.pojo.BookReservation" >
     insert into t_book_reservation
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
       <if test="userId != null" >
         user_id,
       </if>
@@ -61,9 +50,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="userId != null" >
         #{userId,jdbcType=INTEGER},
       </if>
@@ -87,7 +73,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.wtlib.pojo.BookReservatioon" >
+  <update id="updateById" parameterType="com.wtlib.pojo.BookReservation" >
     update t_book_reservation
     <set >
       <if test="userId != null" >
@@ -114,15 +100,5 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.wtlib.pojo.BookReservatioon" >
-    update t_book_reservation
-    set user_id = #{userId,jdbcType=INTEGER},
-      book_id = #{bookId,jdbcType=INTEGER},
-      creator = #{creator,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      reviser = #{reviser,jdbcType=INTEGER},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
-      data_status = #{dataStatus,jdbcType=CHAR}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+  
 </mapper>

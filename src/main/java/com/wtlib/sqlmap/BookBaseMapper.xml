@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.wtlib.dao.BookBaseMapper" >
-  <resultMap id="BaseResultMap" type="com.wtlib.pojo.BookBase" >
+  <resultMap id="BookBaseMap" type="com.wtlib.pojo.BookBase" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="book_title" property="bookTitle" jdbcType="VARCHAR" />
     <result column="book_cover_url" property="bookCoverUrl" jdbcType="VARCHAR" />
@@ -18,41 +18,25 @@
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="data_status" property="dataStatus" jdbcType="CHAR" />
   </resultMap>
-  <sql id="Base_Column_List" >
+  <sql id="comList" >
     id, book_title, book_cover_url, book_desc, book_writer, book_publisher, book_page_num, 
     book_price, is_reservated, creator, book_num, create_time, reviser, update_time, 
     data_status
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectById" resultMap="BookBaseMap" parameterType="java.lang.Integer" >
     select 
-    <include refid="Base_Column_List" />
+    <include refid="comList" />
     from t_book_base
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from t_book_base
-    where id = #{id,jdbcType=INTEGER}
+  <delete id="deleteById" parameterType="java.lang.Integer" >
+  
   </delete>
+  
   <insert id="insert" parameterType="com.wtlib.pojo.BookBase" >
-    insert into t_book_base (id, book_title, book_cover_url, 
-      book_desc, book_writer, book_publisher, 
-      book_page_num, book_price, is_reservated, 
-      creator, book_num, create_time, 
-      reviser, update_time, data_status
-      )
-    values (#{id,jdbcType=INTEGER}, #{bookTitle,jdbcType=VARCHAR}, #{bookCoverUrl,jdbcType=VARCHAR}, 
-      #{bookDesc,jdbcType=VARCHAR}, #{bookWriter,jdbcType=VARCHAR}, #{bookPublisher,jdbcType=VARCHAR}, 
-      #{bookPageNum,jdbcType=INTEGER}, #{bookPrice,jdbcType=DECIMAL}, #{isReservated,jdbcType=CHAR}, 
-      #{creator,jdbcType=INTEGER}, #{bookNum,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{reviser,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, #{dataStatus,jdbcType=CHAR}
-      )
-  </insert>
-  <insert id="insertSelective" parameterType="com.wtlib.pojo.BookBase" >
     insert into t_book_base
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
+     
       <if test="bookTitle != null" >
         book_title,
       </if>
@@ -97,9 +81,7 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
-      </if>
+      
       <if test="bookTitle != null" >
         #{bookTitle,jdbcType=VARCHAR},
       </if>
@@ -144,7 +126,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.wtlib.pojo.BookBase" >
+  <update id="updateById" parameterType="com.wtlib.pojo.BookBase" >
     update t_book_base
     <set >
       <if test="bookTitle != null" >
@@ -192,22 +174,5 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.wtlib.pojo.BookBase" >
-    update t_book_base
-    set book_title = #{bookTitle,jdbcType=VARCHAR},
-      book_cover_url = #{bookCoverUrl,jdbcType=VARCHAR},
-      book_desc = #{bookDesc,jdbcType=VARCHAR},
-      book_writer = #{bookWriter,jdbcType=VARCHAR},
-      book_publisher = #{bookPublisher,jdbcType=VARCHAR},
-      book_page_num = #{bookPageNum,jdbcType=INTEGER},
-      book_price = #{bookPrice,jdbcType=DECIMAL},
-      is_reservated = #{isReservated,jdbcType=CHAR},
-      creator = #{creator,jdbcType=INTEGER},
-      book_num = #{bookNum,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      reviser = #{reviser,jdbcType=INTEGER},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
-      data_status = #{dataStatus,jdbcType=CHAR}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+  
 </mapper>

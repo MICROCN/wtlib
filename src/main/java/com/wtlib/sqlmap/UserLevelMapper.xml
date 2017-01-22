@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.wtlib.dao.UserLevelMapper" >
-  <resultMap id="BaseResultMap" type="com.wtlib.pojo.UserLevel" >
+  <resultMap id="UserLevelMap" type="com.wtlib.pojo.UserLevel" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="level_name" property="levelName" jdbcType="VARCHAR" />
     <result column="level_min_credit_value" property="levelMinCreditValue" jdbcType="VARCHAR" />
@@ -13,36 +13,24 @@
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="data_status" property="dataStatus" jdbcType="CHAR" />
   </resultMap>
-  <sql id="Base_Column_List" >
+  <sql id="comList" >
     id, level_name, level_min_credit_value, level_weight, level_desc, creator, create_time, 
     reviser, update_time, data_status
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectById" resultMap="UserLevelMap" parameterType="java.lang.Integer" >
     select 
-    <include refid="Base_Column_List" />
+    <include refid="comList" />
     from t_user_level
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from t_user_level
-    where id = #{id,jdbcType=INTEGER}
+  <delete id="deleteById" parameterType="java.lang.Integer" >
+
   </delete>
+ 
   <insert id="insert" parameterType="com.wtlib.pojo.UserLevel" >
-    insert into t_user_level (id, level_name, level_min_credit_value, 
-      level_weight, level_desc, creator, 
-      create_time, reviser, update_time, 
-      data_status)
-    values (#{id,jdbcType=INTEGER}, #{levelName,jdbcType=VARCHAR}, #{levelMinCreditValue,jdbcType=VARCHAR}, 
-      #{levelWeight,jdbcType=DOUBLE}, #{levelDesc,jdbcType=VARCHAR}, #{creator,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{reviser,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{dataStatus,jdbcType=CHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="com.wtlib.pojo.UserLevel" >
     insert into t_user_level
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
+      
       <if test="levelName != null" >
         level_name,
       </if>
@@ -72,9 +60,7 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
-      </if>
+     
       <if test="levelName != null" >
         #{levelName,jdbcType=VARCHAR},
       </if>
@@ -104,7 +90,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.wtlib.pojo.UserLevel" >
+  <update id="updateById" parameterType="com.wtlib.pojo.UserLevel" >
     update t_user_level
     <set >
       <if test="levelName != null" >
@@ -137,17 +123,5 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.wtlib.pojo.UserLevel" >
-    update t_user_level
-    set level_name = #{levelName,jdbcType=VARCHAR},
-      level_min_credit_value = #{levelMinCreditValue,jdbcType=VARCHAR},
-      level_weight = #{levelWeight,jdbcType=DOUBLE},
-      level_desc = #{levelDesc,jdbcType=VARCHAR},
-      creator = #{creator,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      reviser = #{reviser,jdbcType=INTEGER},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
-      data_status = #{dataStatus,jdbcType=CHAR}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+ 
 </mapper>

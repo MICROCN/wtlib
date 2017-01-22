@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.wtlib.dao.BorrowRecordMapper" >
-  <resultMap id="BaseResultMap" type="com.wtlib.pojo.BorrowRecord" >
+  <resultMap id="BorrowRecordMap" type="com.wtlib.pojo.BorrowRecord" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="book_id" property="bookId" jdbcType="INTEGER" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
@@ -14,31 +14,23 @@
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="data_status" property="dataStatus" jdbcType="CHAR" />
   </resultMap>
-  <sql id="Base_Column_List" >
+  <sql id="comList" >
     id, book_id, user_id, borrow_status, borrow_dead_line, return_time, creator, create_time, 
     reviser, update_time, data_status
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectById" resultMap="BorrowRecordMap" parameterType="java.lang.Integer" >
     select 
-    <include refid="Base_Column_List" />
+    <include refid="comList" />
     from t_borrow_record
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from t_borrow_record
-    where id = #{id,jdbcType=INTEGER}
+  <delete id="deleteById" parameterType="java.lang.Integer" >
+    
   </delete>
   <insert id="insert" parameterType="com.wtlib.pojo.BorrowRecord" >
-    insert into t_borrow_record (id, book_id, user_id, 
-      borrow_status, borrow_dead_line, return_time, 
-      creator, create_time, reviser, 
-      update_time, data_status)
-    values (#{id,jdbcType=INTEGER}, #{bookId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
-      #{borrowStatus,jdbcType=CHAR}, #{borrowDeadLine,jdbcType=TIMESTAMP}, #{returnTime,jdbcType=TIMESTAMP}, 
-      #{creator,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{reviser,jdbcType=INTEGER}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{dataStatus,jdbcType=CHAR})
+    
   </insert>
-  <insert id="insertSelective" parameterType="com.wtlib.pojo.BorrowRecord" >
+  <insert id="insert" parameterType="com.wtlib.pojo.BorrowRecord" >
     insert into t_borrow_record
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -111,7 +103,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.wtlib.pojo.BorrowRecord" >
+  <update id="updateById" parameterType="com.wtlib.pojo.BorrowRecord" >
     update t_borrow_record
     <set >
       <if test="bookId != null" >
@@ -147,18 +139,5 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.wtlib.pojo.BorrowRecord" >
-    update t_borrow_record
-    set book_id = #{bookId,jdbcType=INTEGER},
-      user_id = #{userId,jdbcType=INTEGER},
-      borrow_status = #{borrowStatus,jdbcType=CHAR},
-      borrow_dead_line = #{borrowDeadLine,jdbcType=TIMESTAMP},
-      return_time = #{returnTime,jdbcType=TIMESTAMP},
-      creator = #{creator,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      reviser = #{reviser,jdbcType=INTEGER},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
-      data_status = #{dataStatus,jdbcType=CHAR}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+ 
 </mapper>

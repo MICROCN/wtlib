@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.wtlib.dao.CreditRecordMapper" >
-  <resultMap id="BaseResultMap" type="com.wtlib.pojo.CreditRecord" >
+  <resultMap id="CreditRecordMap" type="com.wtlib.pojo.CreditRecord" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="credit_info_id" property="creditInfoId" jdbcType="INTEGER" />
@@ -16,38 +16,25 @@
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="data_status" property="dataStatus" jdbcType="VARCHAR" />
   </resultMap>
-  <sql id="Base_Column_List" >
+  <sql id="comList" >
     id, user_id, credit_info_id, credit_is_plus, credit_name, credit_before_value, credit_value, 
     credit_after_value, creator, create_time, reviser, update_time, data_status
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectById" resultMap="CreditRecordMap" parameterType="java.lang.Integer" >
     select 
-    <include refid="Base_Column_List" />
+    <include refid="comList" />
     from t_credit_record
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <delete id="deleteById" parameterType="java.lang.Integer" >
     delete from t_credit_record
     where id = #{id,jdbcType=INTEGER}
   </delete>
+ 
   <insert id="insert" parameterType="com.wtlib.pojo.CreditRecord" >
-    insert into t_credit_record (id, user_id, credit_info_id, 
-      credit_is_plus, credit_name, credit_before_value, 
-      credit_value, credit_after_value, creator, 
-      create_time, reviser, update_time, 
-      data_status)
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{creditInfoId,jdbcType=INTEGER}, 
-      #{creditIsPlus,jdbcType=INTEGER}, #{creditName,jdbcType=VARCHAR}, #{creditBeforeValue,jdbcType=INTEGER}, 
-      #{creditValue,jdbcType=INTEGER}, #{creditAfterValue,jdbcType=INTEGER}, #{creator,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{reviser,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{dataStatus,jdbcType=VARCHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="com.wtlib.pojo.CreditRecord" >
     insert into t_credit_record
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
+     
       <if test="userId != null" >
         user_id,
       </if>
@@ -86,9 +73,7 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
-      </if>
+     
       <if test="userId != null" >
         #{userId,jdbcType=INTEGER},
       </if>
@@ -127,7 +112,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.wtlib.pojo.CreditRecord" >
+  <update id="updateById" parameterType="com.wtlib.pojo.CreditRecord" >
     update t_credit_record
     <set >
       <if test="userId != null" >
@@ -169,20 +154,5 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.wtlib.pojo.CreditRecord" >
-    update t_credit_record
-    set user_id = #{userId,jdbcType=INTEGER},
-      credit_info_id = #{creditInfoId,jdbcType=INTEGER},
-      credit_is_plus = #{creditIsPlus,jdbcType=INTEGER},
-      credit_name = #{creditName,jdbcType=VARCHAR},
-      credit_before_value = #{creditBeforeValue,jdbcType=INTEGER},
-      credit_value = #{creditValue,jdbcType=INTEGER},
-      credit_after_value = #{creditAfterValue,jdbcType=INTEGER},
-      creator = #{creator,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      reviser = #{reviser,jdbcType=INTEGER},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
-      data_status = #{dataStatus,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+  
 </mapper>
