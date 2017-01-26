@@ -13,10 +13,14 @@ import com.wtlib.service.UserInfoService;
  * @date 2017年1月22日 下午2:46:21
  */
 @Controller
-@RequestMapping("/userinfo/")
+@RequestMapping("/userinfo")
 public class UserInfoController {
 	@Autowired
 	private UserInfoService userInfoService;
 	
-	
+	@RequestMapping("/test")
+	public String test(){
+		System.out.println("in");
+		return "/user/index";
+	}
 }
