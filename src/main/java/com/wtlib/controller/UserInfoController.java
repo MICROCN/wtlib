@@ -17,4 +17,6 @@ import com.wtlib.service.UserInfoService;
 public class UserInfoController {
 	@Autowired
 	private UserInfoService userInfoService;
+	
+	
 }
