@@ -60,4 +60,10 @@ public class UserServiceImpl implements UserService {
 		return 0;
 	}
 
+	@Override
+	public User getUserByLoginId(String loginId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

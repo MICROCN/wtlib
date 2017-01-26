@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-<title>微點</title>
+<title>wtlib</title>
 </head>
 <body>
 	<h1 style="color: #b64628">hello</h1>
