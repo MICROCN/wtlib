@@ -9,10 +9,18 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import org.unitils.UnitilsJUnit4;
 import org.unitils.spring.annotation.SpringApplicationContext;
+import org.unitils.spring.annotation.SpringBean;
+import org.unitils.spring.annotation.SpringBeanByName;
+import org.unitils.spring.annotation.SpringBeanByType;
 
 import com.wtlib.pojo.User;
+import com.wtlib.service.BookBaseService;
+import com.wtlib.service.BookReservationService;
+import com.wtlib.service.UserService;
 import com.wtlib.start.InterfaceUrlInti;
 
+@SpringApplicationContext({ "classpath:spring-mybatis.xml",
+		"classpath:spring.xml", "classpath:spring-aop.xml" })
 public class UserTest extends UnitilsJUnit4 {
 	protected static ClassPathXmlApplicationContext context = null;
 
@@ -34,19 +42,36 @@ public class UserTest extends UnitilsJUnit4 {
 		// ReflectionAssert.assertReflectionEquals(user, user2);
 	}
 
-	@SpringApplicationContext({ "classpath:spring-mybatis.xml",
-			"classpath:spring.xml", "classpath:spring-aop.xml" })
 	private static ApplicationContext applicationContext;
 
-	// @SpringBean("userService")
-	// private UserService userService;
+	@SpringBean("userService")
+	private UserService userService;
 
-	@Test
+	@SpringBeanByType//按照类名来创建类型
+	private BookBaseService bookBaseService;
+
+	@SpringBeanByName
+	private BookReservationService bookReservationService;
+	// @Test
 	public void testUserService() {
 
 		System.out.println("done");
 
 		assertNotNull(applicationContext);
+		assertNotNull(userService);
 		System.out.println("done");
 	}
+
+//	@Test
+	public void testBookBaseServiceInject() {
+		assertNotNull(bookBaseService);
+		System.out.println("done");
+	}
+	
+//	@Test
+	public void testBookReservationServiceInject(){
+		assertNotNull(bookReservationService);
+		System.out.println("done");
+	}
+	
 }

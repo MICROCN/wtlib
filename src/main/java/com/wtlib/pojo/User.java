@@ -38,4 +38,12 @@ public class User extends BaseEntity {
 	public void setPassword(String password) {
 		this.password = password == null ? null : password.trim();
 	}
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", loginId=" + loginId + ", password="
+				+ password + "]";
+	}
+	
+	
 }
