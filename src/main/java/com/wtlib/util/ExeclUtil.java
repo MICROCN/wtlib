@@ -8,8 +8,11 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -99,6 +102,26 @@ public class ExeclUtil {
 			return false;
 		}
 		return true;
+	}
+
+	public List<Map<String, Object>> read(InputStream in, String tableName,
+			Boolean isExcel2003) {
+
+		List<Map<String, Object>> dataLst = null;
+		try {
+			/** 根据版本选择创建Workbook的方式 */
+			Workbook wb = null;
+			if (isExcel2003) {
+				wb = new HSSFWorkbook(in);
+			} else {
+				wb = new XSSFWorkbook(in);
+			}
+			dataLst = read(wb, tableName);
+		} catch (IOException e) {
+			System.out.println(e.toString());
+		}
+
+		return dataLst;
 	}
 
 	/**
@@ -232,7 +255,7 @@ public class ExeclUtil {
 						cellValue = "未知类型";
 						break;
 					}
-				}else{
+				} else {
 					nullNumber++;
 				}
 				rowLst.add(cellValue);
@@ -243,6 +266,104 @@ public class ExeclUtil {
 			}
 		}
 		return dataLst;
+	}
+
+	// 根据tableName来产生一个记录
+	private List<Map<String, Object>> read(Workbook wb, String tableName) {
+		List<Map<String, Object>> dataLst = new ArrayList<Map<String, Object>>();
+		List<String> columNames = new ArrayList<String>();// 列名
+		/** 得到name指定的sheet */
+		Sheet sheet = wb.getSheetAt(wb.getSheetIndex(tableName));
+		/** 得到Excel的行数 */
+		this.totalRows = sheet.getPhysicalNumberOfRows();
+		/** 得到Excel的列数 以及列名列表 */
+		if (this.totalRows >= 1 && sheet.getRow(0) != null) {
+			this.totalCells = sheet.getRow(0).getPhysicalNumberOfCells();
+			for (int i = 0; i < this.getTotalCells(); i++) {
+				String columName = sheet.getRow(0).getCell(i)
+						.getStringCellValue();
+				if (StringUtils.isEmpty(columName)) {
+					this.totalCells--;
+					continue;//列名为空 跳过
+				}
+				columNames.add(underlineToCamel(columName));
+			}
+		}
+
+		/** 循环Excel的行 */
+		for (int r = 1; r < this.totalRows; r++) {
+			Row row = sheet.getRow(r);
+			if (row == null) {
+				continue;
+			}
+			Map<String, Object> props = new HashMap<String, Object>();
+			for (int c = 0; c < row.getPhysicalNumberOfCells(); c++) {
+				String columName = columNames.get(c);// 获得列名
+				Cell cell = row.getCell(c);
+				Object cellValue = getCellValue(cell);
+				props.put(columName, cellValue);
+			}
+			dataLst.add(props);
+		}
+		return dataLst;
+	}
+
+	// 获得cell之中的数据内容
+	private Object getCellValue(Cell cell) {
+		Object cellValue = null;
+		if (cell != null) {
+			// 以下是判断数据的类型
+			switch (cell.getCellType()) {
+			case HSSFCell.CELL_TYPE_NUMERIC: // 数字
+				if (HSSFDateUtil.isCellDateFormatted(cell)) {
+					SimpleDateFormat dateformat = new SimpleDateFormat(
+							"yyyy-MM-dd HH:mm:ss");
+					Date dt = HSSFDateUtil.getJavaDate(cell
+							.getNumericCellValue());
+					cellValue = dateformat.format(dt);
+					break;
+				}
+				DecimalFormat df = new DecimalFormat("#");
+				cellValue = df.format(cell.getNumericCellValue()) + "";
+
+				break;
+			case HSSFCell.CELL_TYPE_STRING: // 字符串
+				cellValue = cell.getStringCellValue().trim();
+				break;
+			case HSSFCell.CELL_TYPE_BOOLEAN: // Boolean
+				cellValue = cell.getBooleanCellValue();
+				break;
+			case HSSFCell.CELL_TYPE_FORMULA: // 公式
+				cellValue = cell.getCellFormula();
+				break;
+			case HSSFCell.CELL_TYPE_BLANK: // 空值
+				cellValue = null;
+				break;
+			case HSSFCell.CELL_TYPE_ERROR: // 故障
+				cellValue = "非法字符";
+				break;
+			default:
+				cellValue = "未知类型";
+				break;
+			}
+		} else {
+			return null;
+		}
+		return cellValue;
+	}
+
+	private static String underlineToCamel(String str) {
+		String pattern[] = str.split("_");
+		StringBuilder builder = new StringBuilder();
+		for (int i = 0; i < pattern.length; i++) {
+			if (i == 0) {
+				builder.append(pattern[i]);
+			} else {
+				builder.append(pattern[i].substring(0, 1).toUpperCase());
+				builder.append(pattern[i].substring(1));
+			}
+		}
+		return builder.toString();
 	}
 
 	/**
