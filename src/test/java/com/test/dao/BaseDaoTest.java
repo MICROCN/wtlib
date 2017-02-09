@@ -15,15 +15,16 @@ import com.wtlib.dao.UserMapper;
 import com.wtlib.pojo.User;
 
 //数据访问层测试类
-@SpringApplicationContext({ "classpath:spring-mybatis.xml",
-		"classpath:spring.xml", "classpath:spring-aop.xml" })
+
+@SpringApplicationContext({ "classpath:test-spring-mybatis.xml",
+		"classpath:test-spring.xml", "classpath:test-spring-aop.xml" })
 public class BaseDaoTest extends UnitilsJUnit4 {
 
 	public final static String excelFilePath = "../exceldataset";
 	@SpringBean("userMapper")
 	UserMapper userMapper;
 
-	@Test
+//	@Test
 	@ExpectedDataSet("../../resources/dataSetXls/wtlib.userSave.expect.xls")
 	public void saveUser() throws Exception {
 		User u = XlsDataSetBeanFactory.createBean(excelFilePath
@@ -33,9 +34,9 @@ public class BaseDaoTest extends UnitilsJUnit4 {
 	}
 
 	@Test
-	@DataSet("../../resources/dataSetXls/wtlib.User.xls")
+	@DataSet("BaseDaoTest-findUserById.xml")
 	public void findUserById() throws Exception {
-		User user = userMapper.selectById(8);
+		User user = userMapper.selectById(24);
 		assertNotNull(user);
 		System.out.println(user);
 	}

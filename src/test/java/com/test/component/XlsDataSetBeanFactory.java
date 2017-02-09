@@ -69,4 +69,44 @@ public class XlsDataSetBeanFactory {
 		convertUtilsBean.register(dateConverter, java.sql.Date.class);
 		return convertUtilsBean;
 	}
+	
+	private static List<Map<String, Object>> createProps(String file,
+			String tableName,int j) throws IOException, DataSetException {
+		List<Map<String, Object>> propsList = new ArrayList<Map<String, Object>>();
+		IDataSet expected = new XlsDataSet(XlsDataSetBeanFactory.class.getResourceAsStream(file));
+		ITable table = expected.getTable(tableName);
+		Column[] columns = table.getTableMetaData().getColumns();
+		for (int i = 0; i < table.getRowCount(); i++) {
+			Map<String, Object> props = new HashMap<String, Object>();
+			for (Column c : columns) {
+				Object value = table.getValue(i, c.getColumnName());
+				String propName = underlineToCamel(c.getColumnName());
+				props.put(propName, value);
+			}
+			propsList.add(props);
+		}
+		return propsList;
+	}
+	
+	private static String underlineToCamel(String str) {
+		String pattern[] = str.split("_");
+		StringBuilder builder = new StringBuilder();
+		for (int i = 0; i < pattern.length; i++) {
+			if (i == 0) {
+				builder.append(pattern[i]);
+			} else {
+				builder.append(pattern[i].substring(0, 1).toUpperCase());
+				builder.append(pattern[i].substring(1));
+			}
+		}
+		return builder.toString();
+	}
+	
+	public static void main(String[] args) {
+		try {
+			createProps("../exceldataset/wtlib.SaveUser.xls", "t_user", 1);
+		} catch (DataSetException | IOException e) {
+			e.printStackTrace();
+		}
+	}
 }
