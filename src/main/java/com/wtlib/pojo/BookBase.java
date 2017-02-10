@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 
 /**
  * 基本图书实体
- * 
+ * 用来描述抽象的图书     包括了一个种类的图书
  * @author zongzi
  * @date 2017年1月21日 下午6:03:40
  */
@@ -28,7 +28,7 @@ public class BookBase extends BaseEntity {
 
 	private BigDecimal bookPrice;
 
-	private String isReservated;
+	private String isReservated; //是否被预约     当图书被预约的时候  需要在这种有剩余的剩余的时候通知预约人
 
 	public Integer getId() {
 		return id;

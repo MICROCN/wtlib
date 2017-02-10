@@ -8,7 +8,7 @@ import com.wtlib.pojo.BookReservation;
 import com.wtlib.service.BookReservationService;
 
 /**
- * @Description: TODO
+ * @Description: 图书预约类
  * @author zongzi
  * @date 2017年1月22日 下午1:56:32
  */
