@@ -18,6 +18,6 @@ public interface UserService extends BaseService<User> {
 
 	public void delete(String id) throws Exception;
 
-	public User getUserByLoginId(String loginId);
+	public User getUserByLoginId(String loginId) throws Exception;
 
 }

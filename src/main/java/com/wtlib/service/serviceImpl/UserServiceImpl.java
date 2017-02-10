@@ -61,9 +61,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User getUserByLoginId(String loginId) {
-		// TODO Auto-generated method stub
-		return null;
+	public User getUserByLoginId(String loginId) throws Exception {
+		return userMapper.selectById(loginId);
 	}
 
 }

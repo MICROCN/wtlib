@@ -5,6 +5,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -16,13 +18,20 @@ import com.wtlib.service.UserService;
  * @author ed
  * 
  */
+@Controller
+@RequestMapping("/login")
 public class LoginController extends BaseController {
 	@Autowired
 	private UserService userService;
 
-	@RequestMapping("/doLogin")
-	public ModelAndView login(HttpServletRequest request, User user) {
-		User dbUser = userService.getUserByLoginId(user.getLoginId());
+	@RequestMapping("/doLogins")
+	public String login(Model model, HttpServletRequest request, User user) {
+		User dbUser = null;
+		try {
+			dbUser = userService.getUserByLoginId(user.getLoginId());
+		} catch (Exception e) {
+
+		}
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("forward:/login.jsp");
 		if (dbUser == null) {
@@ -37,7 +46,8 @@ public class LoginController extends BaseController {
 				toUrl = "/index.html";
 				mav.setViewName("redirect:" + toUrl);
 			}
+			model.addAttribute("user", dbUser);
 		}
-		return mav;
+		return "/component/home";
 	}
 }
