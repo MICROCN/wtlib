@@ -1,5 +1,9 @@
 package com.wtlib.dao;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.wtlib.pojo.User;
 
 /**
@@ -8,6 +12,7 @@ import com.wtlib.pojo.User;
  */
 public interface UserMapper extends BaseDao<User> {
 
-
 	void save(User user);
+
+	List<User> selectByLoginId(@Param("loginId") String loginId);
 }

@@ -20,10 +20,14 @@
     from t_user
     where id = #{id,jdbcType=INTEGER}
   </select>
+  
+  <select id="selectByLoginId" resultMap="UserMap" parameterType="java.lang.String">
+  	select * from t_user where login_id=#{loginId}
+  </select>
+  
   <delete id="deleteById" parameterType="java.lang.Integer" >
    
   </delete>
-  
   <insert id="insert" parameterType="com.wtlib.pojo.User" >
     insert into t_user
     <trim prefix="(" suffix=")" suffixOverrides="," >
