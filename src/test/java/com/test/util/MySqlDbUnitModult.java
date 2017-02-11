@@ -6,6 +6,13 @@ import org.dbunit.ext.mysql.MySqlMetadataHandler;
 import org.unitils.dbunit.DbUnitModule;
 import org.unitils.dbunit.util.DbUnitDatabaseConnection;
 
+/**
+ * ClassName: MySqlDbUnitModult
+ * 
+ * @Description: 自定义mysql 的 dbunit 模块
+ * @author zongzi
+ * @date 2017年2月11日 上午10:00:36
+ */
 public class MySqlDbUnitModult extends DbUnitModule {
 
 	public DbUnitDatabaseConnection getDbUnitDatabaseConnection(
@@ -16,7 +23,7 @@ public class MySqlDbUnitModult extends DbUnitModule {
 			return result;
 		}
 
-		result =super.getDbUnitDatabaseConnection(schemaName);
+		result = super.getDbUnitDatabaseConnection(schemaName);
 		result.getConfig().setProperty(
 				DatabaseConfig.PROPERTY_DATATYPE_FACTORY,
 				new MySqlDataTypeFactory());
