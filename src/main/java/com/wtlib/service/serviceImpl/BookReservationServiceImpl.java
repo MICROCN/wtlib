@@ -51,4 +51,9 @@ public class BookReservationServiceImpl implements BookReservationService {
 		return 0;
 	}
 
+	@Override
+	public Boolean insertNewBookReservation(Integer bookId, Integer userId) {
+		return null;
+	}
+
 }

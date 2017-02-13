@@ -2,6 +2,8 @@ package com.test.service;
 
 import static org.mockito.Mockito.*;
 
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.unitils.spring.annotation.SpringApplicationContext;
@@ -38,11 +40,13 @@ public class BookReservationServiceTest extends BaseDaoTest {
 	@Test
 	public void reservationABookByUser() {
 		try {
-			BookReservationService bookReservationService = new BookReservationServiceImpl();
-			BookReservation br = XlsDataSetBeanFactory.createBean(excelFilePath
+			List<BookReservation> br = XlsDataSetBeanFactory.createBeans(excelFilePath
 					+ "/wtlib.testdatasource.xls", "t_book_reservation", BookReservation.class);
-			doReturn(new Integer(1)).when(bookReservationMapper).insert(br);
+			BookReservation bookReservation = br.get(0);
+			doReturn(new Integer(1)).when(bookReservationMapper).insert(bookReservation);
 			
+			BookReservationService bookReservationService = new BookReservationServiceImpl();
+			bookReservationService.insertNewBookReservation( 111, 111);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

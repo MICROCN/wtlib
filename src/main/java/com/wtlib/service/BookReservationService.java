@@ -10,4 +10,14 @@ import com.wtlib.pojo.BookReservation;
  */
 public interface BookReservationService extends BaseService<BookReservation> {
 
+	
+	/**
+	 * user 预约书籍
+	 * @param @param bookId
+	 * @param @param userId
+	 * @param @return   
+	 * @author zongzi
+	 * @date 2017年2月13日 下午5:49:15
+	 */
+	public Boolean insertNewBookReservation(Integer bookId,Integer userId);
 }
