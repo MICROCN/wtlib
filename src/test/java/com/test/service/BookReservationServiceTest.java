@@ -11,6 +11,7 @@ import org.unitils.spring.annotation.SpringApplicationContext;
 import com.test.component.XlsDataSetBeanFactory;
 import com.test.dao.BaseDaoTest;
 import com.wtlib.dao.BookBaseMapper;
+import com.wtlib.dao.BookBaseSupportMapper;
 import com.wtlib.dao.BookReservationMapper;
 import com.wtlib.pojo.BookReservation;
 import com.wtlib.pojo.User;
@@ -29,24 +30,34 @@ import com.wtlib.service.serviceImpl.BookReservationServiceImpl;
 public class BookReservationServiceTest extends BaseDaoTest {
 
 	private BookBaseMapper bookBaseMapper;
+
 	private BookReservationMapper bookReservationMapper;
+
+	private BookBaseSupportMapper bookBaseSupportMapper;
 
 	@Before
 	public void init() {
 		bookBaseMapper = mock(BookBaseMapper.class);// 创建mapper的模拟对象
 		bookReservationMapper = mock(BookReservationMapper.class);
+		bookBaseSupportMapper = mock(BookBaseSupportMapper.class);
 	}
 
 	@Test
 	public void reservationABookByUser() {
 		try {
-			List<BookReservation> br = XlsDataSetBeanFactory.createBeans(excelFilePath
-					+ "/wtlib.testdatasource.xls", "t_book_reservation", BookReservation.class);
+			List<BookReservation> br = XlsDataSetBeanFactory.createBeans(
+					excelFilePath + "/wtlib.testdatasource.xls",
+					"t_book_reservation", BookReservation.class);
 			BookReservation bookReservation = br.get(0);
-			doReturn(new Integer(1)).when(bookReservationMapper).insert(bookReservation);
+			doReturn(new Integer(1)).when(bookReservationMapper).insert(
+					bookReservation);
+
 			
 			BookReservationService bookReservationService = new BookReservationServiceImpl();
-			bookReservationService.insertNewBookReservation( 111, 111);
+
+			// 预约一本新的书籍
+			bookReservationService.insertNewBookReservation(111, 111);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
