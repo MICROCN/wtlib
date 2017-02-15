@@ -2,18 +2,33 @@ package com.wtlib.service.serviceImpl;
 
 import java.util.List;
 
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
+import com.wtlib.constants.DataStatusEnum;
+import com.wtlib.constants.OptionStatusEnum;
+import com.wtlib.dao.BookBaseSupportMapper;
+import com.wtlib.dao.BookReservationMapper;
+import com.wtlib.pojo.BookBaseSupport;
 import com.wtlib.pojo.BookReservation;
 import com.wtlib.service.BookReservationService;
 
 /**
- * @Description: TODO
+ * @Description: 图书预约类
  * @author zongzi
  * @date 2017年1月22日 下午1:56:32
  */
 @Service("bookReservationService")
 public class BookReservationServiceImpl implements BookReservationService {
+
+	@Autowired
+	private BookReservationMapper bookReservationMapper;
+
+	@Autowired
+	private BookBaseSupportMapper bookBaseSupportMapper;
 
 	@Override
 	public int insert(BookReservation entity) throws Exception {
@@ -49,6 +64,60 @@ public class BookReservationServiceImpl implements BookReservationService {
 	public int update(BookReservation entity) throws Exception {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public Boolean insertNewBookReservation(Integer bookId, Integer userId)
+			throws Exception {
+
+		// 检查书本是否可以预约
+		BookBaseSupport bookBaseSupport = bookBaseSupportMapper
+				.selectBookBaseSupportByBookId(bookId,
+						DataStatusEnum.NORMAL_USED.getCode());
+		String isReservateAble = bookBaseSupport.getIsReservateAble();
+
+		Assert.isTrue(StringUtils.equals(OptionStatusEnum.OPENT_TRUE.getCode(),
+				isReservateAble), "reservation of book:" + bookId
+				+ " isn't avaliable");
+
+		Integer currentReservateNumber = bookBaseSupport
+				.getCurrentReservateNumber();
+		Integer singBookNumber = bookBaseSupport.getSingBookNumber();
+
+		Assert.isTrue(currentReservateNumber + 1 <= singBookNumber * 2,
+				"current Reservate Number is more than double of bookNumbers -->["
+						+ currentReservateNumber + "," + singBookNumber + "]");// 如果预约了这一本书就超过两倍
+		BookBaseSupport bookBaseSupportTemp = new BookBaseSupport();
+
+		bookBaseSupportTemp.setBookId(bookId);
+
+		bookBaseSupportTemp
+				.setCurrentReservateNumber(currentReservateNumber + 1);
+
+		bookBaseSupportTemp.setReviser(userId);
+		if (currentReservateNumber + 1 == singBookNumber * 2) {
+			bookBaseSupportTemp
+					.setIsReservateAble(OptionStatusEnum.OPTION_FALSE.getCode());// 设置不可预约
+		}
+
+		// 更新图书基础信息
+		Integer updateBookBaseSupport = bookBaseSupportMapper
+				.updateByBookId(bookBaseSupportTemp);
+
+		Assert.isTrue(updateBookBaseSupport == 1,
+				"update book base support false");
+
+		BookReservation bookReservation = new BookReservation();
+		bookReservation.setBookId(bookId);
+		bookReservation.setUserId(userId);
+		bookReservation.setCreator(userId);
+		int insertBookReservation = bookReservationMapper
+				.insert(bookReservation);
+
+		Assert.isTrue(insertBookReservation == 1,
+				"insert book reservation record faild");
+		
+		return true;
 	}
 
 }

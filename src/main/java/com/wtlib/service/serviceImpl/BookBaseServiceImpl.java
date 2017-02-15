@@ -11,7 +11,7 @@ import com.wtlib.pojo.BookBase;
 import com.wtlib.service.BookBaseService;
 
 /**
- * @Description: TODO
+ * @Description: 基础图书处理类
  * @author zongzi
  * @date 2017年1月22日 下午1:55:48
  */
