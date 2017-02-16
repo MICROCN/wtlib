@@ -1,4 +1,4 @@
-package com.wtlib.util;
+package com.wtlib.aop;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -23,14 +23,14 @@ import com.alibaba.fastjson.JSON;
 // 声明是面向切面的组件
 @Component
 @Aspect
-public class ServiceAspectUtil {
+public class ControllerAspectUtil {
 	private static final Log logger = LogFactory
-			.getLog(ServiceAspectUtil.class);
+			.getLog(ControllerAspectUtil.class);
 
 	/**
 	 * 添加切入点
 	 */
-	@Pointcut("execution(* com.wtlib.service.*.*(..))")
+	@Pointcut("execution(* com.wtlib.controller.*.*(..))")
 	public void aspect() {
 
 	}

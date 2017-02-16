@@ -29,6 +29,7 @@ import com.wtlib.service.serviceImpl.BookReservationServiceImpl;
 		"test-spring-aop.xml" })
 public class BookReservationServiceTest extends BaseDaoTest {
 
+	
 	private BookBaseMapper bookBaseMapper;
 
 	private BookReservationMapper bookReservationMapper;
