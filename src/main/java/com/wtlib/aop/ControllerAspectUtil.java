@@ -11,12 +11,12 @@ import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 
-import com.Message;
 import com.alibaba.fastjson.JSON;
 
 /**
  * 服务层组件 日志切面 ClassName: ServiceAspectUtil
  * 
+ * @Description: TODO
  * @author zongzi
  * @date 2016年8月22日 上午10:27:49
  */
@@ -53,6 +53,7 @@ public class ControllerAspectUtil {
 	/**
 	 * 配置返回值
 	 * 
+	 * @Description: TODO
 	 * @param @param jp
 	 * @param @param returnValue
 	 * @author zongzi
@@ -87,13 +88,14 @@ public class ControllerAspectUtil {
 	/**
 	 * 配置异常输出
 	 * 
+	 * @Description: TODO
 	 * @param @param jp
 	 * @param @param ex
 	 * @author zongzi
 	 * @date 2016年8月22日 下午4:29:48
 	 */
 	@AfterThrowing(pointcut = "aspect()", throwing = "ex")
-	public Message afterThrow(JoinPoint jp, Exception ex) {
+	public void afterThrow(JoinPoint jp, Exception ex) {
 		if (logger.isErrorEnabled()) {
 
 			System.out.println("[ThrowException]"
@@ -106,7 +108,6 @@ public class ControllerAspectUtil {
 							+ jp.getSignature().getName() + "\n\tparams="
 							+ JSON.toJSONString(jp.getArgs()) + "\n\t"
 							+ ex.toString(), ex);
-			return Message.error();
 		} else if (logger.isInfoEnabled()) {
 			logger.info(
 					"[ThrowException:error]"
@@ -115,6 +116,5 @@ public class ControllerAspectUtil {
 							+ JSON.toJSONString(jp.getArgs()) + "\n\t"
 							+ ex.toString(), ex);
 		}
-		return Message.error();
 	}
 }

@@ -50,4 +50,10 @@ public class UserInfoServiceImpl implements UserInfoService {
 		return 0;
 	}
 
+	@Override
+	public UserInfo find(Object str) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

@@ -62,4 +62,5 @@ public interface BaseService<T> {
 	 */
 	public int update(T entity) throws Exception;
 
+	public T find(Object str);
 }

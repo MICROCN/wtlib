@@ -65,4 +65,10 @@ public class UserServiceImpl implements UserService {
 		return userMapper.selectById(loginId);
 	}
 
+	@Override
+	public User find(Object str) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
