@@ -2,7 +2,6 @@ package com.wtlib.service.serviceImpl;
 
 import java.util.List;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,37 +31,31 @@ public class BookReservationServiceImpl implements BookReservationService {
 
 	@Override
 	public int insert(BookReservation entity) throws Exception {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public int insertBatch(List<BookReservation> entityList) throws Exception {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public BookReservation selectById(Object id) throws Exception {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public List<BookReservation> selectAll() throws Exception {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public int deleteById(Object id) throws Exception {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public int update(BookReservation entity) throws Exception {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
@@ -87,6 +80,7 @@ public class BookReservationServiceImpl implements BookReservationService {
 		Assert.isTrue(currentReservateNumber + 1 <= singBookNumber * 2,
 				"current Reservate Number is more than double of bookNumbers -->["
 						+ currentReservateNumber + "," + singBookNumber + "]");// 如果预约了这一本书就超过两倍
+		
 		BookBaseSupport bookBaseSupportTemp = new BookBaseSupport();
 
 		bookBaseSupportTemp.setBookId(bookId);
@@ -107,6 +101,7 @@ public class BookReservationServiceImpl implements BookReservationService {
 		Assert.isTrue(updateBookBaseSupport == 1,
 				"update book base support false");
 
+		// 添加预约记录
 		BookReservation bookReservation = new BookReservation();
 		bookReservation.setBookId(bookId);
 		bookReservation.setUserId(userId);
@@ -116,7 +111,7 @@ public class BookReservationServiceImpl implements BookReservationService {
 
 		Assert.isTrue(insertBookReservation == 1,
 				"insert book reservation record faild");
-		
+
 		return true;
 	}
 

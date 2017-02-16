@@ -12,7 +12,7 @@ import com.wtlib.pojo.BookReservation;
 public interface BookReservationService extends BaseService<BookReservation> {
 
 	/**
-	 * user 预约书籍
+	 * user 预约书籍服务
 	 * 
 	 * @param @param bookId
 	 * @param @param userId
