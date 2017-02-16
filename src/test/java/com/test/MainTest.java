@@ -10,7 +10,7 @@ import com.wtlib.mq.MQDemo;
 import com.wtlib.pojo.User;
 import com.wtlib.service.UserService;
 import com.wtlib.start.InterfaceUrlInti;
-//ddddd
+//dddddsssssssssssssss
 
 //@RunWith(SpringJUnit4ClassRunner.class)
 //@ContextConfiguration(locations = { "classpath:spring.xml",
