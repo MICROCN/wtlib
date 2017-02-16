@@ -10,10 +10,10 @@ import com.wtlib.mq.MQDemo;
 import com.wtlib.pojo.User;
 import com.wtlib.service.UserService;
 import com.wtlib.start.InterfaceUrlInti;
-//ddddd1234567yuiertyui
+//ddddd1234567yuiertyuidddddddddddddddddddddddddddddddddddd
 
 //@RunWith(SpringJUnit4ClassRunner.class)
-//@ContextConfiguration(locations = { "classpath:spring.xml",
+//@ContextConfiguration(locations = { "classpath:spring.xml",ddddddddddddddddddddddddd
 //		"classpath:spring-mybatis.xml", "classpath:spring-mvc.xml"})
 public class MainTest{
 	 
