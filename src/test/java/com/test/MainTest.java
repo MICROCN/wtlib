@@ -1,5 +1,5 @@
 package com.test;
-
+//flicts test
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
