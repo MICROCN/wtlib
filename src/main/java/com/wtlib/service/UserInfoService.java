@@ -8,5 +8,5 @@ import com.wtlib.pojo.UserInfo;
  * @date 2017年1月22日 下午1:49:47
  */
 public interface UserInfoService extends BaseService<UserInfo> {
-
+	
 }

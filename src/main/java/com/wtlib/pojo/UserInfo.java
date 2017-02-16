@@ -16,6 +16,8 @@ public class UserInfo extends BaseEntity {
 	private String currentCreditLevel;
 
 	private Integer currentCreditValue;
+	
+	private String username;
 
 	public Integer getId() {
 		return id;
@@ -50,4 +52,13 @@ public class UserInfo extends BaseEntity {
 		this.currentCreditValue = currentCreditValue;
 	}
 
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	
 }

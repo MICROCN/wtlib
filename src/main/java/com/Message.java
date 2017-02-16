@@ -91,6 +91,16 @@ public class Message {
 	public static Message error(int code,String content, Object data) {
 		return new Message(code, content, data);
 	}
+	
+	/**
+	 * 返回失败消息
+	 * @param content 内容
+	 * @return 成功消息
+	 */
+	public static Message error(int code,String content) {
+		return new Message(code, content);
+	}
+	
 	/**
 	 * 返回失败消息
 	 * @param content 内容

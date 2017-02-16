@@ -5,6 +5,7 @@ import java.util.List;
 
 
 
+
 import org.springframework.stereotype.Service;
 
 import com.wtlib.pojo.BookBase;
@@ -52,6 +53,12 @@ public class BookBaseServiceImpl implements BookBaseService {
 	public int update(BookBase entity) throws Exception {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public BookBase find(Object str) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -1,7 +1,9 @@
 package com.test.service;
 
 import static org.mockito.Mockito.*;
+import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
@@ -10,11 +12,12 @@ import org.unitils.spring.annotation.SpringApplicationContext;
 
 import com.test.component.XlsDataSetBeanFactory;
 import com.test.dao.BaseDaoTest;
+import com.wtlib.constants.DataStatusEnum;
 import com.wtlib.dao.BookBaseMapper;
 import com.wtlib.dao.BookBaseSupportMapper;
 import com.wtlib.dao.BookReservationMapper;
+import com.wtlib.pojo.BookBaseSupport;
 import com.wtlib.pojo.BookReservation;
-import com.wtlib.pojo.User;
 import com.wtlib.service.BookReservationService;
 import com.wtlib.service.serviceImpl.BookReservationServiceImpl;
 
@@ -44,19 +47,30 @@ public class BookReservationServiceTest extends BaseDaoTest {
 
 	@Test
 	public void reservationABookByUser() {
+		List<BookReservation> br = new ArrayList<BookReservation>();
 		try {
-			List<BookReservation> br = XlsDataSetBeanFactory.createBeans(
-					excelFilePath + "/wtlib.testdatasource.xls",
-					"t_book_reservation", BookReservation.class);
+			br = XlsDataSetBeanFactory.createBeans(excelFilePath
+					+ "/wtlib.testdatasource.xls", "t_book_reservation",
+					BookReservation.class);
 			BookReservation bookReservation = br.get(0);
 			doReturn(new Integer(1)).when(bookReservationMapper).insert(
 					bookReservation);
+			BookBaseSupport bookBaseSupport = new BookBaseSupport();
 
+			doReturn(bookBaseSupport).when(bookBaseSupportMapper)
+					.selectBookBaseSupportByBookId(bookReservation.getBookId(),
+							DataStatusEnum.NORMAL_USED.getCode());
 			
+			doReturn(new Integer(1)).when(bookBaseSupportMapper)
+					.updateByBookId(bookBaseSupport);
+
 			BookReservationService bookReservationService = new BookReservationServiceImpl();
 
 			// 预约一本新的书籍
-			bookReservationService.insertNewBookReservation(111, 111);
+			Boolean insertNewBookReservation = bookReservationService
+					.insertNewBookReservation(111, 111);
+
+			assertEquals(true, insertNewBookReservation);
 
 		} catch (Exception e) {
 			e.printStackTrace();
