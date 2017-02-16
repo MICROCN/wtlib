@@ -1,7 +1,16 @@
+<<<<<<< HEAD
 图书管理系统文档
 
 Entitys
 
 BookBase  基本图书实体	 
 
+=======
+图书管理系统文档
+
+Entitys
+
+BookBase  基本图书实体	 
+
+>>>>>>> 13e933be52e5968370d07c39840eeb83a1dabd09
 	

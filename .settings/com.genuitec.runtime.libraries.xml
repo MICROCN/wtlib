@@ -1,4 +1,11 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project>
   <add-on id="spring.web"/>
 </project>
+=======
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project>
+  <add-on id="spring.web"/>
+</project>
+>>>>>>> 13e933be52e5968370d07c39840eeb83a1dabd09

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 package com.wtlib.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,3 +21,27 @@ public class UserInfoController {
 	
 	
 }
+=======
+package com.wtlib.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.wtlib.service.UserInfoService;
+
+
+/**
+ * @Description: TODO
+ * @author zongzi
+ * @date 2017年1月22日 下午2:46:21
+ */
+@Controller
+@RequestMapping("/userinfo/")
+public class UserInfoController {
+	@Autowired
+	private UserInfoService userInfoService;
+	
+	
+}
+>>>>>>> 13e933be52e5968370d07c39840eeb83a1dabd09

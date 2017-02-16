@@ -1,4 +1,11 @@
+<<<<<<< HEAD
 eclipse.preferences.version=1
 encoding//src/main/java/com/wtlib/redis/RedisAdapter.java=UTF-8
 encoding//src/main/webapp/WEB-INF/view/component/home.jsp=UTF-8
 encoding/<project>=UTF-8
+=======
+eclipse.preferences.version=1
+encoding//src/main/java/com/wtlib/redis/RedisAdapter.java=UTF-8
+encoding//src/main/webapp/WEB-INF/view/component/home.jsp=UTF-8
+encoding/<project>=UTF-8
+>>>>>>> 13e933be52e5968370d07c39840eeb83a1dabd09

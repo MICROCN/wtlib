@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
@@ -25,4 +26,33 @@
 		</if>
 	</sql>
 
+=======
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="global">
+
+	<sql id="mysql-pagination">
+		<if test="sortField != null and sortField != ''">
+			order by <![CDATA[${sortField}]]>
+			<if test="orderType != null and orderType != ''">
+				<![CDATA[${orderType}]]>
+			</if>
+			<if test="orderType == null or orderType == ''">
+				DESC
+			</if>
+		</if>
+		<if test="sortField == null "><!-- 不传排序字段的时候 默认按照id 倒序 -->
+			order by id DESC
+		</if>
+		<if test="all == null or all==0">
+			<if
+				test="pageStart != null and pageStart >= 0 and pageSize != null and pageSize >= 0">
+				<![CDATA[limit #{pageStart},#{pageSize}]]>
+			</if>
+		</if>
+	</sql>
+
+>>>>>>> 13e933be52e5968370d07c39840eeb83a1dabd09
 </mapper>

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 package com.wtlib.pojo;
 
 /**
@@ -46,4 +47,54 @@ public class User extends BaseEntity {
 	}
 	
 	
+=======
+package com.wtlib.pojo;
+
+/**
+ * 用户实体
+ * 
+ * @author zongzi
+ * @date 2017年1月21日 下午6:00:18
+ */
+public class User extends BaseEntity {
+	private static final long serialVersionUID = -9157449820278402502L;
+
+	private Integer id;
+
+	private String loginId;
+
+	private String password;
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getLoginId() {
+		return loginId;
+	}
+
+	public void setLoginId(String loginId) {
+		this.loginId = loginId == null ? null : loginId.trim();
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password == null ? null : password.trim();
+	}
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", loginId=" + loginId + ", password="
+				+ password + "]";
+	}
+	
+	
+>>>>>>> 13e933be52e5968370d07c39840eeb83a1dabd09
 }
