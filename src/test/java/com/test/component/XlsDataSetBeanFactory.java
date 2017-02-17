@@ -21,12 +21,15 @@ import com.wtlib.util.ExeclUtil;
 /**
  * 从EXCEL数据集文件创建Bean
  */
-public class XlsDataSetBeanFactory {
+public class XlsDataSetBeanFactory{
+
+	public final static String excelFilePath = "../exceldataset/";
 
 	// 从DbUnit的EXCEL数据集文件创建多个bean
 	public static <T> List<T> createBeans(String file, String tableName,
 			Class<T> clazz) throws Exception {
 		BeanUtilsBean beanUtils = createBeanUtils();
+		file = excelFilePath + file;
 		List<Map<String, Object>> propsList = createProps(file, tableName);
 		List<T> beans = new ArrayList<T>();
 		for (Map<String, Object> props : propsList) {
@@ -41,6 +44,7 @@ public class XlsDataSetBeanFactory {
 	public static <T> T createBean(String file, String tableName, Class<T> clazz)
 			throws Exception {
 		BeanUtilsBean beanUtils = createBeanUtils();
+		file = excelFilePath + file;
 		List<Map<String, Object>> propsList = createProps(file, tableName);
 		T bean = clazz.newInstance();
 		System.out.println(propsList.size());
@@ -50,11 +54,11 @@ public class XlsDataSetBeanFactory {
 
 	private static List<Map<String, Object>> createProps(String file,
 			String tableName) throws IOException, DataSetException {
-		return new ExeclUtil().read(XlsDataSetBeanFactory.class.getResourceAsStream(file),
+		return new ExeclUtil().read(
+				XlsDataSetBeanFactory.class.getResourceAsStream(file),
 				tableName, true);
 	}
 
-	
 	private static BeanUtilsBean createBeanUtils() {
 		ConvertUtilsBean convertUtilsBean = createConverUtils();
 		return new BeanUtilsBean(convertUtilsBean);
@@ -69,11 +73,12 @@ public class XlsDataSetBeanFactory {
 		convertUtilsBean.register(dateConverter, java.sql.Date.class);
 		return convertUtilsBean;
 	}
-	
+
 	private static List<Map<String, Object>> createProps(String file,
-			String tableName,int j) throws IOException, DataSetException {
+			String tableName, int j) throws IOException, DataSetException {
 		List<Map<String, Object>> propsList = new ArrayList<Map<String, Object>>();
-		IDataSet expected = new XlsDataSet(XlsDataSetBeanFactory.class.getResourceAsStream(file));
+		IDataSet expected = new XlsDataSet(
+				XlsDataSetBeanFactory.class.getResourceAsStream(file));
 		ITable table = expected.getTable(tableName);
 		Column[] columns = table.getTableMetaData().getColumns();
 		for (int i = 0; i < table.getRowCount(); i++) {
@@ -87,7 +92,7 @@ public class XlsDataSetBeanFactory {
 		}
 		return propsList;
 	}
-	
+
 	private static String underlineToCamel(String str) {
 		String pattern[] = str.split("_");
 		StringBuilder builder = new StringBuilder();
@@ -101,7 +106,7 @@ public class XlsDataSetBeanFactory {
 		}
 		return builder.toString();
 	}
-	
+
 	public static void main(String[] args) {
 		try {
 			createProps("../exceldataset/wtlib.SaveUser.xls", "t_user", 1);

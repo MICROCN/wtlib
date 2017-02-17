@@ -22,21 +22,21 @@ import com.wtlib.pojo.User;
 public class BaseDaoTest extends UnitilsJUnit4 {
 
 	public final static String excelFilePath = "../exceldataset";
-	
+
 	@SpringBean("userMapper")
 	UserMapper userMapper;
 
-	 @Test
+	// @Test
 	// //
 	// @ExpectedDataSet("../../resources/dataSetXls/wtlib.userSave.expect.xls")
-	 public void saveUser() throws Exception {
-	 User u = XlsDataSetBeanFactory.createBean(excelFilePath
-	 + "/wtlib.SaveUser.xls", "t_user", User.class);
-	 int insert = userMapper.insert(u);
-	 System.out.println(insert);
-	 }
+	public void saveUser() throws Exception {
+		User u = XlsDataSetBeanFactory.createBean(excelFilePath
+				+ "/wtlib.SaveUser.xls", "t_user", User.class);
+		int insert = userMapper.insert(u);
+		System.out.println(insert);
+	}
 
-	@Test
+	// @Test
 	@DataSet("/dataSetXml/BaseDaoTest-findUserById.xml")
 	public void findUserById() throws Exception {
 		List<User> user = userMapper.selectByLoginId("jc");

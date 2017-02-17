@@ -69,6 +69,8 @@
       now()
     </trim>
   </insert>
+  
+  
   <update id="updateById" parameterType="com.wtlib.pojo.BookReservation" >
     update t_book_reservation
     <set >

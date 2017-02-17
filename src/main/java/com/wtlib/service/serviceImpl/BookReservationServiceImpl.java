@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import com.alibaba.fastjson.JSON;
 import com.wtlib.constants.DataStatusEnum;
 import com.wtlib.constants.OptionStatusEnum;
 import com.wtlib.dao.BookBaseSupportMapper;
@@ -67,6 +68,9 @@ public class BookReservationServiceImpl implements BookReservationService {
 		BookBaseSupport bookBaseSupport = bookBaseSupportMapper
 				.selectBookBaseSupportByBookId(bookId,
 						DataStatusEnum.NORMAL_USED.getCode());
+
+		Assert.isTrue(null != bookBaseSupport, "null bookId");
+
 		String isReservateAble = bookBaseSupport.getIsReservateAble();
 
 		Assert.isTrue(StringUtils.equals(OptionStatusEnum.OPENT_TRUE.getCode(),
@@ -75,12 +79,12 @@ public class BookReservationServiceImpl implements BookReservationService {
 
 		Integer currentReservateNumber = bookBaseSupport
 				.getCurrentReservateNumber();
-		Integer singBookNumber = bookBaseSupport.getSingBookNumber();
+		Integer singleBookNumber = bookBaseSupport.getSingleBookNumber();
 
-		Assert.isTrue(currentReservateNumber + 1 <= singBookNumber * 2,
+		Assert.isTrue(currentReservateNumber + 1 <= singleBookNumber * 2,
 				"current Reservate Number is more than double of bookNumbers -->["
-						+ currentReservateNumber + "," + singBookNumber + "]");// 如果预约了这一本书就超过两倍
-		
+						+ currentReservateNumber + "," + singleBookNumber + "]");// 如果预约了这一本书就超过两倍
+
 		BookBaseSupport bookBaseSupportTemp = new BookBaseSupport();
 
 		bookBaseSupportTemp.setBookId(bookId);
@@ -89,7 +93,7 @@ public class BookReservationServiceImpl implements BookReservationService {
 				.setCurrentReservateNumber(currentReservateNumber + 1);
 
 		bookBaseSupportTemp.setReviser(userId);
-		if (currentReservateNumber + 1 == singBookNumber * 2) {
+		if (currentReservateNumber + 1 == singleBookNumber * 2) {
 			bookBaseSupportTemp
 					.setIsReservateAble(OptionStatusEnum.OPTION_FALSE.getCode());// 设置不可预约
 		}
@@ -98,8 +102,10 @@ public class BookReservationServiceImpl implements BookReservationService {
 		Integer updateBookBaseSupport = bookBaseSupportMapper
 				.updateByBookId(bookBaseSupportTemp);
 
-		Assert.isTrue(updateBookBaseSupport == 1,
-				"update book base support false");
+		Assert.isTrue(
+				updateBookBaseSupport == 1,
+				"update book base support false"
+						+ JSON.toJSONString(bookBaseSupportTemp));
 
 		// 添加预约记录
 		BookReservation bookReservation = new BookReservation();
@@ -108,11 +114,17 @@ public class BookReservationServiceImpl implements BookReservationService {
 		bookReservation.setCreator(userId);
 		int insertBookReservation = bookReservationMapper
 				.insert(bookReservation);
-
+		
 		Assert.isTrue(insertBookReservation == 1,
 				"insert book reservation record faild");
 
 		return true;
+	}
+
+	@Override
+	public BookReservation find(Object str) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

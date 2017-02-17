@@ -23,7 +23,7 @@ public class BookBaseSupport extends BaseEntity implements Serializable {
 
 	private Integer currentReservateNumber;
 
-	private Integer singBookNumber;
+	private Integer singleBookNumber;
 
 	public Integer getId() {
 		return id;
@@ -74,11 +74,11 @@ public class BookBaseSupport extends BaseEntity implements Serializable {
 		this.currentReservateNumber = currentReservateNumber;
 	}
 
-	public Integer getSingBookNumber() {
-		return singBookNumber;
+	public Integer getSingleBookNumber() {
+		return singleBookNumber;
 	}
 
-	public void setSingBookNumber(Integer singBookNumber) {
-		this.singBookNumber = singBookNumber;
+	public void setSingleBookNumber(Integer singleBookNumber) {
+		this.singleBookNumber = singleBookNumber;
 	}
 }

@@ -1,7 +1,7 @@
 package com.wtlib.constants;
 
 public enum OptionStatusEnum {
-	OPTION_FALSE("0", "选择假"), OPENT_TRUE("001", "选择真"),OPTION_NULL(null,"不选择");
+	OPTION_FALSE("0", "选择假"), OPENT_TRUE("1", "选择真"),OPTION_NULL(null,"不选择");
 	private String code;
 
 	private final String value;

@@ -2,6 +2,7 @@ package com.wtlib.util;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.DecimalFormat;
@@ -21,6 +22,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.dbunit.dataset.ITable;
 
 /**
  * ClassName: ExeclUtil
@@ -28,6 +30,13 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  * @Description: excel操作
  * @author dapengniao
  * @date 2016年5月9日 下午3:53:39
+ */
+/**
+ * ClassName: ExeclUtil
+ * 
+ * @Description: TODO
+ * @author zongzi
+ * @date 2017年2月17日 下午2:47:05
  */
 public class ExeclUtil {
 	/** 总行数 */
@@ -104,6 +113,37 @@ public class ExeclUtil {
 		return true;
 	}
 
+	/**
+	 * @Description: 根据路径名返回wb
+	 * 
+	 * @param @param filePath
+	 * @param @return
+	 * @author zongzi
+	 * @throws Exception
+	 * @date 2017年2月17日 下午2:47:11
+	 */
+	public Workbook getWorkBookByFile(InputStream filePath) throws Exception {
+		try {
+
+			return new HSSFWorkbook(filePath);
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	/**
+	 * @Description: 根据sheet名字读取表格
+	 * @param @param in
+	 * @param @param tableName
+	 * @param @param isExcel2003
+	 * @param @return
+	 * @author zongzi
+	 * @date 2017年2月17日 下午2:47:49
+	 */
 	public List<Map<String, Object>> read(InputStream in, String tableName,
 			Boolean isExcel2003) {
 
@@ -268,14 +308,26 @@ public class ExeclUtil {
 		return dataLst;
 	}
 
-	// 根据tableName来产生一个记录
-	private List<Map<String, Object>> read(Workbook wb, String tableName) {
+	/**
+	 * @Description:根据tableName来产生一个表的所有记录
+	 * 
+	 * @param @param wb
+	 * @param @param tableName
+	 * @param @return
+	 * @author zongzi
+	 * @date 2017年2月17日 下午1:59:06
+	 */
+	public List<Map<String, Object>> read(Workbook wb, String tableName) {
 		List<Map<String, Object>> dataLst = new ArrayList<Map<String, Object>>();
 		List<String> columNames = new ArrayList<String>();// 列名
 		/** 得到name指定的sheet */
 		Sheet sheet = wb.getSheetAt(wb.getSheetIndex(tableName));
 		/** 得到Excel的行数 */
 		this.totalRows = sheet.getPhysicalNumberOfRows();
+		// ------totalRows----
+		System.out.println(totalRows + "tableName----" + tableName
+				+ "------------->");
+		// --------------
 		/** 得到Excel的列数 以及列名列表 */
 		if (this.totalRows >= 1 && sheet.getRow(0) != null) {
 			this.totalCells = sheet.getRow(0).getPhysicalNumberOfCells();
@@ -284,9 +336,9 @@ public class ExeclUtil {
 						.getStringCellValue();
 				if (StringUtils.isEmpty(columName)) {
 					this.totalCells--;
-					continue;//列名为空 跳过
+					continue;// 列名为空 跳过
 				}
-				columNames.add(underlineToCamel(columName));
+				columNames.add(WTStringUtils.underlineToCamel(columName));
 			}
 		}
 
@@ -297,18 +349,31 @@ public class ExeclUtil {
 				continue;
 			}
 			Map<String, Object> props = new HashMap<String, Object>();
+			boolean notNullFlag = false;
 			for (int c = 0; c < row.getPhysicalNumberOfCells(); c++) {
 				String columName = columNames.get(c);// 获得列名
 				Cell cell = row.getCell(c);
 				Object cellValue = getCellValue(cell);
+				
+				if (null != cellValue) {
+					notNullFlag = true;
+				}
 				props.put(columName, cellValue);
 			}
-			dataLst.add(props);
+			if(notNullFlag){
+				dataLst.add(props);
+			}
 		}
 		return dataLst;
 	}
 
-	// 获得cell之中的数据内容
+	/**
+	 * @Description: 获得cell之中的数据内容
+	 * @param @param cell
+	 * @param @return
+	 * @author zongzi
+	 * @date 2017年2月17日 下午3:09:08
+	 */
 	private Object getCellValue(Cell cell) {
 		Object cellValue = null;
 		if (cell != null) {
@@ -352,20 +417,6 @@ public class ExeclUtil {
 		return cellValue;
 	}
 
-	private static String underlineToCamel(String str) {
-		String pattern[] = str.split("_");
-		StringBuilder builder = new StringBuilder();
-		for (int i = 0; i < pattern.length; i++) {
-			if (i == 0) {
-				builder.append(pattern[i]);
-			} else {
-				builder.append(pattern[i].substring(0, 1).toUpperCase());
-				builder.append(pattern[i].substring(1));
-			}
-		}
-		return builder.toString();
-	}
-
 	/**
 	 * @Description: main测试方法
 	 * @param @param args
@@ -393,6 +444,7 @@ public class ExeclUtil {
 		}
 
 	}
+
 }
 
 /**

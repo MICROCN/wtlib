@@ -12,7 +12,7 @@
 			jdbcType="INTEGER" />
 		<result column="current_reservate_number" property="currentReservateNumber"
 			jdbcType="INTEGER" />
-		<result column="sing_book_number" property="singBookNumber"
+		<result column="single_book_number" property="singleBookNumber"
 			jdbcType="INTEGER" />
 		<result column="creator" property="creator" jdbcType="INTEGER" />
 		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
@@ -24,9 +24,11 @@
 		id, book_id, is_reservate_able, is_borrow_able,
 		current_left_book_number,
 		current_reservate_number,
-		sing_book_number,
+		single_book_number,
 		creator, create_time, reviser, update_time, data_status
 	</sql>
+
+
 	<select id="selectById" resultMap="BaseBookSupportMap"
 		parameterType="java.lang.Integer">
 		select
@@ -37,13 +39,18 @@
 	<delete id="deleteById" parameterType="java.lang.Integer">
 
 	</delete>
+	<select id="selectBookBaseSupportByBookId" resultMap="BaseBookSupportMap">
 
+		select
+		<include refid="comList" />
+		from t_book_base_support where book_id=#{bookId} and
+		data_status=#{dataStatus}
+
+	</select>
 	<insert id="insert" parameterType="com.wtlib.pojo.BookBaseSupport">
 		insert into t_book_base_support
 		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="id != null">
-				id,
-			</if>
+
 			<if test="bookId != null">
 				book_id,
 			</if>
@@ -59,8 +66,8 @@
 			<if test="currentReservateNumber != null">
 				current_reservate_number,
 			</if>
-			<if test="singBookNumber != null">
-				sing_book_number,
+			<if test="singleBookNumber != null">
+				single_book_number,
 			</if>
 			<if test="creator != null">
 				creator,
@@ -80,9 +87,7 @@
 
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
-			<if test="id != null">
-				#{id,jdbcType=INTEGER},
-			</if>
+
 			<if test="bookId != null">
 				#{bookId,jdbcType=INTEGER},
 			</if>
@@ -98,8 +103,8 @@
 			<if test="currentReservateNumber != null">
 				#{currentReservateNumber,jdbcType=INTEGER},
 			</if>
-			<if test="singBookNumber != null">
-				#{singBookNumber,jdbcType=INTEGER},
+			<if test="singleBookNumber != null">
+				#{singleBookNumber,jdbcType=INTEGER},
 			</if>
 			<if test="creator != null">
 				#{creator,jdbcType=INTEGER},
@@ -116,7 +121,7 @@
 			now()
 		</trim>
 	</insert>
-	
+
 	<update id="updateByBookId" parameterType="com.wtlib.pojo.BookBaseSupport">
 		update t_book_base_support
 		<set>
@@ -134,8 +139,9 @@
 				current_reservate_number =
 				#{currentReservateNumber,jdbcType=INTEGER},
 			</if>
-			<if test="singBookNumber != null">
-				sing_book_number = #{singBookNumber,jdbcType=INTEGER},
+			<if test="singleBookNumber != null">
+				single_book_number =
+				#{singleBookNumber,jdbcType=INTEGER},
 			</if>
 			<if test="creator != null">
 				creator = #{creator,jdbcType=INTEGER},
@@ -152,9 +158,9 @@
 			update_time = now()
 		</set>
 		where
-		
-			book_id = #{bookId,jdbcType=INTEGER},
-		
+
+		book_id = #{bookId,jdbcType=INTEGER}
+
 	</update>
 
 

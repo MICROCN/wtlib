@@ -10,19 +10,25 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
 
+import org.springframework.util.CollectionUtils;
 import org.unitils.core.UnitilsException;
 import org.unitils.dbunit.util.MultiSchemaDataSet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.dbunit.dataset.AbstractTable;
-import org.dbunit.dataset.DataSetException;
 import org.dbunit.dataset.DefaultDataSet;
 import org.dbunit.dataset.DefaultTableMetaData;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.ITable;
 import org.dbunit.dataset.ITableMetaData;
+import org.dbunit.dataset.RowOutOfBoundsException;
 import org.dbunit.dataset.excel.XlsDataSet;
+
+import com.wtlib.util.ExeclUtil;
+import com.wtlib.util.WTStringUtils;
 
 /**
  * ClassName: MultiSchemaXlsDataSetReader
+ * 
  * @author zongzi
  * @date 2017年2月4日 下午2:17:36
  */
@@ -59,6 +65,8 @@ public class MultiSchemaXlsDataSetReader {
 		try {
 			for (File file : dataSetFiles) {
 				IDataSet dataSet = new XlsDataSet(new FileInputStream(file));
+				Workbook wb = new ExeclUtil()
+						.getWorkBookByFile(new FileInputStream(file));
 				String[] tableNames = dataSet.getTableNames();
 				for (String each : tableNames) {
 					String schema = null;
@@ -75,7 +83,8 @@ public class MultiSchemaXlsDataSetReader {
 					if (!tableMap.containsKey(schema)) {
 						tableMap.put(schema, new ArrayList<ITable>());
 					}
-					tableMap.get(schema).add(new XlsTable(tableName, table));
+					tableMap.get(schema)
+							.add(new XlsTable(tableName, table, wb));
 				}
 
 			}
@@ -90,15 +99,28 @@ public class MultiSchemaXlsDataSetReader {
 
 		private ITable delegate;
 		private String tableName;
+		private Workbook wb;
+		List<Map<String, Object>> read;
 
 		public XlsTable(String tableName, ITable table) {
 			this.delegate = table;
 			this.tableName = tableName;
+			this.read = new ExeclUtil().read(wb, tableName);
+		}
+
+		public XlsTable(String tableName, ITable table, Workbook wb) {
+			this.delegate = table;
+			this.tableName = tableName;
+			this.read = new ExeclUtil().read(wb, tableName);
 		}
 
 		@Override
 		public int getRowCount() {
-			return delegate.getRowCount();
+			if (CollectionUtils.isEmpty(read) || null == read) {
+				return 0;
+			} else {
+				return read.size();
+			}
 		}
 
 		@Override
@@ -114,12 +136,29 @@ public class MultiSchemaXlsDataSetReader {
 		}
 
 		@Override
-		public Object getValue(int row, String column) throws DataSetException {
-			Object delta = delegate.getValue(row, column);
-			if (delta instanceof String) {
-				return null;
+		public Object getValue(int row, String column)// 会在规定的策略里被执行
+														// 如果到了结尾的话需要返回
+														// RowOutOfBoundsException
+														// 才能阻止继续添加
+				throws RowOutOfBoundsException {
+
+			if (CollectionUtils.isEmpty(read) || null == read) {
+				throw new RowOutOfBoundsException("current row=" + row
+						+ ",read's null " );
 			}
-			return delta;
+			if (row >= read.size()) {
+				throw new RowOutOfBoundsException("current row=" + row
+						+ ",read's size=" + read.size());
+			}
+			column = WTStringUtils.underlineToCamel(column);
+			Object delta = read.get(row).get(column);
+			if (delta instanceof String) {
+				return delta;
+			}
+
+			return null;
+
 		}
+
 	}
 }
