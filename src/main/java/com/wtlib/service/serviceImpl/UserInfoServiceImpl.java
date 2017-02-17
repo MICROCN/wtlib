@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.wtlib.pojo.UserInfo;
+import com.wtlib.pojo.UserWebDto;
 import com.wtlib.service.UserInfoService;
 
 /**
@@ -51,7 +52,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 	}
 
 	@Override
-	public UserInfo find(Object str) {
+	public UserWebDto find(Object str) {
 		// TODO Auto-generated method stub
 		return null;
 	}

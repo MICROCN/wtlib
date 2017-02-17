@@ -1,6 +1,7 @@
 package com.wtlib.service;
 
 import com.wtlib.pojo.User;
+import com.wtlib.pojo.UserWebDto;
 
 /**
  * ClassName: UserService
@@ -14,7 +15,7 @@ public interface UserService extends BaseService<User> {
 
 	public int update(User user) throws Exception;
 
-	public User find(String user) throws Exception;
+	public UserWebDto find(String user) throws Exception;
 
 	public void delete(String id) throws Exception;
 

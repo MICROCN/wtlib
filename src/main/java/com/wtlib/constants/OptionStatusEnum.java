@@ -1,13 +1,11 @@
 package com.wtlib.constants;
 
 public enum OptionStatusEnum {
-	OPTION_FALSE("0", "选择假"), OPENT_TRUE("1", "选择真"),OPTION_NULL(null,"不选择");
-	private String code;
+	OPTION_FALSE("0", "选择假"), OPENT_TRUE("1", "选择真"), OPTION_NULL(null, "不选择");
 
+	private String code;
 	private final String value;
 
-	
-	
 	OptionStatusEnum(String code, String v) {
 		this.code = code;
 		value = v;
@@ -47,7 +45,7 @@ public enum OptionStatusEnum {
 		}
 		throw new IllegalArgumentException(code + "");
 	}
-	
+
 	public static void main(String[] args) {
 		System.out.println(OptionStatusEnum.OPENT_TRUE.getCode());
 	}

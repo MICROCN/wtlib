@@ -13,7 +13,7 @@ public class UserInfo extends BaseEntity {
 
 	private Integer userId;
 
-	private String currentCreditLevel;
+	private Integer currentCreditLevel;
 
 	private Integer currentCreditValue;
 	
@@ -33,6 +33,10 @@ public class UserInfo extends BaseEntity {
 
 	public void setUserId(Integer userId) {
 		this.userId = userId;
+	}
+
+	public void setCurrentCreditLevel(Integer currentCreditLevel) {
+		this.currentCreditLevel = currentCreditLevel;
 	}
 
 	public String getCurrentCreditLevel() {

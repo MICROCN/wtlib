@@ -45,7 +45,15 @@ public class Message {
 		this.msg=msg;
 		this.data=data;
 	}
-	
+
+	/**
+	 * 返回成功消息
+	 * @param content 内容
+	 * @return 成功消息
+	 */
+	public static Message success(int code, String content, Object data) {
+		return new Message(code, content, data);
+	}
 
 	/**
 	 * 返回成功消息

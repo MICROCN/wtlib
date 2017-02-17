@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.wtlib.dao.UserMapper;
 import com.wtlib.pojo.User;
+import com.wtlib.pojo.UserWebDto;
 import com.wtlib.service.UserService;
 
 @Service("userService")
@@ -27,8 +28,8 @@ public class UserServiceImpl implements UserService {
 		return 0;
 	}
 
-	public User find(String user) {
-		return new User();
+	public UserWebDto find(String user) {
+		return new UserWebDto();
 	}
 
 	public void delete(String id) throws Exception {
