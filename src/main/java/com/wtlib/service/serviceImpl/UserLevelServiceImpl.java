@@ -50,4 +50,10 @@ public class UserLevelServiceImpl implements UserLevelService {
 		return 0;
 	}
 
+	@Override
+	public UserLevel find(Object str) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

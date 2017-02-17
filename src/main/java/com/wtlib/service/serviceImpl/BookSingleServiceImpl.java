@@ -50,4 +50,10 @@ public class BookSingleServiceImpl implements BookSingleService {
 		return 0;
 	}
 
+	@Override
+	public BookSingle find(Object str) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

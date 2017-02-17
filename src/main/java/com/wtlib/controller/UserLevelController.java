@@ -11,6 +11,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.Message;
+import com.alibaba.fastjson.JSON;
+import com.wtlib.constants.Code;
+import com.wtlib.pojo.UserInfo;
+import com.wtlib.pojo.UserWebDto;
+import com.wtlib.service.UserInfoService;
+import com.wtlib.service.UserLevelService;
+
 /**
  * @Description: TODO
  * @author pohoulong
@@ -22,6 +30,8 @@ public class UserLevelController {
 	@Resource(name= "userLevelService")
 	private UserLevelService uerLevelService;
 
+	@Resource(name= "userInfoService")
+	private UserInfoService userInfoService;
 	Logger log = Logger.getLogger(UserController.class);
 	
 	@RequestMapping("/add")

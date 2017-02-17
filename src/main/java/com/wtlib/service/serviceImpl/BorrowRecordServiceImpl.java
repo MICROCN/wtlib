@@ -50,4 +50,10 @@ public class BorrowRecordServiceImpl implements BorrowRecordService {
 		return 0;
 	}
 
+	@Override
+	public BorrowRecord find(Object str) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

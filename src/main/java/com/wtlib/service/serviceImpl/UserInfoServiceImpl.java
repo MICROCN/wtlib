@@ -52,7 +52,13 @@ public class UserInfoServiceImpl implements UserInfoService {
 	}
 
 	@Override
-	public UserWebDto find(Object str) {
+	public UserInfo find(Object str) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public UserWebDto find(String username) {
 		// TODO Auto-generated method stub
 		return null;
 	}

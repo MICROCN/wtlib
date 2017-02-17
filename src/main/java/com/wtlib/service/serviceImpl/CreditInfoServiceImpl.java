@@ -50,4 +50,10 @@ public class CreditInfoServiceImpl implements CreditInfoService {
 		return 0;
 	}
 
+	@Override
+	public CreditInfo find(Object str) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

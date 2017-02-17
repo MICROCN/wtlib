@@ -51,4 +51,10 @@ public class FeedBackServiceImpl implements FeedBackService {
 		return 0;
 	}
 
+	@Override
+	public FeedBack find(Object str) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
