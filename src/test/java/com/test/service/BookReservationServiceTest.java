@@ -1,4 +1,4 @@
-package com.test.service;
+﻿package com.test.service;
 
 import static org.mockito.Mockito.*;
 import static org.junit.Assert.*;
@@ -103,7 +103,8 @@ public class BookReservationServiceTest extends BaseDaoTest {
 
 	@Test
 	@DataSet("/dataSetXls/BookReservationService/insertNewBookReservation.xls")
-//	@ExpectedDataSet("/dataSetXls/BookReservationService/insertNewBookReservation.expect.xls")、、、
+//	@ExpectedDataSet("/dataSetXls/BookReservationService/insertNewBookReservation.expect.xls"）师傅帅
+
 	public void testInsertNewBookReservation() {
 		try {
 			List<BookReservation> brS = XlsDataSetBeanFactory.createBeans(
