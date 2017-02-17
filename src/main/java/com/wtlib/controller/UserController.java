@@ -4,6 +4,7 @@ package com.wtlib.controller;
 import java.util.Date;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
@@ -21,6 +22,7 @@ import com.wtlib.constants.Code;
 import com.wtlib.constants.DataStatusEnum;
 import com.wtlib.pojo.User;
 import com.wtlib.pojo.UserInfo;
+import com.wtlib.pojo.UserWebDto;
 import com.wtlib.service.UserInfoService;
 import com.wtlib.service.UserService;
 
@@ -36,7 +38,6 @@ import com.wtlib.service.UserService;
 public class UserController {
 	
 	@Resource(name= "userService") UserService userService;
-	@Resource(name= "userInfoService") UserInfoService userInfoService;
 	
 	Logger log = Logger.getLogger(UserController.class);
 	
@@ -44,8 +45,7 @@ public class UserController {
 	@ResponseBody
 	public Message addUser(@RequestBody User user,HttpSession session){
 		String id= session.getAttribute("id").toString();//以后会改
-		user.setCreator(Integer.parseInt(id));
-		user.setDataStatus("001");
+		user.setCreator(new Integer(id));
 		String password = user.getPassword();
 		if(password==null){
 			return Message.error(Code.PARAMATER, "不得为空");
@@ -70,7 +70,7 @@ public class UserController {
 	
 	@RequestMapping("/delete")
 	@ResponseBody
-	public Message deleteUser(@RequestParam("id") int id){
+	public Message deleteUser(@RequestParam("id") Integer id){
 		try {
 			userService.deleteById(id);
 			return Message.success("删除成功", Code.SUCCESS);
@@ -82,9 +82,10 @@ public class UserController {
 	
 	@RequestMapping("/update")
 	@ResponseBody
-	public Message updateUser(@RequestBody User user,HttpSession session){
+	public Message updateUser(@RequestBody User user,HttpServletRequest session){
 		String password = user.getPassword();
 		String loginId = user.getLoginId();
+		String id= session.getAttribute("id").toString();//以后会改
 		if(loginId==null){
 			return Message.error(Code.PARAMATER, "不得为空");
 		}
@@ -106,31 +107,28 @@ public class UserController {
 		if(loginId.matches("^.*[\\s]+.*$")){
 			return Message.error(Code.PARAMATER, "账号不能包含空格、制表符、换页符等空白字符");
 		}
-		user.setUpdateTime(new Date());
-		String id= session.getAttribute("id").toString();//以后会改
-		user.setReviser(Integer.parseInt(id));
 		try {
+			user.setReviser(new Integer(id));
 			userService.update(user);
 			return Message.success("更新成功", Code.SUCCESS);
 		} catch (Exception e) {
-			log.error(JSON.toJSONString(id)+"\n\t"+e.toString());
+			log.error(JSON.toJSONString(user)+"\n\t"+e.toString());
 			return Message.error(Code.ERROR_CONNECTION, "无法查询数据");
 		}
 	}
-	
+
 	@RequestMapping("/find")
-	@ResponseBody
-	public Message findUser(@RequestBody UserInfo userInfo){
-		String username = userInfo.getUsername();
-		if(username== null){
-			return Message.error(Code.PARAMATER, "不得为空");
+	public Message findUser(@RequestBody User user){
+		String loginId= user.getLoginId();
+		if(loginId== null){
+			return Message.error(Code.PARAMATER, "账号为空");
 		}
 		try {
-			userInfoService.find(username);
-			return Message.success("删除成功", Code.SUCCESS);
+			UserWebDto dto= userService.find(loginId);
+			return Message.success(Code.SUCCESS, "查找成功", dto);
 		} catch (Exception e) {
-			log.error(JSON.toJSONString(userInfo)+"\n\t"+e.toString());
+			log.error(JSON.toJSONString(user)+"\n\t"+e.toString());
 			return Message.error(Code.ERROR_CONNECTION, "无法查询数据");
-		} 
+		}
 	}
 }
