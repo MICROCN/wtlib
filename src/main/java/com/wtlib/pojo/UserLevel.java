@@ -13,7 +13,7 @@ public class UserLevel extends BaseEntity {
 
 	private String levelName;
 
-	private String levelMinCreditValue;
+	private Integer levelMinCreditValue;
 
 	private Double levelWeight;
 
@@ -35,13 +35,12 @@ public class UserLevel extends BaseEntity {
 		this.levelName = levelName == null ? null : levelName.trim();
 	}
 
-	public String getLevelMinCreditValue() {
+	public Integer getLevelMinCreditValue() {
 		return levelMinCreditValue;
 	}
 
-	public void setLevelMinCreditValue(String levelMinCreditValue) {
-		this.levelMinCreditValue = levelMinCreditValue == null ? null
-				: levelMinCreditValue.trim();
+	public void setLevelMinCreditValue(Integer levelMinCreditValue) {
+		this.levelMinCreditValue = levelMinCreditValue;
 	}
 
 	public Double getLevelWeight() {

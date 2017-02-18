@@ -3,6 +3,7 @@ package com.wtlib.controller;
 import java.util.Date;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
@@ -18,6 +19,7 @@ import com.wtlib.constants.Code;
 import com.wtlib.pojo.UserInfo;
 import com.wtlib.pojo.UserWebDto;
 import com.wtlib.service.UserInfoService;
+import com.wtlib.util.IpUtils;
 
 
 /**
@@ -35,7 +37,7 @@ public class UserInfoController {
 	
 	@RequestMapping("/add")
 	@ResponseBody
-	public Message addUser(@RequestBody UserInfo userInfo,HttpSession session){
+	public Message addUserInfo(@RequestBody UserInfo userInfo,HttpSession session){
 		String id= session.getAttribute("id").toString();//以后会改
 		userInfo.setCreator(new Integer(id));
 		String username = userInfo.getUsername();
@@ -56,7 +58,7 @@ public class UserInfoController {
 	
 	@RequestMapping("/delete")
 	@ResponseBody
-	public Message deleteUser(@RequestParam("id") Integer id){
+	public Message deleteUserInfo(@RequestParam("id") Integer id){
 		try {
 			userInfoService.deleteById(id);
 			return Message.success("删除成功", Code.SUCCESS);
@@ -68,12 +70,23 @@ public class UserInfoController {
 	
 	@RequestMapping("/update")
 	@ResponseBody
-	public Message updateUser(@RequestBody UserInfo userInfo,HttpSession session){
+	public Message updateUserInfo(@RequestBody UserInfo userInfo,HttpSession session,HttpServletRequest request){
 		String username = userInfo.getUsername();
-		if(username==null){
-			return Message.error(Code.PARAMATER, "不得为空");
-		}
+		//下面是为了防止有人恶意篡改等级和积分，只要他们传过来为空即可。
+		Integer level= userInfo.getCurrentCreditLevel();
+		Integer value= userInfo.getCurrentCreditValue();
 		String id= session.getAttribute("id").toString();//以后会改
+		if(username==null){
+			//恶意侵入，记录ip，并禁止其再次登录
+			String ip= IpUtils.getIp(request);
+			log.error("ip:"+JSON.toJSON(ip)+"\n\t username:"+userInfo.getUsername()+"\n\t id:"+id);
+			return Message.error(Code.FATAL_ERROR, "别搞事情",ip);
+		}
+		if(level!=null&&value!=null){
+			String ip= IpUtils.getIp(request);
+			log.error("ip:"+JSON.toJSON(ip)+"\n\t username:"+userInfo.getUsername()+"\n\t id："+id);
+			return Message.error(Code.FATAL_ERROR, "别搞事情",ip);
+		}
 		try {
 			userInfo.setReviser(new Integer(id));
 			userInfoService.update(userInfo);
@@ -86,7 +99,7 @@ public class UserInfoController {
 	
 	@RequestMapping("/find")
 	@ResponseBody
-	public Message findUser(@RequestBody UserInfo userInfo){
+	public Message findUserInfo(@RequestBody UserInfo userInfo){
 		String username = userInfo.getUsername();
 		if(username== null){
 			return Message.error(Code.PARAMATER, "不得为空");

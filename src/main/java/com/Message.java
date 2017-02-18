@@ -135,5 +135,4 @@ public class Message {
 	public static Message error() {
 		return new Message(Code.FAIL, "操作失败");
 	}
-
 }
