@@ -16,4 +16,10 @@ import com.wtlib.service.BookReservationService;
 public class BookReservationController {
 	@Autowired
 	private BookReservationService bookReservationService;
+
+	@RequestMapping("/test")
+	public String testController(String userName, String password) {
+		return "aaa";
+
+	}
 }
