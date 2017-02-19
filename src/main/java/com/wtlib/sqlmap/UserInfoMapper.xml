@@ -1,33 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.wtlib.dao.UserInfoMapper">
-	<resultMap id="UserInfoMap" type="com.wtlib.pojo.UserInfo">
-		<id column="id" property="id" jdbcType="INTEGER" />
-		<result column="user_id" property="userId" jdbcType="INTEGER" />
-		<result column="current_credit_level" property="currentCreditLevel"
-			jdbcType="CHAR" />
-		<result column="current_credit_value" property="currentCreditValue"
-			jdbcType="INTEGER" />
-		<result column="creator" property="creator" jdbcType="INTEGER" />
-		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-		<result column="reviser" property="reviser" jdbcType="INTEGER" />
-		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
-		<result column="data_status" property="dataStatus" jdbcType="CHAR" />
-	</resultMap>
-	<sql id="comList">
-		id, user_id, current_credit_level, current_credit_value,
-		creator,
-		create_time, reviser,
-		update_time, data_status
-	</sql>
-	<select id="selectById" resultMap="UserInfoMap" parameterType="java.lang.Integer">
-		select
-		<include refid="comList" />
-		from t_user_info
-		where id = #{id,jdbcType=INTEGER}
-	</select>
-	<delete id="deleteById" parameterType="java.lang.Integer">
-	</delete>
+
+	<update id="deleteById" parameterType="java.lang.Integer">
+		UPDATE t_user_info,
+		 t_user
+		SET t_user_info.data_status = "000",
+		 t_user.data_status = "000"
+		WHERE
+			t_user_info.user_id = #{id}
+		AND t_user.id = t_user_info.user_id
+	</update>
 
 	<insert id="insert" parameterType="com.wtlib.pojo.UserInfo">
 		insert into t_user_info
@@ -51,7 +34,7 @@
 			<if test="updateTime != null">
 				update_time,
 			</if>
-			<if test="dataStatus != null">
+			<if test="dataStatus == null">
 				data_status,
 			</if>
 			create_time
@@ -77,7 +60,7 @@
 				#{updateTime,jdbcType=TIMESTAMP},
 			</if>
 			<if test="dataStatus != null">
-				#{dataStatus,jdbcType=CHAR},
+				#{001,jdbcType=CHAR},
 			</if>
 			now()
 		</trim>
@@ -112,5 +95,25 @@
 		</set>
 		where id = #{id,jdbcType=INTEGER}
 	</update>
-
+	
+  <select id="selectByUsername" parameterType="java.lang.String">
+	  SELECT
+		username,
+		login_id as loginId,
+		current_credit_value as currentCreditValue,
+		level_name as currentCreditLevel,
+		t_user.creator,
+		t_user.create_time as createTime,
+		t_user.reviser as reviser,
+		t_user.update_time as updateTime,
+		t_user.data_status as dataStatus
+	FROM
+		t_user,
+		t_user_info,
+		t_user_level
+	WHERE
+		username=#{username}
+	AND t_user.id = user_id
+	AND user_level_id = t_user_level.id;
+  </select>
 </mapper>

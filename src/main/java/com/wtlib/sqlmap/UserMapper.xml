@@ -1,33 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.wtlib.dao.UserMapper" >
-  <resultMap id="UserMap" type="com.wtlib.pojo.User" >
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="login_id" property="loginId" jdbcType="VARCHAR" />
-    <result column="password" property="password" jdbcType="VARCHAR" />
-    <result column="creator" property="creator" jdbcType="INTEGER" />
-    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="reviser" property="reviser" jdbcType="INTEGER" />
-    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
-    <result column="data_status" property="dataStatus" jdbcType="CHAR" />
-  </resultMap>
-  <sql id="comList" >
-    id, login_id, password, creator, create_time, reviser, update_time, data_status
-  </sql>
-  <select id="selectById" resultMap="UserMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="comList" />
-    from t_user
-    where id = #{id,jdbcType=INTEGER}
-  </select>
+
+  <update id="deleteById" parameterType="java.lang.Integer" >
+	UPDATE t_user_info,
+	 t_user
+	SET t_user_info.data_status = "000",
+	 t_user.data_status = "000"
+	WHERE
+		t_user.id = #{id}
+	AND t_user_info.user_id = t_user.id
+  </update>
   
-  <select id="selectByLoginId" resultMap="UserMap" parameterType="java.lang.String">
-  	select * from t_user where login_id=#{loginId}
-  </select>
-  
-  <delete id="deleteById" parameterType="java.lang.Integer" >
-   
-  </delete>
   <insert id="insert" parameterType="com.wtlib.pojo.User" >
     insert into t_user
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -47,7 +31,7 @@
       <if test="updateTime != null" >
         update_time,
       </if>
-      <if test="dataStatus != null" >
+      <if test="dataStatus == null" >
         data_status,
       </if>
         create_time
@@ -70,13 +54,13 @@
         #{updateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="dataStatus != null" >
-        #{dataStatus,jdbcType=CHAR},
+        #{001,jdbcType=CHAR},
       </if>
         now()
     </trim>
   </insert>
   
-  <update id="updateById" parameterType="com.wtlib.pojo.User" >
+  <update id="update" parameterType="com.wtlib.pojo.User" >
     update t_user
     <set >
       <if test="loginId != null" >
@@ -102,4 +86,24 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   
+  <select id="selectByLoginId" parameterType="java.lang.String">
+	  SELECT
+		username,
+		login_id as loginId,
+		current_credit_value as currentCreditValue,
+		level_name as currentCreditLevel,
+		t_user.creator,
+		t_user.create_time as createTime,
+		t_user.reviser as reviser,
+		t_user.update_time as updateTime,
+		t_user.data_status as dataStatus
+	FROM
+		t_user,
+		t_user_info,
+		t_user_level
+	WHERE
+		login_id = #{loginId}
+	AND t_user.id = user_id
+	AND user_level_id = t_user_level.id;
+  </select>
 </mapper>

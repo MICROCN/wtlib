@@ -101,7 +101,7 @@ public class UserInfoController {
 		}
 		try {
 			UserWebDto dto = userInfoService.find(username);
-			return Message.success("删除成功", Code.SUCCESS);
+			return Message.success("查找成功", Code.SUCCESS);
 		} catch (Exception e) {
 			log.error(JSON.toJSONString(userInfo)+"\n\t"+e.toString());
 			return Message.error(Code.ERROR_CONNECTION, "无法查询数据");

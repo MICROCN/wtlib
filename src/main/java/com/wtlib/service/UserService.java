@@ -16,11 +16,7 @@ public interface UserService extends BaseService<User> {
 	public int update(User user) throws Exception;
 
 	public UserWebDto find(String user) throws Exception;
-
-	public void delete(String id) throws Exception;
-
-	public User getUserByLoginId(String loginId) throws Exception;
-
+	
 	public Integer confirm(User user) throws Exception;
 
 }
