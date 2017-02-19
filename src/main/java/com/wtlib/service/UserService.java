@@ -21,4 +21,6 @@ public interface UserService extends BaseService<User> {
 
 	public User getUserByLoginId(String loginId) throws Exception;
 
+	public Integer confirm(User user) throws Exception;
+
 }

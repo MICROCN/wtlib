@@ -72,4 +72,9 @@ public class UserServiceImpl implements UserService {
 		return null;
 	}
 
+	@Override
+	public Integer confirm(User user) {
+		return null;
+	}
+
 }

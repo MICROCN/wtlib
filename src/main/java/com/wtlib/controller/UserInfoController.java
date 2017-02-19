@@ -45,7 +45,7 @@ public class UserInfoController {
 			return Message.error(Code.PARAMATER, "不得为空");
 		}
 		if(username.matches("^.*[\\s]+.*$")){
-			return Message.error(Code.PARAMATER, "昵称不能包含空格、制表符、换页符等空白字符");
+			return Message.error(Code.PARAMATER, "用户名不能包含空格、制表符、换页符等空白字符");
 		}
 		try {
 			userInfoService.insert(userInfo);
@@ -76,15 +76,10 @@ public class UserInfoController {
 		Integer level= userInfo.getCurrentCreditLevel();
 		Integer value= userInfo.getCurrentCreditValue();
 		String id= session.getAttribute("id").toString();//以后会改
-		if(username==null){
+		if(username==null||level!=null&&value!=null){
 			//恶意侵入，记录ip，并禁止其再次登录
 			String ip= IpUtils.getIp(request);
 			log.error("ip:"+JSON.toJSON(ip)+"\n\t username:"+userInfo.getUsername()+"\n\t id:"+id);
-			return Message.error(Code.FATAL_ERROR, "别搞事情",ip);
-		}
-		if(level!=null&&value!=null){
-			String ip= IpUtils.getIp(request);
-			log.error("ip:"+JSON.toJSON(ip)+"\n\t username:"+userInfo.getUsername()+"\n\t id："+id);
 			return Message.error(Code.FATAL_ERROR, "别搞事情",ip);
 		}
 		try {

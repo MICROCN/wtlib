@@ -89,13 +89,7 @@ public class UserController {
 		String password = user.getPassword();
 		String loginId = user.getLoginId();
 		String id = session.getAttribute("id").toString();// 以后会改
-		if (loginId == null) {
-			return Message.error(Code.PARAMATER, "不得为空");
-		}
-		if (password == null) {
-			return Message.error(Code.PARAMATER, "不得为空");
-		}
-		if (password == null) {
+		if (loginId == null||password == null) {
 			return Message.error(Code.PARAMATER, "不得为空");
 		}
 		if (password.matches("^.*[\\s]+.*$")) {
