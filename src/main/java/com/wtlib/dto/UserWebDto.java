@@ -1,4 +1,4 @@
-package com.wtlib.pojo;
+package com.wtlib.dto;
 
 public class UserWebDto {
 

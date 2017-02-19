@@ -20,9 +20,9 @@ import com.alibaba.fastjson.JSON;
 import com.wtlib.constants.Code;
 import com.wtlib.constants.CommonConstant;
 import com.wtlib.pojo.User;
-import com.wtlib.pojo.request.LoginVo;
 import com.wtlib.service.UserService;
 import com.wtlib.util.IpUtils;
+import com.wtlib.vo.LoginVo;
 
 /**
  * @author pohoulong

@@ -2,7 +2,7 @@ package com.wtlib.service;
 
 import java.util.List;
 
-import com.wtlib.pojo.UserWebDto;
+import com.wtlib.dto.UserWebDto;
 /**
  * 服务类基类
  * ClassName: BaseService

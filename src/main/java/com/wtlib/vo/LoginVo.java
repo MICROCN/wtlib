@@ -1,4 +1,4 @@
-package com.wtlib.pojo.request;
+package com.wtlib.vo;
 
 public class LoginVo {
 	
