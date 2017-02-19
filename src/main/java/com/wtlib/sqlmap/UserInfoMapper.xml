@@ -2,6 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.wtlib.dao.UserInfoMapper">
 
+	<resultMap id="UserInfoMap" type="com.wtlib.pojo.UserInfo">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="user_id" property="userId" jdbcType="INTEGER" />
+		<result column="current_credit_level" property="currentCreditLevel"
+			jdbcType="CHAR" />
+		<result column="current_credit_value" property="currentCreditValue"
+			jdbcType="INTEGER" />
+		<result column="creator" property="creator" jdbcType="INTEGER" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="reviser" property="reviser" jdbcType="INTEGER" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="data_status" property="dataStatus" jdbcType="CHAR" />
+	</resultMap>
+	
 	<update id="deleteById" parameterType="java.lang.Integer">
 		UPDATE t_user_info,
 		 t_user
@@ -96,7 +110,7 @@
 		where id = #{id,jdbcType=INTEGER}
 	</update>
 	
-  <select id="selectByUsername" parameterType="java.lang.String">
+  <select id="selectByUsername" parameterType="java.lang.String" resultType = "com.wtlib.dto.UserWebDto">
 	  SELECT
 		username,
 		login_id as loginId,

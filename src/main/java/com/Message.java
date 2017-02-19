@@ -1,5 +1,7 @@
 package com;
 
+import java.util.List;
+
 import com.wtlib.constants.Code;
 
 
@@ -54,7 +56,7 @@ public class Message {
 	public static Message success(int code, String content, Object data) {
 		return new Message(code, content, data);
 	}
-
+	
 	/**
 	 * 返回成功消息
 	 * @param content 内容

@@ -52,7 +52,7 @@ public class UserInfoController {
 			return Message.success("插入成功", Code.SUCCESS);
 		} catch (Exception e) {
 			log.error(JSON.toJSONString(userInfo)+"\n\t"+e.toString());
-			return Message.error(Code.ERROR_CONNECTION, "无法查询数据");
+			return Message.error(Code.ERROR_CONNECTION, "无法插入数据");
 		}
 	}
 	
@@ -64,7 +64,7 @@ public class UserInfoController {
 			return Message.success("删除成功", Code.SUCCESS);
 		} catch (Exception e) {
 			log.error(JSON.toJSONString(id)+"\n\t"+e.toString());
-			return Message.error(Code.ERROR_CONNECTION, "无法查询数据");
+			return Message.error(Code.ERROR_CONNECTION, "无法删除数据");
 		}
 	}
 	
@@ -88,7 +88,7 @@ public class UserInfoController {
 			return Message.success("更新成功", Code.SUCCESS);
 		} catch (Exception e) {
 			log.error(JSON.toJSONString(userInfo)+"\n\t"+e.toString());
-			return Message.error(Code.ERROR_CONNECTION, "无法查询数据");
+			return Message.error(Code.ERROR_CONNECTION, "无法更改数据");
 		}
 	}
 	

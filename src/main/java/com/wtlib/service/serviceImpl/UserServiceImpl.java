@@ -57,17 +57,19 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	public Integer confirm(User user) {
+		Integer id= userMapper.confirm(user);
+		Assert.isTrue(id!=null,"查无此人！");
+		return id;
+	}
+	
+	@Override
 	public List<User> selectAll() throws Exception {
 		return userMapper.selectAll();
 	}
 
 	@Override
 	public User find(Object str) {
-		return null;
-	}
-
-	@Override
-	public Integer confirm(User user) {
 		return null;
 	}
 

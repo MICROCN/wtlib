@@ -62,7 +62,7 @@ public class LoginController extends BaseController {
 		}
 		User user = new User(loginId,password);
 		try {
-			Integer id= (Integer) userService.confirm(user);
+			Integer id= userService.confirm(user);
 			if(id!=null){
 				session.setAttribute("user", id);//这里不安全。肯定要改。要么用https要么就加密
 				session.setMaxInactiveInterval(60*30);
