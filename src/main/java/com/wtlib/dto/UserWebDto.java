@@ -1,6 +1,8 @@
-package com.wtlib.pojo;
+package com.wtlib.dto;
 
-public class UserWebDto {
+import com.wtlib.pojo.BaseEntity;
+
+public class UserWebDto extends BaseEntity{
 
 	private String loginId;
 	

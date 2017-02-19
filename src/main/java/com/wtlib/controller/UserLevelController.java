@@ -1,5 +1,7 @@
 package com.wtlib.controller;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.Message;
 import com.alibaba.fastjson.JSON;
 import com.wtlib.constants.Code;
+import com.wtlib.dto.UserWebDto;
 import com.wtlib.pojo.UserLevel;
 import com.wtlib.service.UserLevelService;
 import com.wtlib.util.IpUtils;
@@ -29,7 +32,7 @@ import com.wtlib.util.IpUtils;
 public class UserLevelController {
 	
 	@Resource(name= "userLevelService")
-	private UserLevelService uerLevelService;
+	private UserLevelService userLevelService;
 	
 	Logger log = Logger.getLogger(UserController.class);
 	
@@ -56,11 +59,11 @@ public class UserLevelController {
 		}
 		try {
 			value = new Integer((int) (weight*1200));//value的只由weight算出来的。这里假定为1200
-			uerLevelService.insert(userLevel);
+			userLevelService.insert(userLevel);
 			return Message.success("插入成功", Code.SUCCESS);
 		} catch (Exception e) {
 			log.error(JSON.toJSONString(userLevel)+"\n\t"+e.toString());
-			return Message.error(Code.ERROR_CONNECTION, "无法查询数据");
+			return Message.error(Code.ERROR_CONNECTION, "无法增加数据");
 		}
 	}
 	
@@ -68,11 +71,11 @@ public class UserLevelController {
 	@ResponseBody
 	public Message deleteLevel(@RequestParam("id") Integer id){
 		try {
-			uerLevelService.deleteById(id);
+			userLevelService.deleteById(id);
 			return Message.success("删除成功", Code.SUCCESS);
 		} catch (Exception e) {
 			log.error(JSON.toJSONString(id)+"\n\t"+e.toString());
-			return Message.error(Code.ERROR_CONNECTION, "无法查询数据");
+			return Message.error(Code.ERROR_CONNECTION, "无法删除数据");
 		}
 	}
 	
@@ -98,13 +101,24 @@ public class UserLevelController {
 		}
 		try {
 			userLevel.setReviser(new Integer(id));
-			uerLevelService.update(userLevel);
+			userLevelService.update(userLevel);
 			return Message.success("更新成功", Code.SUCCESS);
 		} catch (Exception e) {
 			log.error(JSON.toJSONString(userLevel)+"\n\t"+e.toString());
-			return Message.error(Code.ERROR_CONNECTION, "无法查询数据");
+			return Message.error(Code.ERROR_CONNECTION, "无法更新数据");
 		}
 	}
 	
+	@RequestMapping("/find")
+	@ResponseBody
+	public Message findLevel(){
+		try {
+			List<UserLevel> userLevelList = userLevelService.selectAll();
+			return Message.success(Code.SUCCESS, "查找成功" , userLevelList);
+		} catch (Exception e) {
+			log.error(e.toString());
+			return Message.error(Code.ERROR_CONNECTION, "无法查询数据");
+		} 
+	}
 	
 }

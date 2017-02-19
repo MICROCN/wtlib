@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.wtlib.dao.UserLevelMapper" >
+
   <resultMap id="UserLevelMap" type="com.wtlib.pojo.UserLevel" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="level_name" property="levelName" jdbcType="VARCHAR" />
-    <result column="level_min_credit_value" property="levelMinCreditValue" jdbcType="VARCHAR" />
-    <result column="level_weight" property="levelWeight" jdbcType="DOUBLE" />
+    <result column="level_min_credit_value" property="levelMinCreditValue" jdbcType="INTEGER" />
+    <result column="level_weight" property="levelWeight" jdbcType="double" />
     <result column="level_desc" property="levelDesc" jdbcType="VARCHAR" />
     <result column="creator" property="creator" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
@@ -13,18 +14,13 @@
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="data_status" property="dataStatus" jdbcType="CHAR" />
   </resultMap>
-  <sql id="comList" >
-    id, level_name, level_min_credit_value, level_weight, level_desc, creator, create_time, 
-    reviser, update_time, data_status
-  </sql>
-  <select id="selectById" resultMap="UserLevelMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="comList" />
-    from t_user_level
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteById" parameterType="java.lang.Integer" >
 
+	<select id="selectAll" resultMap="UserLevelMap">
+		select * from t_user_level
+	</select>
+
+  <delete id="deleteById" parameterType="java.lang.Integer" >
+	UPDATE t_user_level SET data_status = "000" WHERE id = 1
   </delete>
  
   <insert id="insert" parameterType="com.wtlib.pojo.UserLevel" >
@@ -81,11 +77,12 @@
         #{updateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="dataStatus != null" >
-        #{dataStatus,jdbcType=CHAR},
+        #{"001",jdbcType=CHAR},
       </if>
         now()
     </trim>
   </insert>
+  
   <update id="updateById" parameterType="com.wtlib.pojo.UserLevel" >
     update t_user_level
     <set >

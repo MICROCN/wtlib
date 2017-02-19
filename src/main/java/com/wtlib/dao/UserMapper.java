@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.wtlib.dto.UserWebDto;
 import com.wtlib.pojo.User;
 
 /**
@@ -14,5 +15,7 @@ public interface UserMapper extends BaseDao<User> {
 
 	void save(User user);
 
-	List<User> selectByLoginId(@Param("loginId") String loginId);
+	UserWebDto selectByLoginId(@Param("loginId") String loginId);
+	
+	Integer confirm(User user);
 }

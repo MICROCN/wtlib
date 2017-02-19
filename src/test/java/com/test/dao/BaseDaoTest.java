@@ -39,8 +39,8 @@ public class BaseDaoTest extends UnitilsJUnit4 {
 	// @Test
 	@DataSet("/dataSetXml/BaseDaoTest-findUserById.xml")
 	public void findUserById() throws Exception {
-		List<User> user = userMapper.selectByLoginId("jc");
-		assertNotNull(user);
-		System.out.println(JSON.toJSONString(user));
+//		List<User> user = userMapper.selectByLoginId("jc");
+//		assertNotNull(user);
+//		System.out.println(JSON.toJSONString(user));
 	}
 }

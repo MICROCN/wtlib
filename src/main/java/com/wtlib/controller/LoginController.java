@@ -20,9 +20,9 @@ import com.alibaba.fastjson.JSON;
 import com.wtlib.constants.Code;
 import com.wtlib.constants.CommonConstant;
 import com.wtlib.pojo.User;
-import com.wtlib.pojo.request.LoginVo;
 import com.wtlib.service.UserService;
 import com.wtlib.util.IpUtils;
+import com.wtlib.vo.LoginVo;
 
 /**
  * @author pohoulong
@@ -62,7 +62,7 @@ public class LoginController extends BaseController {
 		}
 		User user = new User(loginId,password);
 		try {
-			Integer id= (Integer) userService.confirm(user);
+			Integer id= userService.confirm(user);
 			if(id!=null){
 				session.setAttribute("user", id);//这里不安全。肯定要改。要么用https要么就加密
 				session.setMaxInactiveInterval(60*30);

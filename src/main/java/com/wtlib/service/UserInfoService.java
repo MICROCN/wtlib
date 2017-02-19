@@ -1,7 +1,7 @@
 package com.wtlib.service;
 
+import com.wtlib.dto.UserWebDto;
 import com.wtlib.pojo.UserInfo;
-import com.wtlib.pojo.UserWebDto;
 
 /**
  * @Description: TODO
@@ -11,4 +11,6 @@ import com.wtlib.pojo.UserWebDto;
 public interface UserInfoService extends BaseService<UserInfo> {
 	
 	public UserWebDto find(String username);
+	
+	
 }
