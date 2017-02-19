@@ -6,16 +6,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import com.wtlib.dao.UserInfoMapper;
 import com.wtlib.dao.UserMapper;
 import com.wtlib.dto.UserWebDto;
 import com.wtlib.pojo.User;
+import com.wtlib.pojo.UserInfo;
 import com.wtlib.service.UserService;
 
 @Service("userService")
 public class UserServiceImpl implements UserService {
 	@Autowired
 	UserMapper userMapper;
-
+	@Autowired
+	UserInfoMapper userInfoMapper;
 	public int update(User user)  throws Exception{
 		int num = userMapper.update(user);
 		Assert.isTrue(num!=0,"修改失败");
@@ -38,9 +41,13 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public int insert(User entity) throws Exception {
-		int num= userMapper.insert(entity);
-		Assert.isTrue(num!=0,"插入失败！");
+	public int insert(User user) throws Exception {
+		String loginId = user.getLoginId();
+		Integer creator= user.getCreator();
+		UserInfo userInfo = new UserInfo(creator,loginId);
+		int count= userInfoMapper.insert(userInfo);
+		int num= userMapper.insert(user);
+		Assert.isTrue(num!=0&&count!=0,"插入失败！");
 		return num;
 	}
 

@@ -35,27 +35,6 @@ public class UserInfoController {
 	
 	Logger log = Logger.getLogger(UserController.class);
 	
-	@RequestMapping("/add")
-	@ResponseBody
-	public Message addUserInfo(@RequestBody UserInfo userInfo,HttpSession session){
-		String id= session.getAttribute("id").toString();//以后会改
-		userInfo.setCreator(new Integer(id));
-		String username = userInfo.getUsername();
-		if(username==null){
-			return Message.error(Code.PARAMATER, "不得为空");
-		}
-		if(username.matches("^.*[\\s]+.*$")){
-			return Message.error(Code.PARAMATER, "用户名不能包含空格、制表符、换页符等空白字符");
-		}
-		try {
-			userInfoService.insert(userInfo);
-			return Message.success("插入成功", Code.SUCCESS);
-		} catch (Exception e) {
-			log.error(JSON.toJSONString(userInfo)+"\n\t"+e.toString());
-			return Message.error(Code.ERROR_CONNECTION, "无法插入数据");
-		}
-	}
-	
 	@RequestMapping("/delete")
 	@ResponseBody
 	public Message deleteUserInfo(@RequestParam("id") Integer id){

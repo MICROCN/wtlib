@@ -19,6 +19,13 @@ public class UserInfo extends BaseEntity {
 	
 	private String username;
 
+	public UserInfo(Integer userId,String username){
+		this.userId = userId;
+		this.username = username;
+		currentCreditLevel = 1;
+		currentCreditValue = 0;
+	}
+	
 	public Integer getId() {
 		return id;
 	}
