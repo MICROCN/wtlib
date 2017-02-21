@@ -26,21 +26,19 @@ public class UserInfoServiceImpl implements UserInfoService {
 	@Override
 	public int insert(UserInfo entity) throws Exception {
 		int num= userInfoMapper.insert(entity);
-		Assert.isTrue(num!=0,"插入失败");
 		return num;
 	}
 
 	@Override
 	public UserWebDto find(String username) {	
 		UserWebDto user= userInfoMapper.selectByUsername(username);
-		Assert.isTrue(user!=null,"查无此人！");
+		Assert.isTrue(user!=null,"查无此人");
 		return user;
 	}
 	
 	@Override
 	public int update(UserInfo entity) throws Exception {
 		int num= userInfoMapper.update(entity);
-		Assert.isTrue(num!=0,"更新失败");
 		return num;
 	}
 
@@ -49,7 +47,6 @@ public class UserInfoServiceImpl implements UserInfoService {
 	public int deleteById(Object id) throws Exception {
 		//delete不仅要把userInfo表的status设为000还要把user表的status设为000
 		int num= userInfoMapper.deleteById(id);
-		Assert.isTrue(num!=0,"删除失败");
 		return num;
 	}
 	

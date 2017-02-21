@@ -29,7 +29,7 @@ import com.wtlib.vo.LoginVo;
  * 
  */
 @Controller
-public class LoginController extends BaseController {
+public class LoginController {
 	
 	@Resource(name= "userService")
 	private UserService userService;

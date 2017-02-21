@@ -1,5 +1,7 @@
 package com.wtlib.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
 import com.wtlib.pojo.BookBase;
@@ -9,6 +11,5 @@ import com.wtlib.pojo.BookBase;
  * @date 2017年1月21日 下午6:16:26
  */
 public interface BookBaseMapper extends BaseDao<BookBase> {
-
-	public Integer reservationBookByUser(@Param("userId") Integer userId);
+	List<BookBase> findByTitle(String Title);
 }

@@ -21,7 +21,6 @@ public class UserServiceImpl implements UserService {
 	UserInfoMapper userInfoMapper;
 	public int update(User user)  throws Exception{
 		int num = userMapper.update(user);
-		Assert.isTrue(num!=0,"修改失败");
 		return num;
 	}
 
@@ -36,7 +35,6 @@ public class UserServiceImpl implements UserService {
 	public int deleteById(Object id) throws Exception {
 		//delete不仅要把userInfo表的status设为000还要把user表的status设为000
 		int num= userMapper.deleteById(id);
-		Assert.isTrue(num!=0,"删除失败！");
 		return num;
 	}
 	
@@ -47,7 +45,6 @@ public class UserServiceImpl implements UserService {
 		UserInfo userInfo = new UserInfo(creator,loginId);
 		int count= userInfoMapper.insert(userInfo);
 		int num= userMapper.insert(user);
-		Assert.isTrue(num!=0&&count!=0,"插入失败！");
 		return num;
 	}
 
@@ -59,20 +56,20 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User selectById(Object id) throws Exception {
 		User user= userMapper.selectById(id);
-		Assert.isTrue(user!=null,"查无此人！");
 		return user;
 	}
 
 	@Override
 	public Integer confirm(User user) {
 		Integer id= userMapper.confirm(user);
-		Assert.isTrue(id!=null,"查无此人！");
 		return id;
 	}
 	
 	@Override
 	public List<User> selectAll() throws Exception {
-		return userMapper.selectAll();
+		List<User> userList= userMapper.selectAll();
+		Assert.isTrue(userList!=null,"找不到用户信息");
+		return userList;
 	}
 
 	@Override

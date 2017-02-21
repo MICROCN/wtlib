@@ -23,28 +23,24 @@ public class UserLevelServiceImpl implements UserLevelService {
 	@Override
 	public int insert(UserLevel entity) throws Exception {
 		int num= userLevelMapper.insert(entity);
-		Assert.isTrue(num!=0,"插入失败");
 		return num;
 	}
 
 	@Override
 	public int update(UserLevel entity) throws Exception {
 		int num= userLevelMapper.update(entity);
-		Assert.isTrue(num!=0,"更新失败");
 		return num;
 	}
 
 	@Override
 	public List<UserLevel> selectAll() throws Exception {
-		List<UserLevel> level= userLevelMapper.selectAll();
-		Assert.isTrue(level!=null,"查找不到数据！");
-		return level;
+		List<UserLevel> levelList= userLevelMapper.selectAll();
+		return levelList;
 	}
 	
 	@Override
 	public int deleteById(Object id) throws Exception {
 		int num= userLevelMapper.deleteById(id);
-		Assert.isTrue(num!=0,"删除失败");
 		return num;
 	}
 	

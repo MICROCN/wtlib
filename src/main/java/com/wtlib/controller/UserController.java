@@ -45,9 +45,9 @@ public class UserController {
 	@ResponseBody
 	public Message addUser(@RequestBody User user, HttpSession session) {
 		String id = session.getAttribute("id").toString();// 以后会改
-		user.setCreator(new Integer(id));
 		String password = user.getPassword();
-		if (password == null) {
+		String loginId = user.getLoginId();
+		if (loginId == null||password == null) {
 			return Message.error(Code.PARAMATER, "不得为空");
 		}
 		if (password.matches("^.*[\\s]+.*$")) {
@@ -62,6 +62,10 @@ public class UserController {
 						.matches("^([a-z0-9A-Z]+[-|_|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$")) {
 			return Message.error(Code.PARAMATER, "邮箱不正确");
 		}
+		if (loginId.matches("^.*[\\s]+.*$")) {
+			return Message.error(Code.PARAMATER, "账号不能包含空格、制表符、换页符等空白字符");
+		}
+		user.setCreator(new Integer(id));
 		try {
 			userService.insert(user);
 			return Message.success("插入成功", Code.SUCCESS);
