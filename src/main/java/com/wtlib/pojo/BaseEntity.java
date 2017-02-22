@@ -21,6 +21,9 @@ public class BaseEntity extends Page {
 
 	private String dataStatus;
 
+	public BaseEntity(){}
+
+	
 	public Integer getCreator() {
 		return creator;
 	}

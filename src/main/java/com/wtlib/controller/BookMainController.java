@@ -2,11 +2,13 @@ package com.wtlib.controller;
 
 import java.util.List;
 
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,25 +16,32 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.Message;
 import com.alibaba.fastjson.JSON;
 import com.wtlib.constants.Code;
-import com.wtlib.dto.UserWebDto;
 import com.wtlib.pojo.BookBase;
-import com.wtlib.pojo.User;
+import com.wtlib.pojo.BookBaseSupport;
+import com.wtlib.pojo.BookSingle;
 import com.wtlib.service.BookBaseService;
+import com.wtlib.service.BookBaseSupportService;
+import com.wtlib.service.BookSingleService;
+import com.wtlib.service.serviceImpl.BookReservationServiceImpl;
+import com.wtlib.util.IpUtils;
 
-/**
- * @Description: TODO
- * @author zongzi
- * @date 2017年1月22日 下午2:26:54
- */
-@Controller
-@RequestMapping("/bookbase")
-public class BookBaseController {
-	@Autowired
+public class BookMainController {
+	
+	@Resource(name = "/bookBaseSupportServiceImpl")
+	BookBaseSupportService BaseSupportService;
+	
+	@Resource(name = "/bookBaseService")
 	private BookBaseService baseService;
 	
-	Logger log = Logger.getLogger(BookBaseController.class);
+	@Resource(name = "bookReservationService")
+	private BookReservationServiceImpl reservationService;
 	
-	@RequestMapping("/add")
+	@Resource(name = "bookSingleService")
+	private BookSingleService singleService;
+	
+	Logger log = Logger.getLogger(BookMainController.class);
+	//BookBase
+	@RequestMapping("/add/book")
 	public Message addBook(@RequestBody BookBase book,HttpSession session){
 		//这里只列举了几个重要的进行判断。比如图书描述、图书价格等没有强制要求（当当网也是没有强制要求）
 		String title= book.getBookTitle();
@@ -63,7 +72,7 @@ public class BookBaseController {
 		return Message.success("添加成功");
 	}
 	
-	@RequestMapping("/delete")
+	@RequestMapping("/delete/book")
 	public Message deleteBook(@RequestParam("id") Integer id){
 		try {
 			baseService.deleteById(id);
@@ -74,7 +83,7 @@ public class BookBaseController {
 		}
 	}
 	
-	@RequestMapping("/update")
+	@RequestMapping("/update/book")
 	public Message updateBook(@RequestBody BookBase book,HttpSession session){
 		String title= book.getBookTitle();
 		String url= book.getBookCoverUrl();
@@ -92,6 +101,8 @@ public class BookBaseController {
 		if(publicsher==null){
 			return Message.error(Code.PARAMATER, "出版商不得为空！");
 		}
+		String id = session.getAttribute("id").toString();// 以后会改
+		book.setReviser(new Integer(id));
 		try {
 			baseService.update(book);
 			return Message.success("更新成功");
@@ -101,7 +112,7 @@ public class BookBaseController {
 		}
 	}
 	
-	@RequestMapping("/find")
+	@RequestMapping("/find/book")
 	public Message findBook(@RequestBody BookBase book) {
 		String title = book.getBookTitle();
 		if (title == null) {
@@ -116,7 +127,7 @@ public class BookBaseController {
 		}
 	}
 	
-	@RequestMapping("/get")
+	@RequestMapping("/get/book")
 	public Message getBook() {
 		try {
 			List<BookBase> bookList = baseService.selectAll();
@@ -125,6 +136,47 @@ public class BookBaseController {
 			log.error(e.toString());
 			return Message.error(Code.ERROR_CONNECTION, "找不到书籍！");
 		}
+	}
+	
+	//bookbasesupport
+	@RequestMapping("/get/support")
+	public Message getBook(@RequestParam("id") Integer id) {
+		try {
+			BookBaseSupport book = BaseSupportService.selectById(id);
+			return Message.success(Code.SUCCESS, "查找成功", book);
+		} catch (Exception e) {
+			log.error("id:"+id+"\n\t"+e.toString());
+			return Message.error(Code.ERROR_CONNECTION, "找不到书籍！");
+		}
+	}
+	
+	//BookBorrow
+	@RequestMapping("/update/borrow")
+	public Message borrow(List<BookSingle> bookList,HttpSession session,HttpServletRequest request){
+		String id = session.getAttribute("id").toString();// 以后会改
+		for(BookSingle book : bookList){
+			book.setReviser(new Integer(id));
+			String hash = book.getBookHash();
+			book.setCurrentOwner(new Integer(id));
+			if(hash!=null){
+				//恶意侵入，记录ip，并禁止其再次登录
+				String ip= IpUtils.getIp(request);
+				log.error("ip:"+JSON.toJSON(ip)+"\n\t");
+				return Message.error(Code.FATAL_ERROR, "别搞事情",ip);
+			}
+			try {
+				singleService.update(book);
+			} catch (Exception e) {
+				log.error("book:"+JSON.toJSONString(book)+"\n\t"+e.toString());
+				return Message.error(Code.ERROR_CONNECTION, "找不到书籍！");
+			}
+		}
+		return Message.success("借阅成功");
+	}
+	
+	@RequestMapping("/update/back")
+	public Message back(List<BookSingle> bookSingle){
+		return Message.success("归还成功");
 	}
 	
 }

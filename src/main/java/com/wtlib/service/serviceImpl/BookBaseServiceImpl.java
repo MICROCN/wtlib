@@ -45,10 +45,13 @@ public class BookBaseServiceImpl implements BookBaseService {
 	public int insert(BookBase entity) throws Exception {
 		Integer id= bookBaseMapper.insert(entity);
 		Integer num= entity.getBook_num();
-		BookBaseSupport support = new BookBaseSupport(id, "1" , "1", num, 0, num);
+		Integer creator = entity.getCreator();
+		BookBaseSupport support = new BookBaseSupport(id, "0" , "1", num, 0, num);
+		support.setCreator(creator);
 		bookBaseSupportMapper.insert(support);
 		for(int i =0; i<num; i++){
 			BookSingle bookSingle = new BookSingle(id,"id"+UUID.randomUUID());
+			bookSingle.setCreator(creator);
 			bookSingleMapper.insert(bookSingle);
 		}
 		return id;
@@ -65,8 +68,10 @@ public class BookBaseServiceImpl implements BookBaseService {
 	@Override
 	public int update(BookBase entity) throws Exception {
 		int num= entity.getBook_num();
+		Integer reviser = entity.getReviser();
 		Integer id= bookBaseMapper.update(entity);
 		BookBaseSupport support = new BookBaseSupport(id, num);
+		support.setReviser(reviser);
 		bookBaseSupportMapper.update(support);
 		return id;
 	}

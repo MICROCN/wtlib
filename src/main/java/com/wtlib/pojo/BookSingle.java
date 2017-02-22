@@ -28,12 +28,9 @@ public class BookSingle extends BaseEntity {
 	public BookSingle(){}
 	
 	public BookSingle(Integer bookBaseId, String bookHash) {
-		super();
 		this.bookBaseId = bookBaseId;
 		this.bookHash = bookHash;
 	}
-
-
 
 	public Integer getId() {
 		return id;

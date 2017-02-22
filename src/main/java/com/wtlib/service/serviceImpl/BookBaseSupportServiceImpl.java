@@ -24,9 +24,22 @@ public class BookBaseSupportServiceImpl implements BookBaseSupportService{
 	}
 	
 	@Override
+	public int deleteById(Object id) throws Exception {
+		Integer num = baseSupportMapper.deleteById(id);
+		return num;
+	}
+
+	@Override
+	public int update(BookBaseSupport entity) throws Exception {
+		Integer num = baseSupportMapper.update(entity);
+		return num;
+	}
+	
+	
+	@Override
 	public int insert(BookBaseSupport entity) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		Integer num = baseSupportMapper.insert(entity);
+		return num;
 	}
 
 	@Override
@@ -42,17 +55,6 @@ public class BookBaseSupportServiceImpl implements BookBaseSupportService{
 		return null;
 	}
 
-	@Override
-	public int deleteById(Object id) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int update(BookBaseSupport entity) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
 	@Override
 	public BookBaseSupport find(Object str) {
