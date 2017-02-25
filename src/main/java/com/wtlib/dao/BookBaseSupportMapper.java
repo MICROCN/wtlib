@@ -3,6 +3,7 @@ package com.wtlib.dao;
 import org.apache.ibatis.annotations.Param;
 
 import com.wtlib.pojo.BookBaseSupport;
+import com.wtlib.pojo.BookSingle;
 
 /**
  * ClassName: BookBaseSupportMapper
@@ -27,4 +28,7 @@ public interface BookBaseSupportMapper extends BaseDao<BookBaseSupport> {
 	 */
 	public Integer updateByBookId(BookBaseSupport bookBaseSupportTemp);
 
+	public Integer back(BookSingle entity);
+
+	public Integer findBaseId(Integer id);
 }

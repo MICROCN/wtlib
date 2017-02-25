@@ -9,4 +9,6 @@ import com.wtlib.pojo.BookSingle;
  */
 public interface BookSingleService extends BaseService<BookSingle> {
 
+	void back(BookSingle entity) throws Exception;
+
 }

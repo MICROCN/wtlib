@@ -7,4 +7,6 @@ import com.wtlib.pojo.CreditRecord;
  * @date 2017年1月21日 下午6:13:48
  */
 public interface CreditRecordMapper extends BaseDao<CreditRecord> {
+
+	CreditRecord selectByUserId(Integer userId);
 }

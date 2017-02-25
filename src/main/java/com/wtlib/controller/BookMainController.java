@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -174,9 +175,17 @@ public class BookMainController {
 		return Message.success("借阅成功");
 	}
 	
-	@RequestMapping("/update/back")
-	public Message back(List<BookSingle> bookSingle){
-		return Message.success("归还成功");
+	@RequestMapping("/update/back/{hash}")
+	public Message back(@PathVariable String hash,HttpSession session){
+		String id = session.getAttribute("id").toString();// 以后会改
+		BookSingle single = new BookSingle(hash,new Integer(id));
+		try {
+			singleService.back(single);
+			return Message.success("归还成功");
+		} catch (Exception e) {
+			log.error("book:"+JSON.toJSONString(hash)+"\n\t"+e.toString());
+			return Message.error(Code.ERROR_CONNECTION, "找不到书籍！");
+		}
 	}
 	
 }
