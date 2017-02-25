@@ -4,7 +4,7 @@ import com.wtlib.dto.UserWebDto;
 import com.wtlib.pojo.UserInfo;
 
 /**
- * @Description: TODO
+ * @Description: 用户信息接口
  * @author zongzi
  * @date 2017年1月22日 下午1:49:47
  */

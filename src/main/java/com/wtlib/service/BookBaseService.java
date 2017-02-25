@@ -6,7 +6,7 @@ import com.wtlib.pojo.BookBase;
 
 /**
  * ClassName: BookBaseService
- * @Description: TODO
+ * @Description: 基础图书服务类接口
  * @author zongzi
  * @date 2017年1月22日 下午1:44:46
  */

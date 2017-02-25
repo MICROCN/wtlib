@@ -16,7 +16,7 @@ public enum RabbitMQAdapter {
 	private String queueName;
 	
 	/**
-	 * @Description: TODO
+	 * @Description: 队列适配器
 	 * @param @param endpointName 消息队列节点名称
 	 * @param @param queueName 消息队列名称
 	 * @author dapengniao

@@ -20,7 +20,7 @@ import com.wtlib.pojo.FeedBack;
 import com.wtlib.service.FeedBackService;
 
 /**
- * @Description: TODO
+ * @Description: 回馈信息控制层
  * @author pohoulong
  * @date 2017年1月22日 下午2:45:10
  */

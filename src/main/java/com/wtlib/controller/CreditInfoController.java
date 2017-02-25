@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.wtlib.service.CreditInfoService;
 
 /**
- * @Description: TODO
+ * @Description: 信用相关控制类
  * @author zongzi
  * @date 2017年1月22日 下午2:39:21
  */

@@ -68,7 +68,7 @@ public class BookSingleServiceImpl implements BookSingleService {
 	}
 	
 	@Override
-	public void back(BookSingle entity) throws Exception {
+	public boolean editReturnBack(BookSingle entity) throws Exception {
 		//查询该归还的书籍信息
 		Integer id = bookBaseSupportMapper.back(entity);
 		Integer baseId = bookBaseSupportMapper.findBaseId(id);
@@ -104,33 +104,31 @@ public class BookSingleServiceImpl implements BookSingleService {
 			Date now = new Date();
 			day = (int) ((now.getTime() - deadLine.getTime()) / (24 * 60 * 60 * 1000)); 
 			credit.setCreator(userId);
-			value = value - day*
-			credit.setCreditBeforeValue(creditBeforeValue);
+			value = value - day*0;
+			credit.setCreditBeforeValue(1);
+			//TODO zongzi 这里是插入操作不是更新操作 
 			creditRecordMapper.update(credit);
 		}
+		return false;
 	}
 
 	@Override
 	public int insertBatch(List<BookSingle> entityList) throws Exception {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public BookSingle selectById(Object id) throws Exception {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public List<BookSingle> selectAll() throws Exception {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public BookSingle find(Object str) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

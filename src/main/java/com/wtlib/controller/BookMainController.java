@@ -180,7 +180,7 @@ public class BookMainController {
 		String id = session.getAttribute("id").toString();// 以后会改
 		BookSingle single = new BookSingle(hash,new Integer(id));
 		try {
-			singleService.back(single);
+			singleService.editReturnBack(single);
 			return Message.success("归还成功");
 		} catch (Exception e) {
 			log.error("book:"+JSON.toJSONString(hash)+"\n\t"+e.toString());

@@ -3,7 +3,7 @@ package com.wtlib.service;
 import com.wtlib.pojo.FeedBack;
 
 /**
- * @Description: TODO
+ * @Description: 回馈类接口
  * @author zongzi
  * @date 2017年1月22日 下午1:49:06
  */

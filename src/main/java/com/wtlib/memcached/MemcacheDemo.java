@@ -12,7 +12,7 @@ public class MemcacheDemo {
 			MemcacheAdapter.MemcacheDemo);
 
 	/**
-	 * @Description: TODO
+	 * @Description: 测试
 	 * @param
 	 * @author dapengniao
 	 * @date 2016年7月4日 下午1:25:09

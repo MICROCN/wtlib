@@ -44,21 +44,18 @@ public class BookBaseSupportServiceImpl implements BookBaseSupportService{
 
 	@Override
 	public int insertBatch(List<BookBaseSupport> entityList) throws Exception {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 
 	@Override
 	public List<BookBaseSupport> selectAll() throws Exception {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 
 	@Override
 	public BookBaseSupport find(Object str) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	

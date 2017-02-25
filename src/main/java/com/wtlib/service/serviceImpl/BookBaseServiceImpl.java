@@ -86,7 +86,6 @@ public class BookBaseServiceImpl implements BookBaseService {
 
 	@Override
 	public List<BookBase> selectAll() throws Exception {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	
@@ -103,7 +102,6 @@ public class BookBaseServiceImpl implements BookBaseService {
 
 	@Override
 	public BookBase find(Object str) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

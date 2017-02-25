@@ -6,7 +6,7 @@ import com.wtlib.dto.UserWebDto;
 /**
  * 服务类基类
  * ClassName: BaseService
- * @Description: TODO
+ * @Description: 基礎服務接口
  * @author zongzi
  * @date 2016年7月27日 上午11:47:45
  */

@@ -1,20 +1,19 @@
 package com.wtlib.constants;
 
-import org.apache.commons.lang.StringUtils;
-
 /**
  * @Description: 数据撞他枚举类
  * @author zongzi
  * @date 2017年1月22日 下午3:10:29
  */
-public enum DataStatusEnum {
-	DELETED("000", "逻辑删除"), NORMAL_USED("001", "正常可用"), EXCEPTION_DATA_REMARK(
-			"100", "不同结果标识");
-	private String code;
+public enum CodeEnum {
+	SUCCESS(10000, "成功"), ERR_PARAM(10001, "参数错误"), FAIL(10002, "系统异常"), ERR_CONNECTION(
+			10003, "数据库连接异常"), FATAL_ERR(10004, "严重错误");
+
+	private int code;
 
 	private final String value;
 
-	DataStatusEnum(String code, String v) {
+	CodeEnum(int code, String v) {
 		this.code = code;
 		value = v;
 	}
@@ -26,7 +25,7 @@ public enum DataStatusEnum {
 	/**
 	 * @return the code
 	 */
-	public String getCode() {
+	public int getCode() {
 		return code;
 	}
 
@@ -34,7 +33,7 @@ public enum DataStatusEnum {
 	 * @param code
 	 *            the code to set
 	 */
-	public void setCode(String code) {
+	public void setCode(int code) {
 		this.code = code;
 	}
 
@@ -45,9 +44,9 @@ public enum DataStatusEnum {
 		return value;
 	}
 
-	public static DataStatusEnum fromCode(String code) {
-		for (DataStatusEnum c : DataStatusEnum.values()) {
-			if (StringUtils.equals(c.getCode(), code)) {
+	public static CodeEnum fromCode(int code) {
+		for (CodeEnum c : CodeEnum.values()) {
+			if (c.getCode() == code) {
 				return c;
 			}
 		}
@@ -55,6 +54,6 @@ public enum DataStatusEnum {
 	}
 
 	public static void main(String[] args) {
-		System.out.println(DataStatusEnum.NORMAL_USED.getCode());
+		System.out.println(CodeEnum.SUCCESS.getCode());
 	}
 }
