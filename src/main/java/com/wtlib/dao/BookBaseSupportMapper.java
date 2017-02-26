@@ -28,7 +28,7 @@ public interface BookBaseSupportMapper extends BaseDao<BookBaseSupport> {
 	 */
 	public Integer updateByBookId(BookBaseSupport bookBaseSupportTemp);
 
-	public Integer back(BookSingle entity);
 
-	public Integer findBaseId(Integer id);
+	public BookBaseSupport findByBaseId(Integer id);
+
 }

@@ -63,7 +63,7 @@ public class BookMainController {
 		}
 		String id = session.getAttribute("id").toString();// 以后会改
 		book.setCreator(new Integer(id));
-		book.setBook_num(0);
+		book.setBookNum(0);
 		try {
 			baseService.insert(book);
 		} catch (Exception e) {
@@ -159,6 +159,7 @@ public class BookMainController {
 			book.setReviser(new Integer(id));
 			String hash = book.getBookHash();
 			book.setCurrentOwner(new Integer(id));
+			book.setReviser(new Integer(id));
 			if(hash!=null){
 				//恶意侵入，记录ip，并禁止其再次登录
 				String ip= IpUtils.getIp(request);

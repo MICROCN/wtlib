@@ -15,6 +15,6 @@ public interface BookSingleService extends BaseService<BookSingle> {
 	 * @return
 	 * @throws Exception
 	 */
-	boolean editReturnBack(BookSingle entity) throws Exception;
+	void editReturnBack(BookSingle entity) throws Exception;
 
 }

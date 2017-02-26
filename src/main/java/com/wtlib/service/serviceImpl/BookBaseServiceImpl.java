@@ -43,15 +43,42 @@ public class BookBaseServiceImpl implements BookBaseService {
 	
 	@Override
 	public int insert(BookBase entity) throws Exception {
-		Integer id= bookBaseMapper.insert(entity);
-		Integer num= entity.getBook_num();
-		Integer creator = entity.getCreator();
-		BookBaseSupport support = new BookBaseSupport(id, "0" , "1", num, 0, num);
-		support.setCreator(creator);
-		bookBaseSupportMapper.insert(support);
+		//插入bookBase表返回bookBase对象，如果没有同类书籍的话自然String是null，所以不用判断他是否存在
+		BookBase book = bookBaseMapper.find(entity);
+		Integer num= entity.getBookNum();
+		Integer id = book.getId();
+		Integer person = entity.getCreator();
+		BookBaseSupport support;
+		if(id != null){
+			Integer currentNum = book.getBookNum()+num;
+			book.setBookNum(currentNum);
+			book.setReviser(person);
+			bookBaseMapper.update(book);
+			//判断,插入bookBaseSupport
+			support = bookBaseSupportMapper.findByBaseId(id);
+			support.setSingleBookNumber(currentNum);
+			Integer currentLeftBook = support.getCurrentLeftBookNumber()+num;
+			support.setCurrentLeftBookNumber(currentLeftBook);
+			support.setReviser(person);
+			Integer reservation = support.getCurrentReservateNumber();
+			support.setIsBorrowAble("1");
+			//如果里面还有人预约，即图书原来现存量是0，则通知他们可以借书了。
+			if(reservation!=null){
+				//TODO 通知预约者可以借书了
+			}
+			bookBaseSupportMapper.update(support);
+		} else{
+			//如果查找不到即没有此类书籍。
+			entity.setStartDate("001");
+			id = bookBaseMapper.insert(entity);
+			support = new BookBaseSupport(id, "0" , "1", num, 0, num);
+			support.setStartDate("001");
+			support.setCreator(person);	
+			bookBaseSupportMapper.insert(support);
+		}
 		for(int i =0; i<num; i++){
 			BookSingle bookSingle = new BookSingle(id,"id"+UUID.randomUUID());
-			bookSingle.setCreator(creator);
+			bookSingle.setCreator(person);
 			bookSingleMapper.insert(bookSingle);
 		}
 		return id;
@@ -67,12 +94,7 @@ public class BookBaseServiceImpl implements BookBaseService {
 	
 	@Override
 	public int update(BookBase entity) throws Exception {
-		int num= entity.getBook_num();
-		Integer reviser = entity.getReviser();
 		Integer id= bookBaseMapper.update(entity);
-		BookBaseSupport support = new BookBaseSupport(id, num);
-		support.setReviser(reviser);
-		bookBaseSupportMapper.update(support);
 		return id;
 	}
 

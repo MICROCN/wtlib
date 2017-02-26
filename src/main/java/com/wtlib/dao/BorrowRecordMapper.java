@@ -9,5 +9,7 @@ import com.wtlib.pojo.BorrowRecord;
 public interface BorrowRecordMapper extends BaseDao<BorrowRecord> {
 
 	Integer findRecord(BorrowRecord record);
+
+	BorrowRecord selectBySingleId(Integer singleId);
 	
 }

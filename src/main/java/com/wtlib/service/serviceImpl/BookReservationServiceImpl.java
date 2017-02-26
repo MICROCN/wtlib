@@ -87,7 +87,7 @@ public class BookReservationServiceImpl implements BookReservationService {
 
 		BookBaseSupport bookBaseSupportTemp = new BookBaseSupport();
 
-		bookBaseSupportTemp.setBookId(bookId);
+		bookBaseSupportTemp.setBookBaseId(bookId);
 
 		bookBaseSupportTemp
 				.setCurrentReservateNumber(currentReservateNumber + 1);

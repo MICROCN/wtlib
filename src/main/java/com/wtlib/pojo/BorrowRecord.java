@@ -24,12 +24,13 @@ public class BorrowRecord extends BaseEntity {
 	private Date returnTime;
 
 	public BorrowRecord(){}
-	
-	public BorrowRecord(Integer bookSingleId, Integer userId){
+
+	public BorrowRecord(Integer bookSingleId, Integer userId, Date borrowDeadLine){
 		this.bookSingleId = bookSingleId;
 		this.userId = userId;
+		this.borrowDeadLine = borrowDeadLine;
 	}
-	
+
 	public Integer getId() {
 		return id;
 	}
