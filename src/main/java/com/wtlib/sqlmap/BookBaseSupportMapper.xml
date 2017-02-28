@@ -20,7 +20,7 @@
 		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
 		<result column="data_status" property="dataStatus" jdbcType="VARCHAR" />
 	</resultMap>
-	  <select id="findByBaseId" parameterType="java.lang.Integer" resultMap="BaseBookSupportMap">
+	  <select id="selectBookBaseSupportByBookBaseId" parameterType="java.lang.Integer" resultMap="BaseBookSupportMap">
 	  		select * from t_book_base_support
 		where book_base_id = #{id,jdbcType=INTEGER}
 	  </select>

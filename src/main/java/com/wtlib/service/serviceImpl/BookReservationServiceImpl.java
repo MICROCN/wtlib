@@ -10,6 +10,7 @@ import org.springframework.util.Assert;
 import com.alibaba.fastjson.JSON;
 import com.wtlib.constants.DataStatusEnum;
 import com.wtlib.constants.OptionStatusEnum;
+import com.wtlib.constants.StatusEnum;
 import com.wtlib.dao.BookBaseSupportMapper;
 import com.wtlib.dao.BookReservationMapper;
 import com.wtlib.pojo.BookBaseSupport;
@@ -68,7 +69,7 @@ public class BookReservationServiceImpl implements BookReservationService {
 		// 检查书本是否可以预约
 		BookBaseSupport bookBaseSupport = bookBaseSupportMapper
 				.selectBookBaseSupportByBookBaseId(bookBaseId,
-						DataStatusEnum.NORMAL_USED.getCode());
+						StatusEnum.COMMONUSE.getCode());
 
 		Assert.isTrue(null != bookBaseSupport, "null bookId");
 

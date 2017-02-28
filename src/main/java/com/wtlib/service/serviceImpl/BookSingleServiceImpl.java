@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import com.wtlib.constants.CreditEnum;
+import com.wtlib.constants.StatusEnum;
 import com.wtlib.dao.BookBaseSupportMapper;
 import com.wtlib.dao.BookSingleMapper;
 import com.wtlib.dao.BorrowRecordMapper;
@@ -68,7 +69,7 @@ public class BookSingleServiceImpl implements BookSingleService {
 	public int update(BookSingle entity) throws Exception {
 		Integer id = entity.getBookBaseId();
 		Integer reviser = entity.getReviser();
-		BookBaseSupport support = bookBaseSupportMapper.findByBaseId(id);
+		BookBaseSupport support = bookBaseSupportMapper.selectBookBaseSupportByBookBaseId(id,StatusEnum.COMMONUSE.getCode());
 		support.setReviser(reviser);
 		Integer book= support.getCurrentLeftBookNumber()-1;
 		Assert.isTrue(book>=0,"无法借阅书！");
@@ -112,7 +113,7 @@ public class BookSingleServiceImpl implements BookSingleService {
 		entity.setLastLendTime(oldUpdateTime);
 		entity.setReviser(nowReviser);
 		//通过book_base_id查询book_base_support对象
-		BookBaseSupport support = bookBaseSupportMapper.findByBaseId(baseId);
+		BookBaseSupport support = bookBaseSupportMapper.selectBookBaseSupportByBookBaseId(baseId,StatusEnum.COMMONUSE.getCode());
 		//将图书设为可借阅，并把剩余可借人数+1，判断是否有预约的人。
 		support.setIsBorrowAble("1");
 		Integer borrowNum = support.getCurrentLeftBookNumber();

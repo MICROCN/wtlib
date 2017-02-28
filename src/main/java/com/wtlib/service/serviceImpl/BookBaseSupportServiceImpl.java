@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import com.wtlib.constants.StatusEnum;
 import com.wtlib.dao.BookBaseSupportMapper;
 import com.wtlib.pojo.BookBaseSupport;
 import com.wtlib.service.BookBaseSupportService;
@@ -18,7 +19,7 @@ public class BookBaseSupportServiceImpl implements BookBaseSupportService{
 	
 	@Override
 	public BookBaseSupport selectByBaseId(Integer id) throws Exception {
-		BookBaseSupport book = baseSupportMapper.findByBaseId(id);
+		BookBaseSupport book = baseSupportMapper.selectBookBaseSupportByBookBaseId(id,StatusEnum.COMMONUSE.getCode());
 		Assert.isTrue(book!=null,"查不到此书籍");
 		return book;
 	}
