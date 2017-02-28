@@ -12,7 +12,6 @@ import org.springframework.util.Assert;
 
 import com.wtlib.constants.CreditEnum;
 import com.wtlib.constants.DataStatusEnum;
-import com.wtlib.constants.StatusEnum;
 import com.wtlib.dao.BookBaseSupportMapper;
 import com.wtlib.dao.BookSingleMapper;
 import com.wtlib.dao.BorrowRecordMapper;
