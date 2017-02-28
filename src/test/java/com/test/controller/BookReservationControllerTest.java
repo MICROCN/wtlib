@@ -2,6 +2,7 @@ package com.test.controller;
 
 import static org.junit.Assert.*;
 
+
 import javax.ws.rs.core.MultivaluedMap;
 
 import org.junit.Test;
@@ -11,7 +12,7 @@ import org.unitils.UnitilsJUnit4;
 import org.unitils.spring.annotation.SpringApplicationContext;
 import org.unitils.spring.annotation.SpringBeanByType;
 
-import com.wtlib.controller.BookReservationController;
+//import com.wtlib.controller.BookReservationController;
 
 @SpringApplicationContext({ "test-spring.xml", "test-spring-mybatis.xml",
 		"test-spring-aop.xml","test-spring-mvc.xml" })
@@ -21,7 +22,7 @@ public class BookReservationControllerTest extends UnitilsJUnit4 {
 	private RestTemplate restTemplate;
 
 	@SpringBeanByType
-	private BookReservationController bookReservationController;
+//	private BookReservationController bookReservationController;
 
 	@Test
 	public void addTest() throws Exception {

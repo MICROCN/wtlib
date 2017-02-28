@@ -16,7 +16,7 @@ import com.alibaba.fastjson.JSON;
 /**
  * 服务层组件 日志切面 ClassName: ServiceAspectUtil
  * 
- * @Description: TODO
+ * @Description: 控制层切面
  * @author zongzi
  * @date 2016年8月22日 上午10:27:49
  */
@@ -51,9 +51,7 @@ public class ControllerAspectUtil {
 	}
 
 	/**
-	 * 配置返回值
-	 * 
-	 * @Description: TODO
+	 * @Description: 配置返回值 
 	 * @param @param jp
 	 * @param @param returnValue
 	 * @author zongzi
@@ -86,9 +84,7 @@ public class ControllerAspectUtil {
 	}
 
 	/**
-	 * 配置异常输出
-	 * 
-	 * @Description: TODO
+	 * @Description: 配置异常输出
 	 * @param @param jp
 	 * @param @param ex
 	 * @author zongzi

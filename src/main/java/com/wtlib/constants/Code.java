@@ -3,7 +3,7 @@ package com.wtlib.constants;
 /**
  * ClassName: Code
  * @Description: 共用参数
- * @author dapengniao
+ * @author zongzi
  * @date 2016年7月20日 上午10:24:50
  */
 public class Code {

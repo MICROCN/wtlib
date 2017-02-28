@@ -6,58 +6,124 @@ import java.util.List;
 
 
 
-import org.springframework.stereotype.Service;
 
+
+
+
+
+
+import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
+
+import com.wtlib.dao.BookBaseMapper;
+import com.wtlib.dao.BookBaseSupportMapper;
+import com.wtlib.dao.BookSingleMapper;
 import com.wtlib.pojo.BookBase;
+import com.wtlib.pojo.BookBaseSupport;
+import com.wtlib.pojo.BookSingle;
 import com.wtlib.service.BookBaseService;
 
 /**
  * @Description: 基础图书处理类
- * @author zongzi
+ * @author pohoulong
  * @date 2017年1月22日 下午1:55:48
  */
 @Service("bookBaseService")
 public class BookBaseServiceImpl implements BookBaseService {
 
+	@Autowired
+	BookBaseMapper bookBaseMapper;
+	@Autowired
+	BookBaseSupportMapper bookBaseSupportMapper;
+	@Autowired
+	BookSingleMapper bookSingleMapper;
+	
 	@Override
 	public int insert(BookBase entity) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		//插入bookBase表返回bookBase对象，如果没有同类书籍的话自然String是null，所以不用判断他是否存在
+		BookBase book = bookBaseMapper.find(entity);
+		Integer num= entity.getBookNum();
+		Integer id = book.getId();
+		Integer person = entity.getCreator();
+		BookBaseSupport support;
+		if(id != null){
+			Integer currentNum = book.getBookNum()+num;
+			book.setBookNum(currentNum);
+			book.setReviser(person);
+			bookBaseMapper.update(book);
+			//判断,插入bookBaseSupport
+			support = bookBaseSupportMapper.findByBaseId(id);
+			support.setSingleBookNumber(currentNum);
+			Integer currentLeftBook = support.getCurrentLeftBookNumber()+num;
+			support.setCurrentLeftBookNumber(currentLeftBook);
+			support.setReviser(person);
+			Integer reservation = support.getCurrentReservateNumber();
+			support.setIsBorrowAble("1");
+			//如果里面还有人预约，即图书原来现存量是0，则通知他们可以借书了。
+			if(reservation!=null){
+				//TODO 通知预约者可以借书了
+			}
+			bookBaseSupportMapper.update(support);
+		} else{
+			//如果查找不到即没有此类书籍。
+			entity.setStartDate("001");
+			id = bookBaseMapper.insert(entity);
+			support = new BookBaseSupport(id, "0" , "1", num, 0, num);
+			support.setStartDate("001");
+			support.setCreator(person);	
+			bookBaseSupportMapper.insert(support);
+		}
+		for(int i =0; i<num; i++){
+			BookSingle bookSingle = new BookSingle(id,"id"+UUID.randomUUID());
+			bookSingle.setCreator(person);
+			bookSingleMapper.insert(bookSingle);
+		}
+		return id;
 	}
 
 	@Override
-	public int insertBatch(List<BookBase> entityList) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+	public int deleteById(Object id) throws Exception {
+		int num=bookBaseMapper.deleteById(id);
+		bookBaseSupportMapper.deleteById(id);
+		bookSingleMapper.deleteById(id);
+		return num;
+	}
+	
+	@Override
+	public int update(BookBase entity) throws Exception {
+		Integer id= bookBaseMapper.update(entity);
+		return id;
 	}
 
+	
 	@Override
-	public BookBase selectById(Object id) throws Exception {
-		// TODO Auto-generated method stub
+	public List<BookBase> find(String title) {
+		List bookBase =bookBaseMapper.findByTitle(title);
+		Assert.isTrue(bookBase!=null,"查询不到此书！");
 		return null;
 	}
 
 	@Override
 	public List<BookBase> selectAll() throws Exception {
-		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public BookBase selectById(Object id) throws Exception {
 		return null;
 	}
 
+	
 	@Override
-	public int deleteById(Object id) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int update(BookBase entity) throws Exception {
-		// TODO Auto-generated method stub
+	public int insertBatch(List<BookBase> entityList) throws Exception {
 		return 0;
 	}
 
 	@Override
 	public BookBase find(Object str) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

@@ -13,7 +13,7 @@ public class BookBaseSupport extends BaseEntity implements Serializable {
 
 	private Integer id;
 
-	private Integer bookId;
+	private Integer bookBaseId;
 
 	private String isReservateAble;
 
@@ -24,6 +24,22 @@ public class BookBaseSupport extends BaseEntity implements Serializable {
 	private Integer currentReservateNumber;
 
 	private Integer singleBookNumber;
+	
+	public BookBaseSupport(){}
+	
+	
+
+	public BookBaseSupport(Integer bookBaseId, String isReservateAble, String isBorrowAble,
+			Integer currentLeftBookNumber, int currentReservateNumber, Integer singleBookNumber) {
+		this.bookBaseId = bookBaseId;
+		this.isReservateAble = isReservateAble;
+		this.isBorrowAble = isBorrowAble;
+		this.currentLeftBookNumber = currentLeftBookNumber;
+		this.currentReservateNumber = currentReservateNumber;
+		this.singleBookNumber = singleBookNumber;
+	}
+
+
 
 	public Integer getId() {
 		return id;
@@ -32,14 +48,20 @@ public class BookBaseSupport extends BaseEntity implements Serializable {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
-	public Integer getBookId() {
-		return bookId;
+	
+	
+	
+	public Integer getBookBaseId() {
+		return bookBaseId;
 	}
 
-	public void setBookId(Integer bookId) {
-		this.bookId = bookId;
+
+
+	public void setBookBaseId(Integer bookBaseId) {
+		this.bookBaseId = bookBaseId;
 	}
+
+
 
 	public String getIsReservateAble() {
 		return isReservateAble;

@@ -32,7 +32,7 @@
   
   </delete>
   
-  <insert id="insert" parameterType="com.wtlib.pojo.BookBase" >
+  <insert id="insert" parameterType="com.wtlib.pojo.BookBase" keyProperty="id">
     insert into t_book_base
     <trim prefix="(" suffix=")" suffixOverrides="," >
      

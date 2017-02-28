@@ -87,7 +87,7 @@ public class BookReservationServiceImpl implements BookReservationService {
 
 		BookBaseSupport bookBaseSupportTemp = new BookBaseSupport();
 
-		bookBaseSupportTemp.setBookId(bookId);
+		bookBaseSupportTemp.setBookBaseId(bookId);
 
 		bookBaseSupportTemp
 				.setCurrentReservateNumber(currentReservateNumber + 1);
@@ -123,7 +123,6 @@ public class BookReservationServiceImpl implements BookReservationService {
 
 	@Override
 	public BookReservation find(Object str) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

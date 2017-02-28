@@ -8,7 +8,7 @@ import com.wtlib.pojo.FeedBack;
 import com.wtlib.service.FeedBackService;
 
 /**
- * @Description: TODO
+ * @Description: 反馈类实现类
  * @author zongzi
  * @date 2017年1月22日 下午2:06:49
  */

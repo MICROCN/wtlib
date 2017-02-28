@@ -3,6 +3,7 @@ package com.wtlib.dao;
 import org.apache.ibatis.annotations.Param;
 
 import com.wtlib.pojo.BookBaseSupport;
+import com.wtlib.pojo.BookSingle;
 
 /**
  * ClassName: BookBaseSupportMapper
@@ -26,5 +27,8 @@ public interface BookBaseSupportMapper extends BaseDao<BookBaseSupport> {
 	 * @date 2017年2月15日 下午1:56:11
 	 */
 	public Integer updateByBookId(BookBaseSupport bookBaseSupportTemp);
+
+
+	public BookBaseSupport findByBaseId(Integer id);
 
 }

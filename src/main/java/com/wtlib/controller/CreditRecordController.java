@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.wtlib.service.CreditRecordSrevice;
 
 /**
- * @Description: TODO
+ * @Description: 新哟记录控制层
  * @author zongzi
  * @date 2017年1月22日 下午2:42:44
  */

@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.alibaba.druid.util.StringUtils;
 import com.wtlib.constants.CommonConstant;
-import com.wtlib.controller.BaseController;
+//import com.wtlib.controller.BaseController;
 import com.wtlib.pojo.User;
 
 public class ForumFilter implements Filter {
@@ -34,20 +34,20 @@ public class ForumFilter implements Filter {
 		} else {
 			request.setAttribute(FILTERD_REQUEST, Boolean.TRUE);
 			HttpServletRequest httpSerletRequest = (HttpServletRequest) request;
-			User userContext = BaseController.getSessionUser(httpSerletRequest);
-			if (userContext == null
-					&& !isURILogin(httpSerletRequest.getRequestURI(),
-							httpSerletRequest)) {
-				String toUrl = httpSerletRequest.getRequestURL().toString();
-				if (!StringUtils.isEmpty(httpSerletRequest.getQueryString())) {
-					toUrl += "?" + httpSerletRequest.getQueryString();
-				}
-				httpSerletRequest.getSession().setAttribute(
-						CommonConstant.LOGIN_TO_URL, toUrl);
-				
+//			User userContext = BaseController.getSessionUser(httpSerletRequest);
+//			if (userContext == null
+//					&& !isURILogin(httpSerletRequest.getRequestURI(),
+//							httpSerletRequest)) {
+//				String toUrl = httpSerletRequest.getRequestURL().toString();
+//				if (!StringUtils.isEmpty(httpSerletRequest.getQueryString())) {
+//					toUrl += "?" + httpSerletRequest.getQueryString();
+////				}
+//				httpSerletRequest.getSession().setAttribute(
+//						CommonConstant.LOGIN_TO_URL, toUrl);
+//				
 				request.getRequestDispatcher("/login.html").forward(request, response);
-				return;
-			}
+//				return;
+//			}
 			chain.doFilter(request, response);
 		}
 	}

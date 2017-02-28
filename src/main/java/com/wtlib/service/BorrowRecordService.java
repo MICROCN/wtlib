@@ -3,9 +3,10 @@ package com.wtlib.service;
 import com.wtlib.pojo.BorrowRecord;
 
 /**
- * @Description: TODO
- * @author zongzi
- * @date 2017年1月22日 下午1:47:00
+ * 
+ * 借阅记录服务
+ * @author ed
+ *
  */
 public interface BorrowRecordService extends BaseService<BorrowRecord> {
 

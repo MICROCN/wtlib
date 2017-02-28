@@ -27,14 +27,7 @@ import org.dbunit.dataset.ITable;
 /**
  * ClassName: ExeclUtil
  * 
- * @Description: excel操作
- * @author dapengniao
- * @date 2016年5月9日 下午3:53:39
- */
-/**
- * ClassName: ExeclUtil
- * 
- * @Description: TODO
+ * @Description: 表格操作工具
  * @author zongzi
  * @date 2017年2月17日 下午2:47:05
  */
@@ -354,13 +347,13 @@ public class ExeclUtil {
 				String columName = columNames.get(c);// 获得列名
 				Cell cell = row.getCell(c);
 				Object cellValue = getCellValue(cell);
-				
+
 				if (null != cellValue) {
 					notNullFlag = true;
 				}
 				props.put(columName, cellValue);
 			}
-			if(notNullFlag){
+			if (notNullFlag) {
 				dataLst.add(props);
 			}
 		}
