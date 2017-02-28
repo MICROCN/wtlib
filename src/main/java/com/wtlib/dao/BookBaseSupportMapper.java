@@ -31,4 +31,6 @@ public interface BookBaseSupportMapper extends BaseDao<BookBaseSupport> {
 
 	public BookBaseSupport findByBaseId(Integer id);
 
+	public void deleteByBaseId(Integer id);
+
 }

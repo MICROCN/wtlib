@@ -75,8 +75,21 @@ public class BookMainController {
 	
 	@RequestMapping("/delete/book")
 	public Message deleteBook(@RequestParam("id") Integer id){
-		try {
+		//传入的是singleid。
+		try { 
 			baseService.deleteById(id);
+			return Message.success("删除成功");
+		} catch (Exception e) {
+			log.error(JSON.toJSONString(id) + "\n\t" + e.toString());
+			return Message.error(Code.ERROR_CONNECTION, "无法删除数据");
+		}
+	}
+	
+	@RequestMapping("/delete/allbook")
+	public Message deleteAllBook(@RequestParam("id") Integer id){
+		//传入的是base_id。
+		try {
+			baseService.deleteByBaseId(id);
 			return Message.success("删除成功");
 		} catch (Exception e) {
 			log.error(JSON.toJSONString(id) + "\n\t" + e.toString());

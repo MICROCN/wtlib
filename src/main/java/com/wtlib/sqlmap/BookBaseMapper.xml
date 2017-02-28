@@ -22,6 +22,7 @@
     book_price, creator, book_num, create_time, reviser, update_time, 
     data_status
   </sql>
+  
   <select id="selectById" resultMap="BookBaseMap" parameterType="java.lang.Integer" >
     select 
     <include refid="comList" />
@@ -29,7 +30,7 @@
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteById" parameterType="java.lang.Integer" >
-  
+  	
   </delete>
   
   <insert id="insert" parameterType="com.wtlib.pojo.BookBase" keyProperty="id">
@@ -115,7 +116,7 @@
       now()
     </trim>
   </insert>
-  <update id="updateById" parameterType="com.wtlib.pojo.BookBase" >
+  <update id="update" parameterType="com.wtlib.pojo.BookBase" >
     update t_book_base
     <set >
       <if test="bookTitle != null" >

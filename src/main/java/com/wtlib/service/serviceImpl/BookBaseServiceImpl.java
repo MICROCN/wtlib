@@ -1,18 +1,10 @@
-package com.wtlib.service.serviceImpl;
+﻿package com.wtlib.service.serviceImpl;
 
 
 import java.util.List;
-
-
-
-
-
-
-
-
-
-
 import java.util.UUID;
+
+import javax.persistence.Entity;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -86,10 +78,35 @@ public class BookBaseServiceImpl implements BookBaseService {
 
 	@Override
 	public int deleteById(Object id) throws Exception {
-		int num=bookBaseMapper.deleteById(id);
-		bookBaseSupportMapper.deleteById(id);
-		bookSingleMapper.deleteById(id);
+		//update booksingleMapper通过singleMap找到bookBaseid
+		int num=bookSingleMapper.deleteById(id);
+		BookSingle single = bookSingleMapper.findById(id);
+		Integer baseId = single.getBookBaseId();
+	 	BookBaseSupport support = bookBaseSupportMapper.findByBaseId(baseId);
+		Integer singleBookNum = support.getSingleBookNumber();
+		if(singleBookNum==0)
+			deleteByBaseId(baseId);
+		else
+			support.setSingleBookNumber(singleBookNum);
+	 	Integer currentBookNum = support.getCurrentLeftBookNumber() - 1;
+	 	if(currentBookNum == 0){
+	 		support.setIsReservateAble("1");
+	 		support.setIsBorrowAble("0");
+	 	}
+	 	support.setCurrentLeftBookNumber(currentBookNum);
+		bookBaseSupportMapper.update(support);
+		BookBase base = new BookBase();
+		base.setBookNum(singleBookNum);
+		base.setId(baseId);
+		bookBaseMapper.update(base);
 		return num;
+	}
+	
+	@Override
+	public void deleteByBaseId(Integer id) throws Exception {
+		bookBaseMapper.deleteById(id);
+		bookBaseSupportMapper.deleteByBaseId(id);
+		bookSingleMapper.deleteByBaseId(id);
 	}
 	
 	@Override
@@ -126,5 +143,6 @@ public class BookBaseServiceImpl implements BookBaseService {
 	public BookBase find(Object str) {
 		return null;
 	}
+
 
 }

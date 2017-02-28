@@ -10,4 +10,8 @@ import com.wtlib.pojo.BookSingle;
  */
 public interface BookSingleMapper extends BaseDao<BookSingle> {
 	public BookSingle findByHash(BookSingle single);
+
+	public BookSingle findById(Object id);
+
+	public void deleteByBaseId(Integer id);
 }

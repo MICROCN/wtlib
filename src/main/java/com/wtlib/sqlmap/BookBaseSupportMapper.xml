@@ -3,7 +3,7 @@
 <mapper namespace="com.wtlib.dao.BookBaseSupportMapper">
 	<resultMap id="BaseBookSupportMap" type="com.wtlib.pojo.BookBaseSupport">
 		<id column="id" property="id" jdbcType="INTEGER" />
-		<result column="book_id" property="bookId" jdbcType="INTEGER" />
+		<result column="book_base_id" property="bookBaseId" jdbcType="INTEGER" />
 		<result column="is_reservate_able" property="isReservateAble"
 			jdbcType="CHAR" />
 		<result column="is_borrow_able" property="isBorrowAble"
@@ -20,33 +20,20 @@
 		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
 		<result column="data_status" property="dataStatus" jdbcType="VARCHAR" />
 	</resultMap>
-	<sql id="comList">
-		id, book_id, is_reservate_able, is_borrow_able,
-		current_left_book_number,
-		current_reservate_number,
-		single_book_number,
-		creator, create_time, reviser, update_time, data_status
-	</sql>
 
+
+	  <select id="findByBaseId" parameterType="java.lang.Integer">
+	  		select * from t_book_base_support
+		where book_base_id = #{id,jdbcType=INTEGER}
+	  </select>
 
 	<select id="selectById" resultMap="BaseBookSupportMap"
 		parameterType="java.lang.Integer">
-		select
-		<include refid="comList" />
-		from t_book_base_support
-		where id = #{id,jdbcType=INTEGER}
+		
 	</select>
 	<delete id="deleteById" parameterType="java.lang.Integer">
 
 	</delete>
-	<select id="selectBookBaseSupportByBookId" resultMap="BaseBookSupportMap">
-
-		select
-		<include refid="comList" />
-		from t_book_base_support where book_id=#{bookId} and
-		data_status=#{dataStatus}
-
-	</select>
 	<insert id="insert" parameterType="com.wtlib.pojo.BookBaseSupport">
 		insert into t_book_base_support
 		<trim prefix="(" suffix=")" suffixOverrides=",">
