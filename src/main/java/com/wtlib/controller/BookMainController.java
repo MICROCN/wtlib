@@ -155,8 +155,9 @@ public class BookMainController {
 	//bookbasesupport
 	@RequestMapping("/get/support")
 	public Message getBook(@RequestParam("id") Integer id) {
+		//传入的是baseid
 		try {
-			BookBaseSupport book = BaseSupportService.selectById(id);
+			BookBaseSupport book = BaseSupportService.selectByBaseId(id);
 			return Message.success(Code.SUCCESS, "查找成功", book);
 		} catch (Exception e) {
 			log.error("id:"+id+"\n\t"+e.toString());
@@ -202,4 +203,15 @@ public class BookMainController {
 		}
 	}
 	
+	@RequestMapping("/update/reservation")
+	public Message reservation(@RequestParam("id") Integer id, HttpSession session){
+		String userId = session.getAttribute("id").toString();// 以后会改
+		try {
+			reservationService.insertNewBookReservation(id, new Integer(userId));
+			return Message.success("借阅成功");
+		} catch (Exception e) {
+			log.error("book:"+JSON.toJSONString(id)+"\n\t"+e.toString());
+			return Message.error(Code.ERROR_CONNECTION, "借阅失败！");
+		}
+	}
 }

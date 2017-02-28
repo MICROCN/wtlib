@@ -17,8 +17,8 @@ public class BookBaseSupportServiceImpl implements BookBaseSupportService{
 	BookBaseSupportMapper baseSupportMapper;
 	
 	@Override
-	public BookBaseSupport selectById(Object id) throws Exception {
-		BookBaseSupport book = baseSupportMapper.selectById(id);
+	public BookBaseSupport selectByBaseId(Integer id) throws Exception {
+		BookBaseSupport book = baseSupportMapper.findByBaseId(id);
 		Assert.isTrue(book!=null,"查不到此书籍");
 		return book;
 	}
@@ -56,6 +56,12 @@ public class BookBaseSupportServiceImpl implements BookBaseSupportService{
 
 	@Override
 	public BookBaseSupport find(Object str) {
+		return null;
+	}
+
+	@Override
+	public BookBaseSupport selectById(Object id) throws Exception {
+		// TODO Auto-generated method stub
 		return null;
 	}
 	

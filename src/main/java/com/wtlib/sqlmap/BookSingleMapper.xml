@@ -27,6 +27,10 @@
   <delete id="deleteById" parameterType="java.lang.Integer" >
     
   </delete>
+  
+	<select id="findByHash" parameterType ="java.lang.String" resultMap="BaseBookSupportMap">
+		select * from t_book_single where book_hash == #{hash}
+	</select>
  
   <insert id="insert" parameterType="com.wtlib.pojo.BookSingle" >
     insert into t_book_single

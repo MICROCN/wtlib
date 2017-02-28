@@ -23,14 +23,32 @@
     data_status
   </sql>
   
+  <select id="findByTitle" parameterType="java.lang.String" resultMap="BookBaseMap">
+  	select * from t_book_base WHERE book_title like "%#{title}%"
+  </select>
+  
+  <select id="selectAll" resultMap="BookBaseMap">
+  	SELECT * from t_book_base
+  </select>
+  
   <select id="selectById" resultMap="BookBaseMap" parameterType="java.lang.Integer" >
     select 
     <include refid="comList" />
     from t_book_base
     where id = #{id,jdbcType=INTEGER}
   </select>
+  
   <delete id="deleteById" parameterType="java.lang.Integer" >
-  	
+	  	UPDATE t_book_base,
+	 t_book_base_support,
+	 t_book_single
+	SET t_book_base.data_status = "000",
+	 t_book_base_support.data_status = "000",
+	 t_book_single.data_status = "000"
+	WHERE
+		t_book_single.book_base_id = 1
+	AND t_book_base.id = 1
+	AND t_book_base_support.book_base_id = 1
   </delete>
   
   <insert id="insert" parameterType="com.wtlib.pojo.BookBase" keyProperty="id">

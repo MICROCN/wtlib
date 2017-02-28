@@ -21,16 +21,11 @@
 		<result column="data_status" property="dataStatus" jdbcType="VARCHAR" />
 	</resultMap>
 
-
-	  <select id="findByBaseId" parameterType="java.lang.Integer">
+	  <select id="findByBaseId" parameterType="java.lang.Integer" resultMap="BaseBookSupportMap">
 	  		select * from t_book_base_support
 		where book_base_id = #{id,jdbcType=INTEGER}
 	  </select>
-
-	<select id="selectById" resultMap="BaseBookSupportMap"
-		parameterType="java.lang.Integer">
-		
-	</select>
+	
 	<delete id="deleteById" parameterType="java.lang.Integer">
 
 	</delete>

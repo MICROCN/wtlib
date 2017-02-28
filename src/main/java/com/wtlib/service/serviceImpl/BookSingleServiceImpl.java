@@ -68,7 +68,7 @@ public class BookSingleServiceImpl implements BookSingleService {
 	public int update(BookSingle entity) throws Exception {
 		Integer id = entity.getBookBaseId();
 		Integer reviser = entity.getReviser();
-		BookBaseSupport support = bookBaseSupportMapper.selectById(id);
+		BookBaseSupport support = bookBaseSupportMapper.findByBaseId(id);
 		support.setReviser(reviser);
 		Integer book= support.getCurrentLeftBookNumber()-1;
 		Assert.isTrue(book>=0,"无法借阅书！");
@@ -101,7 +101,8 @@ public class BookSingleServiceImpl implements BookSingleService {
 		//用book_hash作为查询属性查询到book_single对象
 		//先要保存现在的修改者的id
 		Integer nowReviser = entity.getReviser();
-		entity = bookSingleMapper.findByHash(entity);
+		String hash = entity.getBookHash();
+		entity = bookSingleMapper.findByHash(hash);
 		Integer baseId = entity.getBookBaseId();
 		Date oldUpdateTime = entity.getUpdateTime();
 		Integer oldReviser = entity.getReviser();
@@ -166,7 +167,8 @@ public class BookSingleServiceImpl implements BookSingleService {
 		userInfo.setCurrentCreditValue(currentValue);
 		userInfo.setReviser(nowReviser);
 		//这里要update user一下,修改信用等级或者信用积分
-		userInfo = userInfoMapper.updateLevel(userInfo);
+		//更新level用spring计时器
+//		userInfo = userInfoMapper.updateLevel(userInfo);
 		userInfoMapper.update(userInfo);
 		//这里修改borrowRecord记录，将未归还变成归还，然后归还日期设为现在。
 		record.setReviser(nowReviser);

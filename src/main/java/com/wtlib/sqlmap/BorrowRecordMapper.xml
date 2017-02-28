@@ -18,6 +18,9 @@
     id, book_id, user_id, borrow_status, borrow_dead_line, return_time, creator, create_time, 
     reviser, update_time, data_status
   </sql>
+  <select id="selectBySingleId" resultMap="BorrowRecordMap" parameterType="java.lang.Integer">
+  	select * from t_borrow_record where book_single_id = #{singleId}
+  </select>
   <select id="selectById" resultMap="BorrowRecordMap" parameterType="java.lang.Integer" >
     select 
     <include refid="comList" />

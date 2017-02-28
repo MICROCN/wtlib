@@ -105,8 +105,6 @@ public class BookBaseServiceImpl implements BookBaseService {
 	@Override
 	public void deleteByBaseId(Integer id) throws Exception {
 		bookBaseMapper.deleteById(id);
-		bookBaseSupportMapper.deleteByBaseId(id);
-		bookSingleMapper.deleteByBaseId(id);
 	}
 	
 	@Override
@@ -118,14 +116,14 @@ public class BookBaseServiceImpl implements BookBaseService {
 	
 	@Override
 	public List<BookBase> find(String title) {
-		List bookBase =bookBaseMapper.findByTitle(title);
-		Assert.isTrue(bookBase!=null,"查询不到此书！");
-		return null;
+		List<BookBase> bookBaseList =bookBaseMapper.findByTitle(title);
+		return bookBaseList;
 	}
 
 	@Override
 	public List<BookBase> selectAll() throws Exception {
-		return null;
+		List<BookBase> bookBaseList =bookBaseMapper.selectAll();
+		return bookBaseList;
 	}
 	
 	@Override
