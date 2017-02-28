@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import com.wtlib.constants.DataStatusEnum;
 import com.wtlib.constants.StatusEnum;
 import com.wtlib.dao.BookBaseMapper;
 import com.wtlib.dao.BookBaseSupportMapper;
@@ -48,7 +49,7 @@ public class BookBaseServiceImpl implements BookBaseService {
 			book.setReviser(person);
 			bookBaseMapper.update(book);
 			//判断,插入bookBaseSupport
-			support = bookBaseSupportMapper.selectBookBaseSupportByBookBaseId(id,StatusEnum.COMMONUSE.getCode());
+			support = bookBaseSupportMapper.selectBookBaseSupportByBookBaseId(id,DataStatusEnum.NORMAL_USED.getCode());
 			support.setSingleBookNumber(currentNum);
 			Integer currentLeftBook = support.getCurrentLeftBookNumber()+num;
 			support.setCurrentLeftBookNumber(currentLeftBook);
@@ -83,7 +84,7 @@ public class BookBaseServiceImpl implements BookBaseService {
 		int num=bookSingleMapper.deleteById(id);
 		BookSingle single = bookSingleMapper.findById(id);
 		Integer baseId = single.getBookBaseId();
-	 	BookBaseSupport support = bookBaseSupportMapper.selectBookBaseSupportByBookBaseId(baseId,StatusEnum.COMMONUSE.getCode());
+	 	BookBaseSupport support = bookBaseSupportMapper.selectBookBaseSupportByBookBaseId(baseId,DataStatusEnum.NORMAL_USED.getCode());
 		Integer singleBookNum = support.getSingleBookNumber();
 		if(singleBookNum==0)
 			deleteByBaseId(baseId);

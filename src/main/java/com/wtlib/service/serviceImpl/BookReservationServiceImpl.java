@@ -69,7 +69,7 @@ public class BookReservationServiceImpl implements BookReservationService {
 		// 检查书本是否可以预约
 		BookBaseSupport bookBaseSupport = bookBaseSupportMapper
 				.selectBookBaseSupportByBookBaseId(bookBaseId,
-						StatusEnum.COMMONUSE.getCode());
+						DataStatusEnum.NORMAL_USED.getCode());
 
 		Assert.isTrue(null != bookBaseSupport, "null bookId");
 

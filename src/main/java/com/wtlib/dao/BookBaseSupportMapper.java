@@ -16,7 +16,8 @@ public interface BookBaseSupportMapper extends BaseDao<BookBaseSupport> {
 
 	public BookBaseSupport selectBookBaseSupportByBookBaseId(
 			@Param("bookBaseId") Integer bookBaseId,
-			@Param("dataStatus") Integer dataStatus);
+			@Param("dataStatus") String dataStatus);//wogaide
+	
 
 	/**
 	 * 根据bookbaseSupport的bookId来更新图书辅助表信息

@@ -8,7 +8,7 @@ import org.apache.commons.lang.StringUtils;
  * @date 2017年1月22日 下午3:10:29
  */
 public enum DataStatusEnum {
-	DELETED("000", "逻辑删除"), NORMAL_USED("001", "正常可用"), EXCEPTION_DATA_REMARK(
+	DELETED("000", "逻辑删除"), NORMAL_USED("001", "正常可用"),FAIL("002", "禁用") , EXCEPTION_DATA_REMARK(
 			"100", "不同结果标识");
 	private String code;
 
