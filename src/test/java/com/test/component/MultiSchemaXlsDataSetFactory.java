@@ -4,17 +4,23 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.Properties;
 
+import net.bytebuddy.asm.Advice.This;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.unitils.core.UnitilsException;
 import org.unitils.dbunit.datasetfactory.DataSetFactory;
 import org.unitils.dbunit.util.MultiSchemaDataSet;
 
 /**
  * ClassName: MultiSchemaXlsDataSetFactory
+ * 
  * @author zongzi
  * @date 2017年2月4日 下午2:17:45
  */
 public class MultiSchemaXlsDataSetFactory implements DataSetFactory {
 
+	private static final Log logger = LogFactory.getLog(This.class);
 	protected String dafaultSchemaName;
 
 	// 初始化数据集工厂
@@ -26,6 +32,7 @@ public class MultiSchemaXlsDataSetFactory implements DataSetFactory {
 	@Override
 	public MultiSchemaDataSet createDataSet(File... dataSetFiles) {
 		try {
+			logger.info("创建数据集<开始>:" + Arrays.toString(dataSetFiles));
 			MultiSchemaXlsDataSetReader xlsDataSetReader = new MultiSchemaXlsDataSetReader(
 					dafaultSchemaName);
 			return xlsDataSetReader.readDataSetXls(dataSetFiles);

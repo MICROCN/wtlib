@@ -32,7 +32,8 @@ public class BookReservationServiceImpl implements BookReservationService {
 
 	@Override
 	public int insert(BookReservation entity) throws Exception {
-		return 0;
+		return bookReservationMapper
+				.insert(entity);
 	}
 
 	@Override

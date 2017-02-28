@@ -1,5 +1,9 @@
 package com.test.util;
 
+import net.bytebuddy.asm.Advice.This;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.dbunit.database.DatabaseConfig;
 import org.dbunit.ext.mysql.MySqlDataTypeFactory;
 import org.dbunit.ext.mysql.MySqlMetadataHandler;
@@ -14,6 +18,8 @@ import org.unitils.dbunit.util.DbUnitDatabaseConnection;
  * @date 2017年2月11日 上午10:00:36
  */
 public class MySqlDbUnitModult extends DbUnitModule {
+
+	private static final Log logger = LogFactory.getLog(This.class);
 
 	public DbUnitDatabaseConnection getDbUnitDatabaseConnection(
 			final String schemaName) {
@@ -30,6 +36,8 @@ public class MySqlDbUnitModult extends DbUnitModule {
 		result.getConfig().setProperty(
 				DatabaseConfig.PROPERTY_METADATA_HANDLER,
 				new MySqlMetadataHandler());
+		logger.info("Get the connection with dbunit and databases");
+
 		return result;
 	}
 
