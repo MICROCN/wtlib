@@ -13,7 +13,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.bytebuddy.asm.Advice.This;
+
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -22,7 +26,6 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.dbunit.dataset.ITable;
 
 /**
  * ClassName: ExeclUtil
@@ -32,6 +35,9 @@ import org.dbunit.dataset.ITable;
  * @date 2017年2月17日 下午2:47:05
  */
 public class ExeclUtil {
+
+	private static final Log logger = LogFactory.getLog(This.class);
+
 	/** 总行数 */
 	private int totalRows = 0;
 	/** 总列数 */
@@ -317,10 +323,9 @@ public class ExeclUtil {
 		Sheet sheet = wb.getSheetAt(wb.getSheetIndex(tableName));
 		/** 得到Excel的行数 */
 		this.totalRows = sheet.getPhysicalNumberOfRows();
-		// ------totalRows----
-		System.out.println(totalRows + "tableName----" + tableName
-				+ "------------->");
-		// --------------
+
+		logger.info("读取   表名:" + tableName + " -- 总行数:" + totalRows);
+
 		/** 得到Excel的列数 以及列名列表 */
 		if (this.totalRows >= 1 && sheet.getRow(0) != null) {
 			this.totalCells = sheet.getRow(0).getPhysicalNumberOfCells();

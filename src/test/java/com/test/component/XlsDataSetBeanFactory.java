@@ -7,9 +7,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.bytebuddy.asm.Advice.This;
+
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.beanutils.ConvertUtilsBean;
 import org.apache.commons.beanutils.converters.DateConverter;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.dbunit.dataset.Column;
 import org.dbunit.dataset.DataSetException;
 import org.dbunit.dataset.IDataSet;
@@ -21,16 +25,23 @@ import com.wtlib.util.ExeclUtil;
 /**
  * 从EXCEL数据集文件创建Bean
  */
-public class XlsDataSetBeanFactory{
+public class XlsDataSetBeanFactory {
+
+	private static final Log logger = LogFactory.getLog(This.class);
 
 	public final static String excelFilePath = "../exceldataset/";
 
 	// 从DbUnit的EXCEL数据集文件创建多个bean
 	public static <T> List<T> createBeans(String file, String tableName,
 			Class<T> clazz) throws Exception {
+
 		BeanUtilsBean beanUtils = createBeanUtils();
 		file = excelFilePath + file;
+		logger.info("根据xls创建对象 <开始>加载文件:{" + file + "} 表名:" + tableName
+				+ " class:" + clazz.getName());
 		List<Map<String, Object>> propsList = createProps(file, tableName);
+		logger.info("根据xls创建对象 <结束>加载文件:{" + file + "} 表名:" + tableName
+				+ " class:" + clazz.getName());
 		List<T> beans = new ArrayList<T>();
 		for (Map<String, Object> props : propsList) {
 			T bean = clazz.newInstance();
@@ -45,7 +56,11 @@ public class XlsDataSetBeanFactory{
 			throws Exception {
 		BeanUtilsBean beanUtils = createBeanUtils();
 		file = excelFilePath + file;
+		logger.info("根据xls创建对象 <开始>加载文件:{" + file + "} 表名:" + tableName
+				+ " class:" + clazz.getName());
 		List<Map<String, Object>> propsList = createProps(file, tableName);
+		logger.info("根据xls创建对象 <结束>加载文件:{" + file + "} 表名:" + tableName
+				+ " class:" + clazz.getName());
 		T bean = clazz.newInstance();
 		System.out.println(propsList.size());
 		beanUtils.populate(bean, propsList.get(0));

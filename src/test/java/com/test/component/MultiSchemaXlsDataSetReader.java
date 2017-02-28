@@ -10,9 +10,14 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
 
+import net.bytebuddy.asm.Advice.This;
+
+import org.slf4j.spi.LoggerFactoryBinder;
 import org.springframework.util.CollectionUtils;
 import org.unitils.core.UnitilsException;
 import org.unitils.dbunit.util.MultiSchemaDataSet;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.dbunit.dataset.AbstractTable;
 import org.dbunit.dataset.DefaultDataSet;
@@ -27,12 +32,15 @@ import com.wtlib.util.ExeclUtil;
 import com.wtlib.util.WTStringUtils;
 
 /**
- * ClassName: MultiSchemaXlsDataSetReader
+ * ClassName: MultiSchemaXlsDataSetReader 读取xls文件
  * 
  * @author zongzi
  * @date 2017年2月4日 下午2:17:36
  */
 public class MultiSchemaXlsDataSetReader {
+
+	private static final Log logger = LogFactory.getLog(This.class);
+
 	private String defaultSchemaName;
 
 	public MultiSchemaXlsDataSetReader(String defaultSchemaName) {
@@ -53,7 +61,9 @@ public class MultiSchemaXlsDataSetReader {
 					throw new UnitilsException("构造DataSet失败!", e);
 				}
 			}
+			logger.info("创建数据集<成功>:" + Arrays.toString(dataSetFiles));
 			return dataSets;
+
 		} catch (Exception e) {
 			throw new UnitilsException("解析EXCEL文件出错:", e);
 		}
@@ -64,6 +74,7 @@ public class MultiSchemaXlsDataSetReader {
 		Map<String, List<ITable>> tableMap = new HashMap<String, List<ITable>>();
 		try {
 			for (File file : dataSetFiles) {
+				logger.info("开始加载xls文件--> {" + file.getCanonicalPath() + "}");
 				IDataSet dataSet = new XlsDataSet(new FileInputStream(file));
 				Workbook wb = new ExeclUtil()
 						.getWorkBookByFile(new FileInputStream(file));
@@ -85,7 +96,9 @@ public class MultiSchemaXlsDataSetReader {
 					}
 					tableMap.get(schema)
 							.add(new XlsTable(tableName, table, wb));
+
 				}
+				logger.info("结束加载xls文件--> {" + file.getCanonicalPath() + "}");
 
 			}
 		} catch (Exception e) {
@@ -144,7 +157,7 @@ public class MultiSchemaXlsDataSetReader {
 
 			if (CollectionUtils.isEmpty(read) || null == read) {
 				throw new RowOutOfBoundsException("current row=" + row
-						+ ",read's null " );
+						+ ",read's null ");
 			}
 			if (row >= read.size()) {
 				throw new RowOutOfBoundsException("current row=" + row
