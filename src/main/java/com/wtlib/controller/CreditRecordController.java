@@ -14,6 +14,6 @@ import com.wtlib.service.CreditRecordSrevice;
 @Controller
 @RequestMapping("/creditrecord/")
 public class CreditRecordController {
-	@Autowired
-	private CreditRecordSrevice creditRecordSrevice;
+	/*@Autowired
+	private CreditRecordSrevice creditRecordSrevice;*/
 }

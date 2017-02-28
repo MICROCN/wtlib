@@ -3,7 +3,7 @@
 <mapper namespace="com.wtlib.dao.BookBaseSupportMapper">
 	<resultMap id="BaseBookSupportMap" type="com.wtlib.pojo.BookBaseSupport">
 		<id column="id" property="id" jdbcType="INTEGER" />
-		<result column="book_id" property="bookId" jdbcType="INTEGER" />
+		<result column="book_base_id" property="bookBaseId" jdbcType="INTEGER" />
 		<result column="is_reservate_able" property="isReservateAble"
 			jdbcType="CHAR" />
 		<result column="is_borrow_able" property="isBorrowAble"
@@ -21,7 +21,7 @@
 		<result column="data_status" property="dataStatus" jdbcType="VARCHAR" />
 	</resultMap>
 	<sql id="comList">
-		id, book_id, is_reservate_able, is_borrow_able,
+		id, book_base_id, is_reservate_able, is_borrow_able,
 		current_left_book_number,
 		current_reservate_number,
 		single_book_number,
@@ -39,11 +39,11 @@
 	<delete id="deleteById" parameterType="java.lang.Integer">
 
 	</delete>
-	<select id="selectBookBaseSupportByBookId" resultMap="BaseBookSupportMap">
+	<select id="selectBookBaseSupportByBookBaseId" resultMap="BaseBookSupportMap">
 
 		select
 		<include refid="comList" />
-		from t_book_base_support where book_id=#{bookId} and
+		from t_book_base_support where book_base_id=#{bookBaseId} and
 		data_status=#{dataStatus}
 
 	</select>
@@ -51,8 +51,8 @@
 		insert into t_book_base_support
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 
-			<if test="bookId != null">
-				book_id,
+			<if test="bookBaseId != null">
+				book_base_id,
 			</if>
 			<if test="isReservateAble != null">
 				is_reservate_able,
@@ -88,8 +88,8 @@
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 
-			<if test="bookId != null">
-				#{bookId,jdbcType=INTEGER},
+			<if test="bookBaseId != null">
+				#{bookBaseId,jdbcType=INTEGER},
 			</if>
 			<if test="isReservateAble != null">
 				#{isReservateAble,jdbcType=CHAR},
@@ -159,7 +159,7 @@
 		</set>
 		where
 
-		book_id = #{bookId,jdbcType=INTEGER}
+		book_base_id = #{bookBaseId,jdbcType=INTEGER}
 
 	</update>
 

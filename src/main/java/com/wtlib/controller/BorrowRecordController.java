@@ -13,6 +13,6 @@ import com.wtlib.service.BorrowRecordService;
 @Controller
 @RequestMapping("/borrowrecord/")
 public class BorrowRecordController {
-	@Autowired
-	private BorrowRecordService borrowRecordService;
+//	@Autowired
+//	private BorrowRecordService borrowRecordService;
 }

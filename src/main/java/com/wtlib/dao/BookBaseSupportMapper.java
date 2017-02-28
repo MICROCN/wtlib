@@ -14,8 +14,8 @@ import com.wtlib.pojo.BookSingle;
  */
 public interface BookBaseSupportMapper extends BaseDao<BookBaseSupport> {
 
-	public BookBaseSupport selectBookBaseSupportByBookId(
-			@Param("bookId") Integer bookId,
+	public BookBaseSupport selectBookBaseSupportByBookBaseId(
+			@Param("bookBaseId") Integer bookBaseId,
 			@Param("dataStatus") String dataStatus);
 
 	/**

@@ -103,7 +103,7 @@ public class BookReservationServiceTest extends BaseDaoTest {
 
 	@Test
 	@DataSet("/dataSetXls/BookReservationService/insertNewBookReservation.xls")
-//	@ExpectedDataSet("/dataSetXls/BookReservationService/insertNewBookReservation.expect.xls")、、、冲突测试
+    @ExpectedDataSet("/dataSetXls/BookReservationService/insertNewBookReservation.expect.xls")
 	public void testInsertNewBookReservation() {
 		try {
 			List<BookReservation> brS = XlsDataSetBeanFactory.createBeans(
