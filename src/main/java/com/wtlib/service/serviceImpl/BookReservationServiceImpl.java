@@ -61,12 +61,12 @@ public class BookReservationServiceImpl implements BookReservationService {
 	}
 
 	@Override
-	public Boolean insertNewBookReservation(Integer bookId, Integer userId)
+	public Boolean insertNewBookReservation(Integer bookBaseId, Integer userId)
 			throws Exception {
 
 		// 检查书本是否可以预约
 		BookBaseSupport bookBaseSupport = bookBaseSupportMapper
-				.selectBookBaseSupportByBookId(bookId,
+				.selectBookBaseSupportByBookBaseId(bookBaseId,
 						DataStatusEnum.NORMAL_USED.getCode());
 
 		Assert.isTrue(null != bookBaseSupport, "null bookId");
@@ -74,7 +74,7 @@ public class BookReservationServiceImpl implements BookReservationService {
 		String isReservateAble = bookBaseSupport.getIsReservateAble();
 
 		Assert.isTrue(StringUtils.equals(OptionStatusEnum.OPENT_TRUE.getCode(),
-				isReservateAble), "reservation of book:" + bookId
+				isReservateAble), "reservation of book:" + bookBaseId
 				+ " isn't avaliable");
 
 		Integer currentReservateNumber = bookBaseSupport
@@ -87,7 +87,7 @@ public class BookReservationServiceImpl implements BookReservationService {
 
 		BookBaseSupport bookBaseSupportTemp = new BookBaseSupport();
 
-		bookBaseSupportTemp.setBookBaseId(bookId);
+		bookBaseSupportTemp.setBookBaseId(bookBaseId);
 
 		bookBaseSupportTemp
 				.setCurrentReservateNumber(currentReservateNumber + 1);
@@ -109,12 +109,12 @@ public class BookReservationServiceImpl implements BookReservationService {
 
 		// 添加预约记录
 		BookReservation bookReservation = new BookReservation();
-		bookReservation.setBookId(bookId);
+		bookReservation.setBookId(bookBaseId);
 		bookReservation.setUserId(userId);
 		bookReservation.setCreator(userId);
 		int insertBookReservation = bookReservationMapper
 				.insert(bookReservation);
-		
+
 		Assert.isTrue(insertBookReservation == 1,
 				"insert book reservation record faild");
 

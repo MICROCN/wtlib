@@ -25,10 +25,10 @@ public class MainTest {
 	private static ClassPathXmlApplicationContext context = null;
 
 	static {
-		// InterfaceUrlInti.init();
-		// context = new ClassPathXmlApplicationContext(new String[] {
-		// "classpath:spring-mybatis.xml", "classpath:spring.xml",
-		// "classpath:spring-aop.xml" });
+		InterfaceUrlInti.init();
+		context = new ClassPathXmlApplicationContext(new String[] {
+				"classpath:spring-mybatis.xml", "classpath:spring.xml",
+				"classpath:spring-aop.xml" });
 	}
 
 	private static UserService userService;
@@ -48,9 +48,6 @@ public class MainTest {
 		}
 	}
 
-	/**
-	 * @param args
-	 */
 	/**
 	 * @param args
 	 */
