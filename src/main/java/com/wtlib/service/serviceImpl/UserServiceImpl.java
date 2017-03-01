@@ -26,7 +26,6 @@ public class UserServiceImpl implements UserService {
 
 	public UserWebDto find(String loginId) {
 		UserWebDto user= userMapper.selectByLoginId(loginId);
-		Assert.isTrue(user!=null,"查无此人！");
 		return user;
 	}
 
@@ -68,8 +67,8 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<User> selectAll() throws Exception {
 		List<User> userList= userMapper.selectAll();
-		Assert.isTrue(userList!=null,"找不到用户信息");
-		return userList;
+
+		  return userList;
 	}
 
 	@Override
@@ -79,6 +78,12 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void save(User user) throws Exception {
+	}
+
+	@Override
+	public void selectAllById(Integer userid) {
+		userMapper.selectByLoginId(loginId);
+		return user;
 	}
 
 }

@@ -156,6 +156,7 @@ public class BookMainController {
 	@RequestMapping("/get/support")
 	public Message getBook(@RequestParam("id") Integer id) {
 		//传入的是baseid
+		//应该传回书籍信息，书籍借阅预约信息和评价信息
 		try {
 			BookBaseSupport book = BaseSupportService.selectByBaseId(id);
 			return Message.success(Code.SUCCESS, "查找成功", book);

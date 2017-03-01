@@ -2,26 +2,51 @@ package com.wtlib.service.serviceImpl;
 
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import com.wtlib.constants.DataStatusEnum;
+import com.wtlib.dao.BookBaseMapper;
 import com.wtlib.dao.BookBaseSupportMapper;
+import com.wtlib.dao.LabelInfoMapper;
+import com.wtlib.dto.SupportWebDto;
+import com.wtlib.pojo.BookBase;
 import com.wtlib.pojo.BookBaseSupport;
+import com.wtlib.pojo.LabelInfo;
+import com.wtlib.service.BookBaseService;
 import com.wtlib.service.BookBaseSupportService;
+import com.wtlib.service.LabelInfoService;
+import com.wtlib.service.UserService;
 
 @Service("/bookBaseSupportServiceImpl")
 public class BookBaseSupportServiceImpl implements BookBaseSupportService{
 
 	@Autowired
 	BookBaseSupportMapper baseSupportMapper;
+	@Resource(name = "labelInfoService")
+	LabelInfoService labelInfoService;
+	@Resource(name = "userService")
+	UserService userService;
+	@Resource(name = "bookBaseService")
+	BookBaseService bookBaseService;
 	
 	@Override
 	public BookBaseSupport selectByBaseId(Integer id) throws Exception {
-		BookBaseSupport book = baseSupportMapper.selectBookBaseSupportByBookBaseId(id,DataStatusEnum.NORMAL_USED.getCode());
-		Assert.isTrue(book!=null,"查不到此书籍");
-		return book;
+		BookBaseSupport support = baseSupportMapper.selectBookBaseSupportByBookBaseId(id,DataStatusEnum.NORMAL_USED.getCode());
+		SupportWebDto dto = new SupportWebDto();
+		dto.setSupport(support);
+		BookBase base = bookBaseService.selectById(id);
+		dto.setBook(base);
+		List<LabelInfo> labelInfo= labelInfoService.selectByBaseId(id);
+		dto.setLabelList(labelInfo);
+		for(LabelInfo info :labelInfo){
+			Integer userid = info.getUserId();
+			userService.selectAllById(userid);
+		}
+		return support;
 	}
 	
 	@Override

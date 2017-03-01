@@ -20,6 +20,13 @@ public class BookBaseLabelInfoServiceImpl implements BookBaseLabelInfoService{
 		Integer num = bookBaseLabelInfoMapper.insert(entity);
 		return num;
 	}
+	
+	@Override
+	public int deleteById(Object id) throws Exception {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 
 	@Override
 	public int insertBatch(List<BookBaseLabelInfo> entityList) throws Exception {
@@ -38,13 +45,6 @@ public class BookBaseLabelInfoServiceImpl implements BookBaseLabelInfoService{
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	@Override
-	public int deleteById(Object id) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
 	@Override
 	public int update(BookBaseLabelInfo entity) throws Exception {
 		// TODO Auto-generated method stub
@@ -55,6 +55,12 @@ public class BookBaseLabelInfoServiceImpl implements BookBaseLabelInfoService{
 	public BookBaseLabelInfo find(Object str) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void deleteByLabelId(int labelId) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

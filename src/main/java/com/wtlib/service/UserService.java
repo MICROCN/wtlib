@@ -19,4 +19,6 @@ public interface UserService extends BaseService<User> {
 	
 	public Integer confirm(User user) throws Exception;
 
+	public void selectAllById(Integer userid);
+
 }

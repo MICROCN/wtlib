@@ -17,6 +17,7 @@ import com.wtlib.constants.Code;
 import com.wtlib.pojo.LabelInfo;
 import com.wtlib.service.LabelInfoService;
 
+@RequestMapping("/label")
 public class LabelController {
 
 	@Autowired
@@ -27,44 +28,34 @@ public class LabelController {
 	//user
 	@RequestMapping("/add")
 	@ResponseBody
-	public Message addFeedBack(@RequestBody LabelInfo info, HttpSession session) {
+	public Message addLabel(@RequestBody List<LabelInfo> infoList, HttpSession session) {
 		String id = session.getAttribute("id").toString();// 以后会改
-	    String value = info.getValue();
-		if (value == null) {
-			return Message.error(Code.PARAMATER, "不得为空");
+		for(LabelInfo info : infoList){
+		    String value = info.getValue();
+			if (value == null) {
+				return Message.error(Code.PARAMATER, "不得为空");
+			}
+			info.setCreator(new Integer(id));
+			info.setUserId(new Integer(id));
+			try {	
+				labelInfoService.insert(info);
+			} catch (Exception e) {
+				log.error(JSON.toJSONString(info) + "\n\t" + e.toString());
+				return Message.error(Code.ERROR_CONNECTION, "无法插入数据");
+			}
 		}
-		info.setCreator(new Integer(id));
-		info.setUserId(new Integer(id));
-		try {	
-			labelInfoService.insert(info);
-			return Message.success("插入成功", Code.SUCCESS);
-		} catch (Exception e) {
-			log.error(JSON.toJSONString(info) + "\n\t" + e.toString());
-			return Message.error(Code.ERROR_CONNECTION, "无法插入数据");
-		}
+		return Message.success("插入成功", Code.SUCCESS);
 	}
 
 	@RequestMapping("/delete")
 	@ResponseBody
-	public Message deleteFeedBack(@RequestParam("id") Integer id) {
+	public Message deleteLabel(@RequestParam("id") Integer id) {
 		try {
 			labelInfoService.deleteById(id);
 			return Message.success("删除成功", Code.SUCCESS);
 		} catch (Exception e) {
 			log.error(JSON.toJSONString(id) + "\n\t" + e.toString());
 			return Message.error(Code.ERROR_CONNECTION, "无法删除数据");
-		}
-	}
-
-
-	@RequestMapping("/get")
-	public Message getFeedBack() {
-		try {
-			List<LabelInfo>labelList= labelInfoService.selectAll();
-			return Message.success(Code.SUCCESS, "查找成功",labelList);
-		} catch (Exception e) {
-			log.error(e.toString());
-			return Message.error(Code.ERROR_CONNECTION, "找不到记录！");
 		}
 	}
 		
