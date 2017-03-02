@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.sql.Connection;
 import java.util.Properties;
 
+import javax.sound.midi.MidiDevice.Info;
 import javax.sql.DataSource;
 
 import org.apache.log4j.LogManager;
@@ -14,6 +15,7 @@ import org.dbunit.database.IDatabaseConnection;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSet;
 import org.dbunit.operation.DatabaseOperation;
+import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -41,10 +43,10 @@ public class IDataBaseTestCase extends DatabaseTestCase {
 		return new DatabaseConnection(connection);
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	protected IDataSet getDataSet() throws Exception {
-		return new FlatXmlDataSet(new FileInputStream("bin/dataSet.xml"));
+		// return new FlatXmlDataSet(new FileInputStream("bin/dataSet.xml"));
+		return null;
 	}
 
 	@Override
@@ -57,4 +59,9 @@ public class IDataBaseTestCase extends DatabaseTestCase {
 		return DatabaseOperation.NONE;
 	}
 
+	@Test
+	public void testDataBase() {
+		logger.info("DATA BASE IS READLY");
+
+	}
 }

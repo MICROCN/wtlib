@@ -2,14 +2,14 @@ package com.wtlib.dto;
 
 import com.wtlib.pojo.BaseEntity;
 
-public class UserWebDto extends BaseEntity{
+public class UserWebDto extends BaseEntity {
 
 	private String loginId;
-	
+
 	private String currentCreditLevel;
 
 	private Integer currentCreditValue;
-	
+
 	private String username;
 
 	public String getLoginId() {
@@ -44,6 +44,4 @@ public class UserWebDto extends BaseEntity{
 		this.username = username;
 	}
 
-	
-	
 }

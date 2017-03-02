@@ -17,8 +17,7 @@ import com.wtlib.dao.UserMapper;
 import com.wtlib.pojo.User;
 
 //数据访问层测试类
-@SpringApplicationContext({ "classpath:test-spring-mybatis.xml",
-		"classpath:test-spring.xml", "classpath:test-spring-aop.xml" })
+@SpringApplicationContext({ "test-spring-mybatis.xml", "test-spring.xml" })
 public class BaseDaoTest extends UnitilsJUnit4 {
 
 	public final static String excelFilePath = "../exceldataset";
@@ -37,7 +36,6 @@ public class BaseDaoTest extends UnitilsJUnit4 {
 	}
 
 	@Test
-	@DataSet("/dataSetXml/BaseDaoTest-findUserById.xml")
 	public void findUserById() throws Exception {
 		// List<User> user = (List<User>) userMapper.selectByLoginId("jc");
 		// assertNotNull(user);

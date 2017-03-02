@@ -27,10 +27,15 @@ public class BookBaseSupportServiceImpl implements BookBaseSupportService{
 
 	@Autowired
 	BookBaseSupportMapper baseSupportMapper;
+	
+	
 	@Resource(name = "labelInfoService")
 	LabelInfoService labelInfoService;
+	
 	@Resource(name = "userService")
 	UserService userService;
+	
+	
 	@Resource(name = "bookBaseService")
 	BookBaseService bookBaseService;
 	

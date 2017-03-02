@@ -13,8 +13,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.bytebuddy.asm.Advice.This;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -36,7 +34,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  */
 public class ExeclUtil {
 
-	private static final Log logger = LogFactory.getLog(This.class);
+	private static final Log logger = LogFactory.getLog(ExeclUtil.class);
 
 	/** 总行数 */
 	private int totalRows = 0;

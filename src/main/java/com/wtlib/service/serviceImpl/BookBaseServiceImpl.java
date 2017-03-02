@@ -1,5 +1,4 @@
-﻿package com.wtlib.service.serviceImpl;
-
+package com.wtlib.service.serviceImpl;
 
 import java.util.List;
 import java.util.UUID;
@@ -32,48 +31,49 @@ public class BookBaseServiceImpl implements BookBaseService {
 
 	@Autowired
 	BookBaseMapper bookBaseMapper;
-	@Resource(name = "bookBaseSupportService")
+	@Autowired
 	BookBaseSupportService bookBaseSupportService;
-	@Resource(name = "bookSingleService")
+	@Autowired
 	BookSingleService bookSingleService;
-	
+
 	@Override
 	public int insert(BookBase entity) throws Exception {
-		//插入bookBase表返回bookBase对象，如果没有同类书籍的话自然String是null，所以不用判断他是否存在
+		// 插入bookBase表返回bookBase对象，如果没有同类书籍的话自然String是null，所以不用判断他是否存在
 		BookBase book = bookBaseMapper.find(entity);
-		Integer num= entity.getBookNum();
+		Integer num = entity.getBookNum();
 		Integer id = book.getId();
 		Integer person = entity.getCreator();
 		BookBaseSupport support;
-		if(id != null){
-			Integer currentNum = book.getBookNum()+num;
+		if (id != null) {
+			Integer currentNum = book.getBookNum() + num;
 			book.setBookNum(currentNum);
 			book.setReviser(person);
 			bookBaseMapper.update(book);
-			//判断,插入bookBaseSupport
-			support = bookBaseSupportService.selectBookBaseSupportByBookBaseId(id,DataStatusEnum.NORMAL_USED.getCode());
+			// 判断,插入bookBaseSupport
+			support = bookBaseSupportService.selectBookBaseSupportByBookBaseId(
+					id, DataStatusEnum.NORMAL_USED.getCode());
 			support.setSingleBookNumber(currentNum);
-			Integer currentLeftBook = support.getCurrentLeftBookNumber()+num;
+			Integer currentLeftBook = support.getCurrentLeftBookNumber() + num;
 			support.setCurrentLeftBookNumber(currentLeftBook);
 			support.setReviser(person);
 			Integer reservation = support.getCurrentReservateNumber();
 			support.setIsBorrowAble("1");
-			//如果里面还有人预约，即图书原来现存量是0，则通知他们可以借书了。
-			if(reservation!=null){
-				//TODO 通知预约者可以借书了
+			// 如果里面还有人预约，即图书原来现存量是0，则通知他们可以借书了。
+			if (reservation != null) {
+				// TODO 通知预约者可以借书了
 			}
 			bookBaseSupportService.update(support);
-		} else{
-			//如果查找不到即没有此类书籍。
+		} else {
+			// 如果查找不到即没有此类书籍。
 			entity.setStartDate("001");
 			id = bookBaseMapper.insert(entity);
-			support = new BookBaseSupport(id, "0" , "1", num, 0, num);
+			support = new BookBaseSupport(id, "0", "1", num, 0, num);
 			support.setStartDate("001");
-			support.setCreator(person);	
+			support.setCreator(person);
 			bookBaseSupportService.insert(support);
 		}
-		for(int i =0; i<num; i++){
-			BookSingle bookSingle = new BookSingle(id,"id"+UUID.randomUUID());
+		for (int i = 0; i < num; i++) {
+			BookSingle bookSingle = new BookSingle(id, "id" + UUID.randomUUID());
 			bookSingle.setCreator(person);
 			bookSingleService.insert(bookSingle);
 		}
@@ -82,60 +82,60 @@ public class BookBaseServiceImpl implements BookBaseService {
 
 	@Override
 	public int deleteById(Object id) throws Exception {
-		//update booksingleMapper通过singleMap找到bookBaseid
-		int num=bookSingleService.deleteById(id);
+		// update booksingleMapper通过singleMap找到bookBaseid
+		int num = bookSingleService.deleteById(id);
 		BookSingle single = bookSingleService.selectById(id);
 		Integer baseId = single.getBookBaseId();
-	 	BookBaseSupport support = bookBaseSupportService.selectBookBaseSupportByBookBaseId(baseId,DataStatusEnum.NORMAL_USED.getCode());
+		BookBaseSupport support = bookBaseSupportService
+				.selectBookBaseSupportByBookBaseId(baseId,
+						DataStatusEnum.NORMAL_USED.getCode());
 		Integer singleBookNum = support.getSingleBookNumber();
-		if(singleBookNum==0)
+		if (singleBookNum == 0)
 			deleteByBaseId(baseId);
 		else
 			support.setSingleBookNumber(singleBookNum);
-	 	Integer currentBookNum = support.getCurrentLeftBookNumber() - 1;
-	 	if(currentBookNum == 0){
-	 		support.setIsReservateAble("1");
-	 		support.setIsBorrowAble("0");
-	 	}
-	 	support.setCurrentLeftBookNumber(currentBookNum);
-	 	bookBaseSupportService.update(support);
+		Integer currentBookNum = support.getCurrentLeftBookNumber() - 1;
+		if (currentBookNum == 0) {
+			support.setIsReservateAble("1");
+			support.setIsBorrowAble("0");
+		}
+		support.setCurrentLeftBookNumber(currentBookNum);
+		bookBaseSupportService.update(support);
 		BookBase base = new BookBase();
 		base.setBookNum(singleBookNum);
 		base.setId(baseId);
 		bookBaseMapper.update(base);
 		return num;
 	}
-	
+
 	@Override
 	public void deleteByBaseId(Integer id) throws Exception {
 		bookBaseMapper.deleteById(id);
 	}
-	
+
 	@Override
 	public int update(BookBase entity) throws Exception {
-		Integer id= bookBaseMapper.update(entity);
+		Integer id = bookBaseMapper.update(entity);
 		return id;
 	}
 
-	
 	@Override
 	public List<BookBase> find(String title) {
-		List<BookBase> bookBaseList =bookBaseMapper.findByTitle(title);
+		List<BookBase> bookBaseList = bookBaseMapper.findByTitle(title);
 		return bookBaseList;
 	}
 
 	@Override
 	public List<BookBase> selectAll() throws Exception {
-		List<BookBase> bookBaseList =bookBaseMapper.selectAll();
+		List<BookBase> bookBaseList = bookBaseMapper.selectAll();
 		return bookBaseList;
 	}
-	
+
 	@Override
 	public BookBase selectById(Object id) throws Exception {
 		return null;
 	}
 
-	
 	@Override
 	public int insertBatch(List<BookBase> entityList) throws Exception {
 		return 0;
@@ -145,6 +145,5 @@ public class BookBaseServiceImpl implements BookBaseService {
 	public BookBase find(Object str) {
 		return null;
 	}
-
 
 }

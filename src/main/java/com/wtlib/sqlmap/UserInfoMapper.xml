@@ -15,18 +15,18 @@
 		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
 		<result column="data_status" property="dataStatus" jdbcType="CHAR" />
 	</resultMap>
-	
+
 	<update id="updateLevel">
-		
+
 	</update>
-	
+
 	<update id="deleteById" parameterType="java.lang.Integer">
 		UPDATE t_user_info,
-		 t_user
+		t_user
 		SET t_user_info.data_status = "000",
-		 t_user.data_status = "000"
+		t_user.data_status = "000"
 		WHERE
-			t_user_info.user_id = #{id}
+		t_user_info.user_id = #{id}
 		AND t_user.id = t_user_info.user_id
 	</update>
 
@@ -52,9 +52,7 @@
 			<if test="updateTime != null">
 				update_time,
 			</if>
-			<if test="dataStatus != null">
-				data_status,
-			</if>
+			data_status,
 			create_time
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -77,9 +75,7 @@
 			<if test="updateTime != null">
 				#{updateTime,jdbcType=TIMESTAMP},
 			</if>
-			<if test="dataStatus != null">
-				#{001,jdbcType=CHAR},
-			</if>
+			"001",
 			now()
 		</trim>
 	</insert>
@@ -113,25 +109,28 @@
 		</set>
 		where id = #{id,jdbcType=INTEGER}
 	</update>
-	
-  <select id="selectByUsername" parameterType="java.lang.String" resultType = "com.wtlib.dto.UserWebDto">
-	  SELECT
+
+	<select id="selectByUsername" parameterType="java.lang.String"
+		resultType="com.wtlib.dto.UserWebDto">
+		SELECT
 		username,
 		login_id as loginId,
-		current_credit_value as currentCreditValue,
+		current_credit_value as
+		currentCreditValue,
 		level_name as currentCreditLevel,
 		t_user.creator,
 		t_user.create_time as createTime,
 		t_user.reviser as reviser,
 		t_user.update_time as updateTime,
 		t_user.data_status as dataStatus
-	FROM
+		FROM
 		t_user,
 		t_user_info,
 		t_user_level
-	WHERE
+		WHERE
 		username=#{username}
-	AND t_user.id = user_id
-	AND user_level_id = t_user_level.id;
-  </select>
+		AND t_user.id
+		= user_id
+		AND user_level_id = t_user_level.id;
+	</select>
 </mapper>
