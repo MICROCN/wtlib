@@ -71,11 +71,9 @@ public class BookReservationServiceTest extends BaseServiceTest {
 
 	@Test
 	public void testStart() {
-		System.out.println("aaa");
 	}
 
 	@Test
 	public void testStart1() {
-		System.out.println("bbb");
 	}
 }

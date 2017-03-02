@@ -33,7 +33,7 @@ public class UserTest extends UnitilsJUnit4 {
 		 */
 	}
 
-	// @Test
+	 @Test
 	public void testReflection() {
 		User user = new User();
 		user.setLoginId("tom");
@@ -62,13 +62,13 @@ public class UserTest extends UnitilsJUnit4 {
 		System.out.println("done");
 	}
 
-//	@Test
+	@Test
 	public void testBookBaseServiceInject() {
 		assertNotNull(bookBaseService);
 		System.out.println("done");
 	}
 	
-//	@Test
+	@Test
 	public void testBookReservationServiceInject(){
 		assertNotNull(bookReservationService);
 		System.out.println("done");

@@ -48,7 +48,7 @@
 			<if test="updateTime != null">
 				update_time,
 			</if>
-			<if test="dataStatus == null">
+			<if test="dataStatus != null">
 				data_status,
 			</if>
 			create_time
