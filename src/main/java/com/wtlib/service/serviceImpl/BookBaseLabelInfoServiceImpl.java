@@ -10,23 +10,22 @@ import com.wtlib.pojo.BookBaseLabelInfo;
 import com.wtlib.service.BookBaseLabelInfoService;
 
 @Service("bookBaseLabelInfoService")
-public class BookBaseLabelInfoServiceImpl implements BookBaseLabelInfoService{
+public class BookBaseLabelInfoServiceImpl implements BookBaseLabelInfoService {
 
 	@Autowired
-	BookBaseLabelInfoMapper bookBaseLabelInfoMapper;
-	
+	private BookBaseLabelInfoMapper bookBaseLabelInfoMapper;
+
 	@Override
 	public int insert(BookBaseLabelInfo entity) throws Exception {
 		Integer num = bookBaseLabelInfoMapper.insert(entity);
 		return num;
 	}
-	
+
 	@Override
 	public int deleteById(Object id) throws Exception {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
 
 	@Override
 	public int insertBatch(List<BookBaseLabelInfo> entityList) throws Exception {
@@ -45,6 +44,7 @@ public class BookBaseLabelInfoServiceImpl implements BookBaseLabelInfoService{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 	@Override
 	public int update(BookBaseLabelInfo entity) throws Exception {
 		// TODO Auto-generated method stub
@@ -60,7 +60,7 @@ public class BookBaseLabelInfoServiceImpl implements BookBaseLabelInfoService{
 	@Override
 	public void deleteByLabelId(int labelId) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

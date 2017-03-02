@@ -12,8 +12,8 @@ import org.unitils.spring.annotation.SpringBeanByType;
 		"test-spring-aop.xml", "test-spring-mvc.xml" })
 public class BookReservationControllerTest extends UnitilsJUnit4 {
 
-	@SpringBeanByType
-	private RestTemplate restTemplate;
+//	@SpringBeanByType
+//	private RestTemplate restTemplate;
 //
 //	@SpringBeanByType
 //	private BookReservationController bookReservationController;

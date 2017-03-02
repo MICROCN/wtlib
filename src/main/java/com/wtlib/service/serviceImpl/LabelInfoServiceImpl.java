@@ -18,18 +18,17 @@ public class LabelInfoServiceImpl implements LabelInfoService {
 
 	@Autowired
 	LabelInfoMapper labelInfoMapper;
-	
-	@Resource(name="BookBaseLabelInfoService")
+
+	@Autowired
 	BookBaseLabelInfoService bookBaseLabelInfoService;
-	
-	 
+
 	@Override
 	public int insert(LabelInfo info) throws Exception {
-		//将信息写入LabelInfo表
-		Integer id= labelInfoMapper.insert(info);
+		// 将信息写入LabelInfo表
+		Integer id = labelInfoMapper.insert(info);
 		Integer userId = info.getUserId();
-		//将信息写入关联表LabelInfoUserId
-		BookBaseLabelInfo bookLabel = new BookBaseLabelInfo(id,userId);
+		// 将信息写入关联表LabelInfoUserId
+		BookBaseLabelInfo bookLabel = new BookBaseLabelInfo(id, userId);
 		int num = bookBaseLabelInfoService.insert(bookLabel);
 		return num;
 	}
@@ -40,7 +39,7 @@ public class LabelInfoServiceImpl implements LabelInfoService {
 		bookBaseLabelInfoService.deleteByLabelId(labelId);
 		return labelId;
 	}
-	
+
 	@Override
 	public int insertBatch(List<LabelInfo> entityList) throws Exception {
 		return 0;
