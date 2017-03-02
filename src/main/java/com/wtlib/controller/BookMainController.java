@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
@@ -16,14 +17,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.Message;
 import com.alibaba.fastjson.JSON;
+import com.wtlib.constants.BorrowStatusEnum;
 import com.wtlib.constants.Code;
 import com.wtlib.dto.SupportWebDto;
 import com.wtlib.pojo.BookBase;
 import com.wtlib.pojo.BookBaseSupport;
 import com.wtlib.pojo.BookSingle;
+import com.wtlib.pojo.BorrowRecord;
 import com.wtlib.service.BookBaseService;
 import com.wtlib.service.BookBaseSupportService;
 import com.wtlib.service.BookSingleService;
+import com.wtlib.service.BorrowRecordService;
 import com.wtlib.service.serviceImpl.BookReservationServiceImpl;
 import com.wtlib.util.IpUtils;
 
@@ -40,6 +44,9 @@ public class BookMainController {
 	
 	@Resource(name = "bookSingleService")
 	private BookSingleService singleService;
+	
+	@Resource(name = "borrowRecordService")
+	private BorrowRecordService borrowRecordService;
 	
 	Logger log = Logger.getLogger(BookMainController.class);
 	//BookBase
@@ -153,6 +160,29 @@ public class BookMainController {
 		}
 	}
 	
+	@RequestMapping("/get/back")
+	public Message getBackRecoder(HttpSession session){
+		String id = session.getAttribute("id").toString();// 以后会改
+		try {
+			List<BorrowRecord> borrowRecordList= borrowRecordService.selectAllByUserId(id,BorrowStatusEnum.TICK_LABEL.getCode());
+			return Message.success(Code.SUCCESS, "查找成功", borrowRecordList);
+		} catch (Exception e) {
+			log.error(e.toString());
+			return Message.error(Code.ERROR_CONNECTION, "找不到书籍！");
+		}
+	}
+	
+	@RequestMapping("/get/labelRecord")
+	public Message getLabel(HttpSession session){
+		String id = session.getAttribute("id").toString();// 以后会改
+		try {
+			List<BorrowRecord> borrowRecordList= borrowRecordService.selectAllByUserId(id,BorrowStatusEnum.GIVE_BACK.getCode());
+			return Message.success(Code.SUCCESS, "查找成功", borrowRecordList);
+		} catch (Exception e) {
+			log.error(e.toString());
+			return Message.error(Code.ERROR_CONNECTION, "找不到书籍！");
+		}
+	}
 	//bookbasesupport
 	@RequestMapping("/get/support")
 	public Message getBook(@RequestParam("id") Integer id) {

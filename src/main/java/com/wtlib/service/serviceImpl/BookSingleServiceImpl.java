@@ -7,21 +7,13 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.omg.PortableInterceptor.SUCCESSFUL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import com.wtlib.constants.CreditEnum;
 import com.wtlib.constants.DataStatusEnum;
-import com.wtlib.dao.BookBaseSupportMapper;
 import com.wtlib.dao.BookSingleMapper;
-import com.wtlib.dao.BorrowRecordMapper;
-import com.wtlib.dao.CreditInfoMapper;
-import com.wtlib.dao.CreditRecordMapper;
-import com.wtlib.dao.UserInfoMapper;
-import com.wtlib.dao.UserLevelMapper;
-import com.wtlib.dao.UserMapper;
 import com.wtlib.pojo.BookBaseSupport;
 import com.wtlib.pojo.BookSingle;
 import com.wtlib.pojo.BorrowRecord;

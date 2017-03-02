@@ -18,6 +18,14 @@ public class BorrowRecordServiceImpl implements BorrowRecordService {
 
 	@Autowired
 	BorrowRecordMapper borrowRecordMapper;
+	
+
+	@Override
+	public List<BorrowRecord> selectAllByUserId(Object id,String code) {
+		List<BorrowRecord> record = borrowRecordMapper.selectAllByUserId(id,code);
+		return record;
+	}
+	
 	@Override
 	public int insert(BorrowRecord entity) throws Exception {
 		// TODO Auto-generated method stub

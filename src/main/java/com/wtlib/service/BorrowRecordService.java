@@ -1,5 +1,7 @@
 package com.wtlib.service;
 
+import java.util.List;
+
 import com.wtlib.pojo.BorrowRecord;
 
 /**
@@ -10,6 +12,8 @@ import com.wtlib.pojo.BorrowRecord;
  */
 public interface BorrowRecordService extends BaseService<BorrowRecord> {
 
-	BorrowRecord selectBySingleId(Integer singleId);
+	BorrowRecord selectBySingleId(Integer singleId) throws Exception;
+
+	List<BorrowRecord> selectAllByUserId(Object id,String code) throws Exception;
 
 }

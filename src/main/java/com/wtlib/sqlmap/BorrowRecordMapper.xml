@@ -27,6 +27,9 @@
     from t_borrow_record
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectAllByUserId" resultMap="BorrowRecordMap">
+ 	select * from t_borrow_record where user_id = #{id} and data_status = #{code}
+  </select>
   <delete id="deleteById" parameterType="java.lang.Integer" >
     
   </delete>

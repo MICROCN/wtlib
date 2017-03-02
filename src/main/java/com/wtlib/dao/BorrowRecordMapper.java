@@ -1,5 +1,7 @@
 package com.wtlib.dao;
 
+import java.util.List;
+
 import com.wtlib.pojo.BorrowRecord;
 
 /**
@@ -11,5 +13,7 @@ public interface BorrowRecordMapper extends BaseDao<BorrowRecord> {
 	Integer findRecord(BorrowRecord record);
 
 	BorrowRecord selectBySingleId(Integer singleId);
+
+	List<BorrowRecord> selectAllByUserId(Object id, String code);
 	
 }
