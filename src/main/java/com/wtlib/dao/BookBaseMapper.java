@@ -11,7 +11,7 @@ import com.wtlib.pojo.BookBase;
  * @date 2017年1月21日 下午6:16:26
  */
 public interface BookBaseMapper extends BaseDao<BookBase> {
-	List<BookBase> findByTitle(String Title);
+	List<BookBase> findByTitle(String title);
 
 	BookBase find(BookBase entity);
 }

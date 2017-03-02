@@ -5,12 +5,15 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.omg.PortableInterceptor.SUCCESSFUL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import com.wtlib.constants.CreditEnum;
+import com.wtlib.constants.DataStatusEnum;
 import com.wtlib.dao.BookBaseSupportMapper;
 import com.wtlib.dao.BookSingleMapper;
 import com.wtlib.dao.BorrowRecordMapper;
@@ -26,10 +29,16 @@ import com.wtlib.pojo.CreditInfo;
 import com.wtlib.pojo.CreditRecord;
 import com.wtlib.pojo.UserInfo;
 import com.wtlib.pojo.UserLevel;
+import com.wtlib.service.BookBaseSupportService;
 import com.wtlib.service.BookSingleService;
+import com.wtlib.service.BorrowRecordService;
+import com.wtlib.service.CreditInfoService;
+import com.wtlib.service.CreditRecordService;
+import com.wtlib.service.UserInfoService;
+import com.wtlib.service.UserLevelService;
 
 /**
- * @author zongzi
+ * @author pohoulong
  * @date 2017年1月22日 下午2:01:00
  */
 @Service("bookSingleService")
@@ -39,18 +48,18 @@ public class BookSingleServiceImpl implements BookSingleService {
 	
 	@Autowired
 	BookSingleMapper bookSingleMapper;
-	@Autowired
-	BookBaseSupportMapper bookBaseSupportMapper;
-	@Autowired
-	BorrowRecordMapper borrowRecordMapper;
-	@Autowired
-	CreditRecordMapper creditRecordMapper;
-	@Autowired
-	CreditInfoMapper creditInfoMapper;
-	@Autowired
-	UserInfoMapper userInfoMapper;
-	@Autowired
-	UserLevelMapper userLevelMapper;
+	@Resource(name="bookBaseSupportService")
+	BookBaseSupportService bookBaseSupportService;
+	@Resource(name="borrowRecordService")
+	BorrowRecordService borrowRecordService;
+	@Resource(name="creditRecordService")
+	CreditRecordService creditRecordService;
+	@Resource(name="creditInfoService")
+	CreditInfoService creditInfoService;
+	@Resource(name="userInfoService")
+	UserInfoService userInfoService;
+	@Resource(name="userLevelService")
+	UserLevelService userLevelService;
 	
 	@Override
 	public int insert(BookSingle entity) throws Exception {
@@ -68,7 +77,7 @@ public class BookSingleServiceImpl implements BookSingleService {
 	public int update(BookSingle entity) throws Exception {
 		Integer id = entity.getBookBaseId();
 		Integer reviser = entity.getReviser();
-		BookBaseSupport support = bookBaseSupportMapper.selectById(id);
+		BookBaseSupport support = bookBaseSupportService.selectBookBaseSupportByBookBaseId(id,DataStatusEnum.NORMAL_USED.getCode());
 		support.setReviser(reviser);
 		Integer book= support.getCurrentLeftBookNumber()-1;
 		Assert.isTrue(book>=0,"无法借阅书！");
@@ -86,13 +95,13 @@ public class BookSingleServiceImpl implements BookSingleService {
 			support.setCurrentLeftBookNumber(book);
 		}
 		Integer num = bookSingleMapper.update(entity);
-		bookBaseSupportMapper.update(support);
+		bookBaseSupportService.update(support);
 		//添加一条借阅记录
 		Calendar cal = Calendar.getInstance(); 
 		cal.add(Calendar.DATE, 30);
 		Date date = cal.getTime();
 		BorrowRecord record = new BorrowRecord(id,reviser,date);
-		borrowRecordMapper.insert(record);
+		borrowRecordService.insert(record);
 		return num;
 	}
 	
@@ -101,7 +110,8 @@ public class BookSingleServiceImpl implements BookSingleService {
 		//用book_hash作为查询属性查询到book_single对象
 		//先要保存现在的修改者的id
 		Integer nowReviser = entity.getReviser();
-		entity = bookSingleMapper.findByHash(entity);
+		String hash = entity.getBookHash();
+		entity = bookSingleMapper.findByHash(hash);
 		Integer baseId = entity.getBookBaseId();
 		Date oldUpdateTime = entity.getUpdateTime();
 		Integer oldReviser = entity.getReviser();
@@ -111,7 +121,7 @@ public class BookSingleServiceImpl implements BookSingleService {
 		entity.setLastLendTime(oldUpdateTime);
 		entity.setReviser(nowReviser);
 		//通过book_base_id查询book_base_support对象
-		BookBaseSupport support = bookBaseSupportMapper.findByBaseId(baseId);
+		BookBaseSupport support = bookBaseSupportService.selectBookBaseSupportByBookBaseId(baseId,DataStatusEnum.NORMAL_USED.getCode());
 		//将图书设为可借阅，并把剩余可借人数+1，判断是否有预约的人。
 		support.setIsBorrowAble("1");
 		Integer borrowNum = support.getCurrentLeftBookNumber();
@@ -121,18 +131,18 @@ public class BookSingleServiceImpl implements BookSingleService {
 			//TODO 发邮件通知所有的人可预约。
 		}
 		//借阅记录
-		BorrowRecord record = borrowRecordMapper.selectBySingleId(singleId);
+		BorrowRecord record = borrowRecordService.selectBySingleId(singleId);
 		String borrowStatus = record.getBorrowStatus();
 		//用userid查userlevelid与userlevel表匹配
-		UserInfo userInfo = userInfoMapper.selectByUserId(nowReviser);
+		UserInfo userInfo = userInfoService.selectByUserId(nowReviser);
 		Integer levelId = userInfo.getCurrentCreditLevel();
-		UserLevel level = userLevelMapper.selectById(levelId);
+		UserLevel level = userLevelService.selectById(levelId);
 		Double levelWeight= level.getLevelWeight();
 		double levelValue;
 		CreditRecord creditRecord = new CreditRecord();
 		if(borrowStatus.equals("002")){
 			//就是说他超时未还。
-			CreditInfo CreditInfo = creditInfoMapper.selectById(CreditEnum.overtime.getId());
+			CreditInfo CreditInfo = creditInfoService.selectById(CreditEnum.overtime.getId());
 			String plus =  CreditInfo.getIsPlus();
 			creditRecord.setCreditIsPlus(plus);
 			creditRecord.setCreditInfoId(CreditEnum.overtime.getId());
@@ -146,7 +156,7 @@ public class BookSingleServiceImpl implements BookSingleService {
 			}
 		} else{
 			//就是说他还书成功
-			CreditInfo CreditInfo = creditInfoMapper.selectById(CreditEnum.successReturn.getId());
+			CreditInfo CreditInfo = creditInfoService.selectById(CreditEnum.successReturn.getId());
 			String plus =  CreditInfo.getIsPlus();
 			creditRecord.setCreditIsPlus(plus);
 			creditRecord.setCreditIsPlus(plus);
@@ -166,18 +176,19 @@ public class BookSingleServiceImpl implements BookSingleService {
 		userInfo.setCurrentCreditValue(currentValue);
 		userInfo.setReviser(nowReviser);
 		//这里要update user一下,修改信用等级或者信用积分
-		userInfo = userInfoMapper.updateLevel(userInfo);
-		userInfoMapper.update(userInfo);
+		//更新level用spring计时器
+//		userInfo = userInfoMapper.updateLevel(userInfo);
+		userInfoService.update(userInfo);
 		//这里修改borrowRecord记录，将未归还变成归还，然后归还日期设为现在。
 		record.setReviser(nowReviser);
 		record.setReturnTime(new Date());
 		record.setBorrowStatus("003");
-		borrowRecordMapper.update(record);
+		borrowRecordService.update(record);
 		//记录一下信用记录
 		creditRecord.setCreator(nowReviser);
 		creditRecord.setCreditBeforeValue(oldValue);
 		creditRecord.setCreditAfterValue(currentValue);
-		creditRecordMapper.insert(creditRecord);
+		creditRecordService.insert(creditRecord);
 	}
 
 	@Override
@@ -187,7 +198,8 @@ public class BookSingleServiceImpl implements BookSingleService {
 
 	@Override
 	public BookSingle selectById(Object id) throws Exception {
-		return null;
+		BookSingle single = bookSingleMapper.findById(id);
+		return single;
 	}
 
 	@Override

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.Message;
 import com.alibaba.fastjson.JSON;
 import com.wtlib.constants.Code;
+import com.wtlib.dto.SupportWebDto;
 import com.wtlib.pojo.BookBase;
 import com.wtlib.pojo.BookBaseSupport;
 import com.wtlib.pojo.BookSingle;
@@ -155,8 +156,10 @@ public class BookMainController {
 	//bookbasesupport
 	@RequestMapping("/get/support")
 	public Message getBook(@RequestParam("id") Integer id) {
+		//传入的是baseid
+		//应该传回书籍信息，书籍借阅预约信息和评价信息
 		try {
-			BookBaseSupport book = BaseSupportService.selectById(id);
+			SupportWebDto book = BaseSupportService.selectByBaseId(id);
 			return Message.success(Code.SUCCESS, "查找成功", book);
 		} catch (Exception e) {
 			log.error("id:"+id+"\n\t"+e.toString());
@@ -202,4 +205,15 @@ public class BookMainController {
 		}
 	}
 	
+	@RequestMapping("/update/reservation")
+	public Message reservation(@RequestParam("id") Integer id, HttpSession session){
+		String userId = session.getAttribute("id").toString();// 以后会改
+		try {
+			reservationService.insertNewBookReservation(id, new Integer(userId));
+			return Message.success("借阅成功");
+		} catch (Exception e) {
+			log.error("book:"+JSON.toJSONString(id)+"\n\t"+e.toString());
+			return Message.error(Code.ERROR_CONNECTION, "借阅失败！");
+		}
+	}
 }

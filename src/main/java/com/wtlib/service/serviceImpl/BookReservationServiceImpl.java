@@ -2,6 +2,8 @@ package com.wtlib.service.serviceImpl;
 
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,11 +16,12 @@ import com.wtlib.dao.BookBaseSupportMapper;
 import com.wtlib.dao.BookReservationMapper;
 import com.wtlib.pojo.BookBaseSupport;
 import com.wtlib.pojo.BookReservation;
+import com.wtlib.service.BookBaseSupportService;
 import com.wtlib.service.BookReservationService;
 
 /**
  * @Description: 图书预约类
- * @author zongzi
+ * @author pohoulong
  * @date 2017年1月22日 下午1:56:32
  */
 @Service("bookReservationService")
@@ -27,8 +30,8 @@ public class BookReservationServiceImpl implements BookReservationService {
 	@Autowired
 	private BookReservationMapper bookReservationMapper;
 
-	@Autowired
-	private BookBaseSupportMapper bookBaseSupportMapper;
+	@Resource(name="bookBaseSupportService")
+	private BookBaseSupportService bookBaseSupportService;
 
 	@Override
 	public int insert(BookReservation entity) throws Exception {
@@ -66,7 +69,7 @@ public class BookReservationServiceImpl implements BookReservationService {
 			throws Exception {
 
 		// 检查书本是否可以预约
-		BookBaseSupport bookBaseSupport = bookBaseSupportMapper
+		BookBaseSupport bookBaseSupport = bookBaseSupportService
 				.selectBookBaseSupportByBookBaseId(bookBaseId,
 						DataStatusEnum.NORMAL_USED.getCode());
 
@@ -100,7 +103,7 @@ public class BookReservationServiceImpl implements BookReservationService {
 		}
 
 		// 更新图书基础信息
-		Integer updateBookBaseSupport = bookBaseSupportMapper
+		Integer updateBookBaseSupport = bookBaseSupportService
 				.updateByBookId(bookBaseSupportTemp);
 
 		Assert.isTrue(

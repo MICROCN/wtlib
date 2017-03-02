@@ -16,6 +16,10 @@
 		<result column="data_status" property="dataStatus" jdbcType="CHAR" />
 	</resultMap>
 	
+	<update id="updateLevel">
+		
+	</update>
+	
 	<update id="deleteById" parameterType="java.lang.Integer">
 		UPDATE t_user_info,
 		 t_user

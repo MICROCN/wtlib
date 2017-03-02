@@ -2,8 +2,10 @@ package com.wtlib.service.serviceImpl;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.wtlib.dao.FeedBackMapper;
 import com.wtlib.pojo.FeedBack;
 import com.wtlib.service.FeedBackService;
 
@@ -15,10 +17,12 @@ import com.wtlib.service.FeedBackService;
 @Service("feedBackService")
 public class FeedBackServiceImpl implements FeedBackService {
 
+	@Autowired
+	FeedBackMapper feedBackMapper;
 	@Override
 	public int insert(FeedBack entity) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		int num = feedBackMapper.insert(entity);
+		return num;
 	}
 
 	@Override
@@ -29,20 +33,19 @@ public class FeedBackServiceImpl implements FeedBackService {
 
 	@Override
 	public FeedBack selectById(Object id) throws Exception {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public List<FeedBack> selectAll() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		List<FeedBack> list = feedBackMapper.selectAll();
+		return list;
 	}
 
 	@Override
 	public int deleteById(Object id) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		int num = feedBackMapper.deleteById(id);
+		return num;
 	}
 
 	@Override

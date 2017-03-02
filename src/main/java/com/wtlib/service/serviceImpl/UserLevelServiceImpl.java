@@ -45,15 +45,15 @@ public class UserLevelServiceImpl implements UserLevelService {
 	}
 	
 	@Override
+	public UserLevel selectById(Object id) throws Exception {
+		UserLevel level = userLevelMapper.selectById(id);
+		return level;
+	}
+	
+	@Override
 	public int insertBatch(List<UserLevel> entityList) throws Exception {
 		// TODO Auto-generated method stub
 		return 0;
-	}
-
-	@Override
-	public UserLevel selectById(Object id) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override

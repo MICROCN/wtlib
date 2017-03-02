@@ -11,6 +11,8 @@ import com.wtlib.pojo.UserInfo;
 public interface UserInfoService extends BaseService<UserInfo> {
 	
 	public UserWebDto find(String username);
+
+	public UserInfo selectByUserId(Integer nowReviser);
 	
 	
 }

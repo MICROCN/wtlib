@@ -6,6 +6,6 @@ import com.wtlib.pojo.CreditRecord;
  * @author zongzi
  * 
  */
-public interface CreditRecordSrevice extends BaseService<CreditRecord> {
+public interface CreditRecordService extends BaseService<CreditRecord> {
 
 }
