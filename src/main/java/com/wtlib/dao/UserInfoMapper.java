@@ -1,5 +1,7 @@
 package com.wtlib.dao;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.wtlib.dto.UserWebDto;
 import com.wtlib.pojo.UserInfo;
 
@@ -9,9 +11,9 @@ import com.wtlib.pojo.UserInfo;
  */
 public interface UserInfoMapper extends BaseDao<UserInfo> {
 	
-	public UserWebDto selectByUsername(String username);
+	public UserWebDto selectByUsername(@Param("username")String username,@Param("dataStatus") String dataStatus);
 
-	public UserInfo selectByUserId(Integer nowReviser);
+	public UserInfo selectByUserId(@Param("reviser")Integer nowReviser,@Param("dataStatus") String dataStatus);
 
 	public UserInfo updateLevel(UserInfo userInfo);
 	

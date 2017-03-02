@@ -2,6 +2,8 @@ package com.wtlib.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 /**
  * @author zongzi
  *   基类
@@ -34,7 +36,7 @@ public interface BaseDao<T> {
 	 * @return 返回查询记录
 	 * @throws Exception
 	 */
-	public T selectById(Object id) throws Exception;
+	public T selectById(@Param("id")Object id,@Param("dataStatus") String dataStatus) throws Exception;
 
 	/**
 	 * 查找所有记录
@@ -42,7 +44,7 @@ public interface BaseDao<T> {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<T> selectAll() throws Exception;
+	public List<T> selectAll(String dataStatus) throws Exception;
 
 	/**
 	 * 根据id删除记录

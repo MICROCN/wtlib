@@ -1,5 +1,7 @@
 package com.wtlib.dao;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.wtlib.pojo.CreditRecord;
 
 /**
@@ -8,5 +10,5 @@ import com.wtlib.pojo.CreditRecord;
  */
 public interface CreditRecordMapper extends BaseDao<CreditRecord> {
 
-	CreditRecord selectByUserId(Integer userId);
+	CreditRecord selectByUserId(@Param("userId") Integer userId,@Param("dataStatus") String dataStatus);
 }
