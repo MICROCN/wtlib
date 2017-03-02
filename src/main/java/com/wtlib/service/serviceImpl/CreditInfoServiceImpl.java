@@ -2,8 +2,10 @@ package com.wtlib.service.serviceImpl;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.wtlib.dao.CreditInfoMapper;
 import com.wtlib.pojo.CreditInfo;
 import com.wtlib.service.CreditInfoService;
 
@@ -11,9 +13,11 @@ import com.wtlib.service.CreditInfoService;
  * @author zongzi
  * @date 2017年1月22日 下午2:04:38
  */
-@Service("creditInforService")
+@Service("creditInfoService")
 public class CreditInfoServiceImpl implements CreditInfoService {
 
+	@Autowired
+	CreditInfoMapper creditInfoMapper;
 	@Override
 	public int insert(CreditInfo entity) throws Exception {
 		return 0;
@@ -26,6 +30,7 @@ public class CreditInfoServiceImpl implements CreditInfoService {
 
 	@Override
 	public CreditInfo selectById(Object id) throws Exception {
+		creditInfoMapper.selectById(id);
 		return null;
 	}
 

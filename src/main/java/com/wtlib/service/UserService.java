@@ -6,7 +6,7 @@ import com.wtlib.pojo.User;
 /**
  * ClassName: UserService
  * 
- * @author zongzi
+ * @author pohoulong
  * @date 2017年1月22日 下午1:36:22
  */
 public interface UserService extends BaseService<User> {
@@ -19,6 +19,6 @@ public interface UserService extends BaseService<User> {
 	
 	public Integer confirm(User user) throws Exception;
 
-	public void selectAllById(Integer userid);
+	public UserWebDto selectAllById(Integer userid);
 
 }

@@ -4,6 +4,7 @@
 import java.util.List;
 import java.util.UUID;
 
+import javax.annotation.Resource;
 import javax.persistence.Entity;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,8 @@ import com.wtlib.pojo.BookBase;
 import com.wtlib.pojo.BookBaseSupport;
 import com.wtlib.pojo.BookSingle;
 import com.wtlib.service.BookBaseService;
+import com.wtlib.service.BookBaseSupportService;
+import com.wtlib.service.BookSingleService;
 
 /**
  * @Description: 基础图书处理类
@@ -29,10 +32,10 @@ public class BookBaseServiceImpl implements BookBaseService {
 
 	@Autowired
 	BookBaseMapper bookBaseMapper;
-	@Autowired
-	BookBaseSupportMapper bookBaseSupportMapper;
-	@Autowired
-	BookSingleMapper bookSingleMapper;
+	@Resource(name = "bookBaseSupportService")
+	BookBaseSupportService bookBaseSupportService;
+	@Resource(name = "bookSingleService")
+	BookSingleService bookSingleService;
 	
 	@Override
 	public int insert(BookBase entity) throws Exception {
@@ -48,7 +51,7 @@ public class BookBaseServiceImpl implements BookBaseService {
 			book.setReviser(person);
 			bookBaseMapper.update(book);
 			//判断,插入bookBaseSupport
-			support = bookBaseSupportMapper.selectBookBaseSupportByBookBaseId(id,DataStatusEnum.NORMAL_USED.getCode());
+			support = bookBaseSupportService.selectBookBaseSupportByBookBaseId(id,DataStatusEnum.NORMAL_USED.getCode());
 			support.setSingleBookNumber(currentNum);
 			Integer currentLeftBook = support.getCurrentLeftBookNumber()+num;
 			support.setCurrentLeftBookNumber(currentLeftBook);
@@ -59,7 +62,7 @@ public class BookBaseServiceImpl implements BookBaseService {
 			if(reservation!=null){
 				//TODO 通知预约者可以借书了
 			}
-			bookBaseSupportMapper.update(support);
+			bookBaseSupportService.update(support);
 		} else{
 			//如果查找不到即没有此类书籍。
 			entity.setStartDate("001");
@@ -67,12 +70,12 @@ public class BookBaseServiceImpl implements BookBaseService {
 			support = new BookBaseSupport(id, "0" , "1", num, 0, num);
 			support.setStartDate("001");
 			support.setCreator(person);	
-			bookBaseSupportMapper.insert(support);
+			bookBaseSupportService.insert(support);
 		}
 		for(int i =0; i<num; i++){
 			BookSingle bookSingle = new BookSingle(id,"id"+UUID.randomUUID());
 			bookSingle.setCreator(person);
-			bookSingleMapper.insert(bookSingle);
+			bookSingleService.insert(bookSingle);
 		}
 		return id;
 	}
@@ -80,10 +83,10 @@ public class BookBaseServiceImpl implements BookBaseService {
 	@Override
 	public int deleteById(Object id) throws Exception {
 		//update booksingleMapper通过singleMap找到bookBaseid
-		int num=bookSingleMapper.deleteById(id);
-		BookSingle single = bookSingleMapper.findById(id);
+		int num=bookSingleService.deleteById(id);
+		BookSingle single = bookSingleService.selectById(id);
 		Integer baseId = single.getBookBaseId();
-	 	BookBaseSupport support = bookBaseSupportMapper.selectBookBaseSupportByBookBaseId(baseId,DataStatusEnum.NORMAL_USED.getCode());
+	 	BookBaseSupport support = bookBaseSupportService.selectBookBaseSupportByBookBaseId(baseId,DataStatusEnum.NORMAL_USED.getCode());
 		Integer singleBookNum = support.getSingleBookNumber();
 		if(singleBookNum==0)
 			deleteByBaseId(baseId);
@@ -95,7 +98,7 @@ public class BookBaseServiceImpl implements BookBaseService {
 	 		support.setIsBorrowAble("0");
 	 	}
 	 	support.setCurrentLeftBookNumber(currentBookNum);
-		bookBaseSupportMapper.update(support);
+	 	bookBaseSupportService.update(support);
 		BookBase base = new BookBase();
 		base.setBookNum(singleBookNum);
 		base.setId(baseId);

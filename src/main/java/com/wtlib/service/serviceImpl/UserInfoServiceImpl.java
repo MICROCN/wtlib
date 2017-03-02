@@ -74,5 +74,11 @@ public class UserInfoServiceImpl implements UserInfoService {
 		return null;
 	}
 
+	@Override
+	public UserInfo selectByUserId(Integer nowReviser) {
+		UserInfo info = userInfoMapper.selectByUserId(nowReviser);
+		return info;
+	}
+
 
 }

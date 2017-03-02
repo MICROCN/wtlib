@@ -10,4 +10,6 @@ import com.wtlib.pojo.BorrowRecord;
  */
 public interface BorrowRecordService extends BaseService<BorrowRecord> {
 
+	BorrowRecord selectBySingleId(Integer singleId);
+
 }

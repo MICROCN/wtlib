@@ -13,6 +13,7 @@ import com.wtlib.dao.BookBaseMapper;
 import com.wtlib.dao.BookBaseSupportMapper;
 import com.wtlib.dao.LabelInfoMapper;
 import com.wtlib.dto.SupportWebDto;
+import com.wtlib.dto.UserWebDto;
 import com.wtlib.pojo.BookBase;
 import com.wtlib.pojo.BookBaseSupport;
 import com.wtlib.pojo.LabelInfo;
@@ -21,7 +22,7 @@ import com.wtlib.service.BookBaseSupportService;
 import com.wtlib.service.LabelInfoService;
 import com.wtlib.service.UserService;
 
-@Service("/bookBaseSupportServiceImpl")
+@Service("bookBaseSupportService")
 public class BookBaseSupportServiceImpl implements BookBaseSupportService{
 
 	@Autowired
@@ -34,7 +35,7 @@ public class BookBaseSupportServiceImpl implements BookBaseSupportService{
 	BookBaseService bookBaseService;
 	
 	@Override
-	public BookBaseSupport selectByBaseId(Integer id) throws Exception {
+	public SupportWebDto selectByBaseId(Integer id) throws Exception {
 		BookBaseSupport support = baseSupportMapper.selectBookBaseSupportByBookBaseId(id,DataStatusEnum.NORMAL_USED.getCode());
 		SupportWebDto dto = new SupportWebDto();
 		dto.setSupport(support);
@@ -44,9 +45,10 @@ public class BookBaseSupportServiceImpl implements BookBaseSupportService{
 		dto.setLabelList(labelInfo);
 		for(LabelInfo info :labelInfo){
 			Integer userid = info.getUserId();
-			userService.selectAllById(userid);
+		    UserWebDto userDto =userService.selectAllById(userid);
+		    dto.setUserDto(userDto);
 		}
-		return support;
+		return dto;
 	}
 	
 	@Override
@@ -89,6 +91,19 @@ public class BookBaseSupportServiceImpl implements BookBaseSupportService{
 	public BookBaseSupport selectById(Object id) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public BookBaseSupport selectBookBaseSupportByBookBaseId(Integer id,
+			String code) {
+		BookBaseSupport support= baseSupportMapper.selectBookBaseSupportByBookBaseId(id,DataStatusEnum.NORMAL_USED.getCode());
+		return support;
+	}
+
+	@Override
+	public Integer updateByBookId(BookBaseSupport bookBaseSupportTemp) {
+		Integer num= baseSupportMapper.updateByBookId(bookBaseSupportTemp);
+		return num;
 	}
 	
 }

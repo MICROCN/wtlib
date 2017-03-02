@@ -97,6 +97,26 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   
+    <select id="selectAllById" parameterType="java.lang.String" resultType = "com.wtlib.dto.UserWebDto">
+	  SELECT
+		username,
+		login_id as loginId,
+		current_credit_value as currentCreditValue,
+		level_name as currentCreditLevel,
+		t_user.creator,
+		t_user.create_time as createTime,
+		t_user.reviser as reviser,
+		t_user.update_time as updateTime,
+		t_user.data_status as dataStatus
+	FROM
+		t_user,
+		t_user_info,
+		t_user_level
+	WHERE
+		t_user.id = #{userId}
+	AND user_level_id = t_user_level.id;
+  </select>
+  
   <select id="selectByLoginId" parameterType="java.lang.String" resultType = "com.wtlib.dto.UserWebDto">
 	  SELECT
 		username,
