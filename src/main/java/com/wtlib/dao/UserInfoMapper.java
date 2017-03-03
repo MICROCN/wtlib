@@ -16,5 +16,5 @@ public interface UserInfoMapper extends BaseDao<UserInfo> {
 	public UserInfo selectByUserId(@Param("reviser")Integer nowReviser,@Param("dataStatus") String dataStatus);
 
 	public UserInfo updateLevel(UserInfo userInfo);
-	
+
 }

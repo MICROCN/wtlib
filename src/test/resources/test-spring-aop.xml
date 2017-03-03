@@ -8,6 +8,6 @@
                            http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
                            http://www.springframework.org/schema/context
                            http://www.springframework.org/schema/context/spring-context-3.1.xsd">
-	<aop:aspectj-autoproxy proxy-target-class="true"  />
-	<context:component-scan base-package="com.wtlib.aop" />
+	<aop:aspectj-autoproxy proxy-target-class="true" />
+	<context:component-scan base-package="com.test.aspect" />
 </beans>

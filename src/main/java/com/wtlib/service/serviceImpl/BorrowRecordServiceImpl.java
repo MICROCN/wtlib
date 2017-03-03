@@ -22,7 +22,7 @@ public class BorrowRecordServiceImpl implements BorrowRecordService {
 	
 
 	@Override
-	public List<BorrowRecord> selectAllByUserId(Object id,String borrowCode,String dataStatus) {
+	public List<BorrowRecord> selectAllByUserId(String id,String borrowCode,String dataStatus) {
 		List<BorrowRecord> record = borrowRecordMapper.selectAllByUserId(id,borrowCode,dataStatus);
 		return record;
 	}

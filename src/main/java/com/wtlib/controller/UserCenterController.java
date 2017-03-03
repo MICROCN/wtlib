@@ -26,67 +26,69 @@ import com.wtlib.util.IpUtils;
 import com.wtlib.vo.LoginVo;
 
 public class UserCenterController {
-	
+
 	@Resource(name = "userService")
 	UserService userService;
-	@Resource(name= "userInfoService")
+	@Resource(name = "userInfoService")
 	UserInfoService userInfoService;
-	@Resource(name= "userLevelService")
+	@Resource(name = "userLevelService")
 	private UserLevelService userLevelService;
-	
+
 	Logger log = Logger.getLogger(UserCenterController.class);
 
-	//login
+	// login
 	@RequestMapping("/login")
-	public Message login(@RequestBody LoginVo login,HttpSession session,HttpServletRequest request) {
+	public Message login(@RequestBody LoginVo login, HttpSession session,
+			HttpServletRequest request) {
 		String password = login.getPassword();
 		String loginId = login.getLoginId();
 		String code = login.getCode();
 		String realCode = session.getAttribute("generateCode").toString();
-		if(code != realCode){
+		if (code != realCode) {
 			return Message.error(Code.PARAMATER, "验证码错误！");
 		}
-		//其他的null都提示的是不得为空，只有这里会记录ip的原因是防止入侵。
-		if(password==null|| code==null|| loginId==null){
-			//恶意侵入，记录ip，并禁止其再次登录
-			String ip= IpUtils.getIp(request);
-			log.error("ip:"+JSON.toJSON(ip)+"\n\t username:"+login.getLoginId());
-			return Message.error(Code.FATAL_ERROR, "别搞事情",ip);
+		// 其他的null都提示的是不得为空，只有这里会记录ip的原因是防止入侵。
+		if (password == null || code == null || loginId == null) {
+			// 恶意侵入，记录ip，并禁止其再次登录
+			String ip = IpUtils.getIp(request);
+			log.error("ip:" + JSON.toJSON(ip) + "\n\t username:"
+					+ login.getLoginId());
+			return Message.error(Code.FATAL_ERROR, "别搞事情", ip);
 		}
-		if(password.matches("^.*[\\s]+.*$")){
+		if (password.matches("^.*[\\s]+.*$")) {
 			return Message.error(Code.PARAMATER, "密码不能包含空格、制表符、换页符等空白字符");
 		}
-		if(code.matches("^.*[\\s]+.*$")){
+		if (code.matches("^.*[\\s]+.*$")) {
 			return Message.error(Code.PARAMATER, "验证码不能包含空格、制表符、换页符等空白字符");
 		}
-		if(loginId.matches("^.*[\\s]+.*$")){
+		if (loginId.matches("^.*[\\s]+.*$")) {
 			return Message.error(Code.PARAMATER, "昵称不能包含空格、制表符、换页符等空白字符");
 		}
-		User user = new User(loginId,password);
+		User user = new User(loginId, password);
 		try {
-			Integer id= userService.confirm(user);
-			if(id!=null){
-				session.setAttribute("user", id);//这里不安全。肯定要改。要么用https要么就加密
-				session.setMaxInactiveInterval(60*30);
-				log.info(JSON.toJSONString(user)+"登陆了\n\t ip:"+IpUtils.getIp(request));
+			Integer id = userService.confirm(user);
+			if (id != null) {
+				session.setAttribute("user", id);// 这里不安全。肯定要改。要么用https要么就加密
+				session.setMaxInactiveInterval(60 * 30);
+				log.info(JSON.toJSONString(user) + "登陆了\n\t ip:"
+						+ IpUtils.getIp(request));
 				return Message.success("登陆成功！");
-			}
-			else
+			} else
 				return Message.error(Code.PARAMATER, "账号或密码错误");
 		} catch (Exception e) {
 			log.error(JSON.toJSONString(user) + "\n\t" + e.toString());
 			return Message.error(Code.ERROR_CONNECTION, "无法查询数据");
 		}
 	}
-	
-	//user
+
+	// user
 	@RequestMapping("/add/user")
 	@ResponseBody
 	public Message addUser(@RequestBody User user, HttpSession session) {
 		String id = session.getAttribute("id").toString();// 以后会改
 		String password = user.getPassword();
 		String loginId = user.getLoginId();
-		if (loginId == null||password == null) {
+		if (loginId == null || password == null) {
 			return Message.error(Code.PARAMATER, "不得为空");
 		}
 		if (password.matches("^.*[\\s]+.*$")) {
@@ -132,7 +134,7 @@ public class UserCenterController {
 		String password = user.getPassword();
 		String loginId = user.getLoginId();
 		String id = session.getAttribute("id").toString();// 以后会改
-		if (loginId == null||password == null) {
+		if (loginId == null || password == null) {
 			return Message.error(Code.PARAMATER, "不得为空");
 		}
 		if (password.matches("^.*[\\s]+.*$")) {
@@ -174,124 +176,128 @@ public class UserCenterController {
 			return Message.error(Code.ERROR_CONNECTION, "找不到此用户！");
 		}
 	}
-	
-	//userinfo
-	
+
+	// userinfo
+
 	@RequestMapping("/delete/info")
 	@ResponseBody
-	public Message deleteUserInfo(@RequestParam("id") Integer id){
+	public Message deleteUserInfo(@RequestParam("id") Integer id) {
 		try {
 			userInfoService.deleteById(id);
 			return Message.success("删除成功");
 		} catch (Exception e) {
-			log.error(JSON.toJSONString(id)+"\n\t"+e.toString());
+			log.error(JSON.toJSONString(id) + "\n\t" + e.toString());
 			return Message.error(Code.ERROR_CONNECTION, "无法删除数据");
 		}
 	}
-	
+
 	@RequestMapping("/update/info")
 	@ResponseBody
-	public Message updateUserInfo(@RequestBody UserInfo userInfo,HttpSession session,HttpServletRequest request){
-		String username = userInfo.getUsername();
-		//下面是为了防止有人恶意篡改等级和积分，只要他们传过来为空即可。
-		Integer level= userInfo.getCurrentCreditLevel();
-		Integer value= userInfo.getCurrentCreditValue();
-		String id= session.getAttribute("id").toString();//以后会改
-		if(username==null||level!=null&&value!=null){
-			//恶意侵入，记录ip，并禁止其再次登录
-			String ip= IpUtils.getIp(request);
-			log.error("ip:"+JSON.toJSON(ip)+"\n\t username:"+userInfo.getUsername()+"\n\t id:"+id);
-			return Message.error(Code.FATAL_ERROR, "别搞事情",ip);
+	public Message updateUserInfo(@RequestBody UserInfo userInfo,
+			HttpSession session, HttpServletRequest request) {
+		String username = userInfo.getUserName();
+		// 下面是为了防止有人恶意篡改等级和积分，只要他们传过来为空即可。
+		Integer level = userInfo.getUserLevelId();
+		Integer value = userInfo.getCurrentCreditValue();
+		String id = session.getAttribute("id").toString();// 以后会改
+		if (username == null || level != null && value != null) {
+			// 恶意侵入，记录ip，并禁止其再次登录
+			String ip = IpUtils.getIp(request);
+			log.error("ip:" + JSON.toJSON(ip) + "\n\t username:"
+					+ userInfo.getUserName() + "\n\t id:" + id);
+			return Message.error(Code.FATAL_ERROR, "别搞事情", ip);
 		}
 		try {
 			userInfo.setReviser(new Integer(id));
 			userInfoService.update(userInfo);
 			return Message.success("更新成功", Code.SUCCESS);
 		} catch (Exception e) {
-			log.error(JSON.toJSONString(userInfo)+"\n\t"+e.toString());
+			log.error(JSON.toJSONString(userInfo) + "\n\t" + e.toString());
 			return Message.error(Code.ERROR_CONNECTION, "无法更改数据");
 		}
 	}
-	
+
 	@RequestMapping("/find/info")
 	@ResponseBody
-	public Message findUserInfo(@RequestBody UserInfo userInfo){
-		String username = userInfo.getUsername();
-		if(username== null){
+	public Message findUserInfo(@RequestBody UserInfo userInfo) {
+		String username = userInfo.getUserName();
+		if (username == null) {
 			return Message.error(Code.PARAMATER, "不得为空");
 		}
 		try {
 			UserWebDto dto = userInfoService.find(username);
 			return Message.success("查找成功", Code.SUCCESS);
 		} catch (Exception e) {
-			log.error(JSON.toJSONString(userInfo)+"\n\t"+e.toString());
+			log.error(JSON.toJSONString(userInfo) + "\n\t" + e.toString());
 			return Message.error(Code.ERROR_CONNECTION, "无法查询数据");
-		} 
+		}
 	}
-	
-	//userLevel
-	
+
+	// userLevel
+
 	@RequestMapping("/add/level")
 	@ResponseBody
-	public Message addLevel(@RequestBody UserLevel userLevel,HttpSession session,HttpServletRequest request){
-		String id= session.getAttribute("id").toString();//以后会改
+	public Message addLevel(@RequestBody UserLevel userLevel,
+			HttpSession session, HttpServletRequest request) {
+		String id = session.getAttribute("id").toString();// 以后会改
 		userLevel.setCreator(new Integer(id));
-		String name =userLevel.getLevelName();
-		Integer value =userLevel.getLevelMinCreditValue();
-		Double weight =userLevel.getLevelWeight();
-		
-		if(value!=null){
-			//恶意侵入，记录ip，并禁止其再次登录
-			String ip= IpUtils.getIp(request);
-			log.error("ip:"+JSON.toJSON(ip)+"\n\t id："+id);
-			return Message.error(Code.FATAL_ERROR, "别搞事情",ip);
+		String name = userLevel.getLevelName();
+		Integer value = userLevel.getLevelMinCreditValue();
+		Double weight = userLevel.getLevelWeight();
+
+		if (value != null) {
+			// 恶意侵入，记录ip，并禁止其再次登录
+			String ip = IpUtils.getIp(request);
+			log.error("ip:" + JSON.toJSON(ip) + "\n\t id：" + id);
+			return Message.error(Code.FATAL_ERROR, "别搞事情", ip);
 		}
-		if(name==null|| weight==null){
+		if (name == null || weight == null) {
 			return Message.error(Code.PARAMATER, "不得为空");
 		}
-		if(name.matches("^.*[\\s]+.*$")){
+		if (name.matches("^.*[\\s]+.*$")) {
 			return Message.error(Code.PARAMATER, "昵称不能包含空格、制表符、换页符等空白字符");
 		}
 		try {
-			value = new Integer((int) (weight*1200));//value的只由weight算出来的。这里假定为1200
+			value = new Integer((int) (weight * 1200));// value的只由weight算出来的。这里假定为1200
 			userLevelService.insert(userLevel);
 			return Message.success("插入成功", Code.SUCCESS);
 		} catch (Exception e) {
-			log.error(JSON.toJSONString(userLevel)+"\n\t"+e.toString());
+			log.error(JSON.toJSONString(userLevel) + "\n\t" + e.toString());
 			return Message.error(Code.ERROR_CONNECTION, "无法增加数据");
 		}
 	}
-	
+
 	@RequestMapping("/delete/level")
 	@ResponseBody
-	public Message deleteLevel(@RequestParam("id") Integer id){
+	public Message deleteLevel(@RequestParam("id") Integer id) {
 		try {
 			userLevelService.deleteById(id);
 			return Message.success("删除成功", Code.SUCCESS);
 		} catch (Exception e) {
-			log.error(JSON.toJSONString(id)+"\n\t"+e.toString());
+			log.error(JSON.toJSONString(id) + "\n\t" + e.toString());
 			return Message.error(Code.ERROR_CONNECTION, "无法删除数据");
 		}
 	}
-	
+
 	@RequestMapping("/update/level")
 	@ResponseBody
-	public Message updateLevel(@RequestBody UserLevel userLevel,HttpSession session,HttpServletRequest request){
-		String name =userLevel.getLevelName();
-		Integer value =userLevel.getLevelMinCreditValue();
-		Double weight =userLevel.getLevelWeight();
-		String id= session.getAttribute("id").toString();//以后会改
-		
-		if(value!=null){
-			//恶意侵入，记录ip，并禁止其再次登录
-			String ip= IpUtils.getIp(request);
-			log.error("ip:"+JSON.toJSON(ip)+"\n\t id："+id);
-			return Message.error(Code.FATAL_ERROR, "别搞事情",ip);
+	public Message updateLevel(@RequestBody UserLevel userLevel,
+			HttpSession session, HttpServletRequest request) {
+		String name = userLevel.getLevelName();
+		Integer value = userLevel.getLevelMinCreditValue();
+		Double weight = userLevel.getLevelWeight();
+		String id = session.getAttribute("id").toString();// 以后会改
+
+		if (value != null) {
+			// 恶意侵入，记录ip，并禁止其再次登录
+			String ip = IpUtils.getIp(request);
+			log.error("ip:" + JSON.toJSON(ip) + "\n\t id：" + id);
+			return Message.error(Code.FATAL_ERROR, "别搞事情", ip);
 		}
-		if(name==null|| weight==null){
+		if (name == null || weight == null) {
 			return Message.error(Code.PARAMATER, "不得为空");
 		}
-		if(name.matches("^.*[\\s]+.*$")){
+		if (name.matches("^.*[\\s]+.*$")) {
 			return Message.error(Code.PARAMATER, "昵称不能包含空格、制表符、换页符等空白字符");
 		}
 		try {
@@ -299,21 +305,21 @@ public class UserCenterController {
 			userLevelService.update(userLevel);
 			return Message.success("更新成功", Code.SUCCESS);
 		} catch (Exception e) {
-			log.error(JSON.toJSONString(userLevel)+"\n\t"+e.toString());
+			log.error(JSON.toJSONString(userLevel) + "\n\t" + e.toString());
 			return Message.error(Code.ERROR_CONNECTION, "无法更新数据");
 		}
 	}
-	
+
 	@RequestMapping("/find/level")
 	@ResponseBody
-	public Message findLevel(){
+	public Message findLevel() {
 		try {
 			List<UserLevel> userLevelList = userLevelService.selectAll();
-			return Message.success(Code.SUCCESS, "查找成功" , userLevelList);
+			return Message.success(Code.SUCCESS, "查找成功", userLevelList);
 		} catch (Exception e) {
 			log.error(e.toString());
 			return Message.error(Code.ERROR_CONNECTION, "无法查询数据");
-		} 
+		}
 	}
-	
+
 }
