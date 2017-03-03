@@ -15,8 +15,8 @@ import org.unitils.spring.annotation.SpringApplicationContext;
 import org.unitils.spring.annotation.SpringBean;
 
 import com.alibaba.fastjson.JSON;
+import com.test.BaseTestStarter;
 import com.test.component.XlsDataSetBeanFactory;
-import com.test.dao.BaseDaoTest;
 import com.wtlib.constants.DataStatusEnum;
 import com.wtlib.dao.BookBaseMapper;
 import com.wtlib.dao.BookBaseSupportMapper;
@@ -34,15 +34,10 @@ import com.wtlib.service.serviceImpl.BookReservationServiceImpl;
  * @date 2017年2月13日 下午2:06:09
  */
 
-public class BookReservationServiceTest extends BaseServiceTest {
+public class BookReservationServiceTest extends BaseTestStarter {
 
 	@SpringBean(value = "bookReservationService")
 	private BookReservationService bookReservationService;
-
-	@Before
-	public void before() {
-
-	}
 
 	@Test
 	@DataSet("dataSetXls/BookReservationService/insertNewBookReservation.xls")

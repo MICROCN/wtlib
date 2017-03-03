@@ -44,71 +44,72 @@ import com.wtlib.service.UserLevelService;
 @Service("bookSingleService")
 public class BookSingleServiceImpl implements BookSingleService {
 
-	SimpleDateFormat myFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
-	
+	SimpleDateFormat myFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
 	@Autowired
 	BookSingleMapper bookSingleMapper;
-	@Resource(name="bookBaseSupportService")
+	@Resource(name = "bookBaseSupportService")
 	BookBaseSupportService bookBaseSupportService;
-	@Resource(name="borrowRecordService")
+	@Resource(name = "borrowRecordService")
 	BorrowRecordService borrowRecordService;
-	@Resource(name="creditRecordService")
+	@Resource(name = "creditRecordService")
 	CreditRecordService creditRecordService;
-	@Resource(name="creditInfoService")
+	@Resource(name = "creditInfoService")
 	CreditInfoService creditInfoService;
-	@Resource(name="userInfoService")
+	@Resource(name = "userInfoService")
 	UserInfoService userInfoService;
-	@Resource(name="userLevelService")
+	@Resource(name = "userLevelService")
 	UserLevelService userLevelService;
-	
+
 	@Override
 	public int insert(BookSingle entity) throws Exception {
-		Integer num= bookSingleMapper.insert(entity);
+		Integer num = bookSingleMapper.insert(entity);
 		return num;
 	}
-	
+
 	@Override
 	public int deleteById(Object id) throws Exception {
-		Integer num= bookSingleMapper.deleteById(id);
+		Integer num = bookSingleMapper.deleteById(id);
 		return num;
 	}
-	
+
 	@Override
 	public int update(BookSingle entity) throws Exception {
 		Integer id = entity.getBookBaseId();
 		Integer reviser = entity.getReviser();
-		BookBaseSupport support = bookBaseSupportService.selectBookBaseSupportByBookBaseId(id,DataStatusEnum.NORMAL_USED.getCode());
+		BookBaseSupport support = bookBaseSupportService
+				.selectBookBaseSupportByBookBaseId(id,
+						DataStatusEnum.NORMAL_USED.getCode());
 		support.setReviser(reviser);
-		Integer book= support.getCurrentLeftBookNumber()-1;
-		Assert.isTrue(book>=0,"无法借阅书！");
+		Integer book = support.getCurrentLeftBookNumber() - 1;
+		Assert.isTrue(book >= 0, "无法借阅书！");
 		Integer reservation = support.getCurrentReservateNumber();
-		//如果有预定的人，则就提示所有预定的人书已被借。
-		if(reservation!=0){
-			//TODO 通知所有预定的人书已经被借走，是否预定。
+		// 如果有预定的人，则就提示所有预定的人书已被借。
+		if (reservation != 0) {
+			// TODO 通知所有预定的人书已经被借走，是否预定。
 		}
-		if(book==0){
+		if (book == 0) {
 			support.setCurrentLeftBookNumber(0);
 			support.setIsBorrowAble("0");
 			support.setIsReservateAble("1");
-		}
-		else{
+		} else {
 			support.setCurrentLeftBookNumber(book);
 		}
 		Integer num = bookSingleMapper.update(entity);
 		bookBaseSupportService.update(support);
-		//添加一条借阅记录
-		Calendar cal = Calendar.getInstance(); 
+		// 添加一条借阅记录
+		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.DATE, 30);
 		Date date = cal.getTime();
-		BorrowRecord record = new BorrowRecord(id,reviser,date);
+		BorrowRecord record = new BorrowRecord(id, reviser, date);
 		borrowRecordService.insert(record);
 		return num;
 	}
-	
+
 	@Override
 	public void editReturnBack(BookSingle entity) throws Exception {
-		//用book_hash作为查询属性查询到book_single对象
-		//先要保存现在的修改者的id
+		// 用book_hash作为查询属性查询到book_single对象
+		// 先要保存现在的修改者的id
 		Integer nowReviser = entity.getReviser();
 		String hash = entity.getBookHash();
 		entity = bookSingleMapper.findByHash(hash);
@@ -116,75 +117,79 @@ public class BookSingleServiceImpl implements BookSingleService {
 		Date oldUpdateTime = entity.getUpdateTime();
 		Integer oldReviser = entity.getReviser();
 		Integer singleId = entity.getId();
-		//将原来的修改者和修改时间赋值为上一次借阅时间和上一个借阅人
+		// 将原来的修改者和修改时间赋值为上一次借阅时间和上一个借阅人
 		entity.setLastLender(oldReviser);
 		entity.setLastLendTime(oldUpdateTime);
 		entity.setReviser(nowReviser);
-		//通过book_base_id查询book_base_support对象
-		BookBaseSupport support = bookBaseSupportService.selectBookBaseSupportByBookBaseId(baseId,DataStatusEnum.NORMAL_USED.getCode());
-		//将图书设为可借阅，并把剩余可借人数+1，判断是否有预约的人。
+		// 通过book_base_id查询book_base_support对象
+		BookBaseSupport support = bookBaseSupportService
+				.selectBookBaseSupportByBookBaseId(baseId,
+						DataStatusEnum.NORMAL_USED.getCode());
+		// 将图书设为可借阅，并把剩余可借人数+1，判断是否有预约的人。
 		support.setIsBorrowAble("1");
 		Integer borrowNum = support.getCurrentLeftBookNumber();
 		support.setCurrentLeftBookNumber(borrowNum++);
 		Integer reservation = support.getCurrentReservateNumber();
-		if(reservation!=0){
-			//TODO 发邮件通知所有的人可预约。
+		if (reservation != 0) {
+			// TODO 发邮件通知所有的人可预约。
 		}
-		//借阅记录
+		// 借阅记录
 		BorrowRecord record = borrowRecordService.selectBySingleId(singleId);
 		String borrowStatus = record.getBorrowStatus();
-		//用userid查userlevelid与userlevel表匹配
+		// 用userid查userlevelid与userlevel表匹配
 		UserInfo userInfo = userInfoService.selectByUserId(nowReviser);
-		Integer levelId = userInfo.getCurrentCreditLevel();
+		Integer levelId = userInfo.getUserLevelId();
 		UserLevel level = userLevelService.selectById(levelId);
-		Double levelWeight= level.getLevelWeight();
+		Double levelWeight = level.getLevelWeight();
 		double levelValue;
 		CreditRecord creditRecord = new CreditRecord();
-		if(borrowStatus.equals("002")){
-			//就是说他超时未还。
-			CreditInfo CreditInfo = creditInfoService.selectById(CreditEnum.overtime.getId());
-			String plus =  CreditInfo.getIsPlus();
+		if (borrowStatus.equals("002")) {
+			// 就是说他超时未还。
+			CreditInfo CreditInfo = creditInfoService
+					.selectById(CreditEnum.overtime.getId());
+			String plus = CreditInfo.getIsPlus();
 			creditRecord.setCreditIsPlus(plus);
 			creditRecord.setCreditInfoId(CreditEnum.overtime.getId());
 			creditRecord.setCreditName(CreditEnum.overtime.getName());
 			Integer value = CreditInfo.getCreditValue();
 			creditRecord.setCreditValue(value);
-			if(plus.equals("1")){
-				levelValue = value*levelWeight;
-			} else{
-				levelValue = -value*levelWeight;
+			if (plus.equals("1")) {
+				levelValue = value * levelWeight;
+			} else {
+				levelValue = -value * levelWeight;
 			}
-		} else{
-			//就是说他还书成功
-			CreditInfo CreditInfo = creditInfoService.selectById(CreditEnum.successReturn.getId());
-			String plus =  CreditInfo.getIsPlus();
+		} else {
+			// 就是说他还书成功
+			CreditInfo CreditInfo = creditInfoService
+					.selectById(CreditEnum.successReturn.getId());
+			String plus = CreditInfo.getIsPlus();
 			creditRecord.setCreditIsPlus(plus);
 			creditRecord.setCreditIsPlus(plus);
 			creditRecord.setCreditInfoId(CreditEnum.overtime.getId());
 			creditRecord.setCreditName(CreditEnum.overtime.getName());
 			Integer value = CreditInfo.getCreditValue();
 			creditRecord.setCreditValue(value);
-			if(plus.equals("1")){
-				levelValue = value*levelWeight;
-			} else{
-				levelValue = -value*levelWeight;
+			if (plus.equals("1")) {
+				levelValue = value * levelWeight;
+			} else {
+				levelValue = -value * levelWeight;
 			}
 		}
-		//修改信用值。
+		// 修改信用值。
 		Integer oldValue = userInfo.getCurrentCreditValue();
-		Integer currentValue = (int) (oldValue+levelValue);
+		Integer currentValue = (int) (oldValue + levelValue);
 		userInfo.setCurrentCreditValue(currentValue);
 		userInfo.setReviser(nowReviser);
-		//这里要update user一下,修改信用等级或者信用积分
-		//更新level用spring计时器
-//		userInfo = userInfoMapper.updateLevel(userInfo);
+		// 这里要update user一下,修改信用等级或者信用积分
+		// 更新level用spring计时器
+		// userInfo = userInfoMapper.updateLevel(userInfo);
 		userInfoService.update(userInfo);
-		//这里修改borrowRecord记录，将未归还变成归还，然后归还日期设为现在。
+		// 这里修改borrowRecord记录，将未归还变成归还，然后归还日期设为现在。
 		record.setReviser(nowReviser);
 		record.setReturnTime(new Date());
 		record.setBorrowStatus("003");
 		borrowRecordService.update(record);
-		//记录一下信用记录
+		// 记录一下信用记录
 		creditRecord.setCreator(nowReviser);
 		creditRecord.setCreditBeforeValue(oldValue);
 		creditRecord.setCreditAfterValue(currentValue);

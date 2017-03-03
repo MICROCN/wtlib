@@ -3,53 +3,27 @@ package com.test;
 //flicts test
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.Random;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.unitils.spring.annotation.SpringBean;
 
 import com.alibaba.fastjson.JSON;
-import com.wtlib.mq.MQDemo;
 import com.wtlib.pojo.User;
 import com.wtlib.service.UserService;
-import com.wtlib.start.InterfaceUrlInti;
-//ddsssssss
 
-//@RunWith(SpringJUnit4ClassRunner.class)
-//@ContextConfiguration(locations = { "classpath:spring.xml",ddddddddddddddddddddddddd
-//		"classpath:spring-mybatis.xml", "classpath:spring-mvc.xml"})
-public class MainTest {
+public class MainTest extends BaseTestStarter {
 
-	private static ClassPathXmlApplicationContext context = null;
-
-	static {
-		InterfaceUrlInti.init();
-		context = new ClassPathXmlApplicationContext(new String[] {
-				"classpath:spring-mybatis.xml", "classpath:spring.xml",
-				"classpath:spring-aop.xml" });
-	}
-
+	@SpringBean(value = "userService")
 	private static UserService userService;
 
 	@Test
 	public void test1() throws Exception {
-		userService = (UserService) context.getBean("userService");
-		User user = new User();
-		user.setPassword("aaaaa");
-		user.setLoginId("testtesttest");
-		try {
-			int insert = userService.insert(user);
-			System.out.println(insert);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		
 	}
 
 	/**
-	 * @param args
+	 * @param 练习java反射
 	 */
 	public static void main(String[] args) {
 		User user = new User("jc", "sdfa");
