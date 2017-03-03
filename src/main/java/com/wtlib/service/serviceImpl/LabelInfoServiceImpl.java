@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.wtlib.constants.DataStatusEnum;
 import com.wtlib.dao.LabelInfoMapper;
 import com.wtlib.pojo.BookBaseLabelInfo;
 import com.wtlib.pojo.LabelInfo;
@@ -71,7 +72,7 @@ public class LabelInfoServiceImpl implements LabelInfoService {
 
 	@Override
 	public List<LabelInfo> selectByBaseId(Integer id) {
-		return labelInfoMapper.selectByBaseId(id);
+		return labelInfoMapper.selectByBaseId(id,DataStatusEnum.NORMAL_USED.getCode());
 	}
 
 }

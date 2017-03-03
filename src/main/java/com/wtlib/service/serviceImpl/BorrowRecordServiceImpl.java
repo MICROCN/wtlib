@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.wtlib.constants.DataStatusEnum;
 import com.wtlib.dao.BorrowRecordMapper;
 import com.wtlib.pojo.BorrowRecord;
 import com.wtlib.service.BorrowRecordService;
@@ -21,8 +22,8 @@ public class BorrowRecordServiceImpl implements BorrowRecordService {
 	
 
 	@Override
-	public List<BorrowRecord> selectAllByUserId(Object id,String code) {
-		List<BorrowRecord> record = borrowRecordMapper.selectAllByUserId(id,code);
+	public List<BorrowRecord> selectAllByUserId(Object id,String borrowCode,String dataStatus) {
+		List<BorrowRecord> record = borrowRecordMapper.selectAllByUserId(id,borrowCode,dataStatus);
 		return record;
 	}
 	
@@ -70,7 +71,7 @@ public class BorrowRecordServiceImpl implements BorrowRecordService {
 
 	@Override
 	public BorrowRecord selectBySingleId(Integer singleId) {
-		BorrowRecord record = borrowRecordMapper.selectBySingleId(singleId);
+		BorrowRecord record = borrowRecordMapper.selectBySingleId(singleId,DataStatusEnum.NORMAL_USED.getCode());
 		return record;
 	}
 

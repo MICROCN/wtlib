@@ -103,7 +103,7 @@ public class BookSingleServiceImpl implements BookSingleService {
 		//先要保存现在的修改者的id
 		Integer nowReviser = entity.getReviser();
 		String hash = entity.getBookHash();
-		entity = bookSingleMapper.findByHash(hash);
+		entity = bookSingleMapper.findByHash(hash,DataStatusEnum.NORMAL_USED.getCode());
 		Integer baseId = entity.getBookBaseId();
 		Date oldUpdateTime = entity.getUpdateTime();
 		Integer oldReviser = entity.getReviser();
@@ -190,7 +190,7 @@ public class BookSingleServiceImpl implements BookSingleService {
 
 	@Override
 	public BookSingle selectById(Object id) throws Exception {
-		BookSingle single = bookSingleMapper.findById(id);
+		BookSingle single = bookSingleMapper.findById(id,DataStatusEnum.NORMAL_USED.getCode());
 		return single;
 	}
 

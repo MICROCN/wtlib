@@ -14,6 +14,7 @@ public interface BorrowRecordService extends BaseService<BorrowRecord> {
 
 	BorrowRecord selectBySingleId(Integer singleId) throws Exception;
 
-	List<BorrowRecord> selectAllByUserId(Object id,String code) throws Exception;
+	List<BorrowRecord> selectAllByUserId(String id,String borrowCode,String dataStatus) throws Exception;
+
 
 }

@@ -39,7 +39,7 @@ public class BookBaseServiceImpl implements BookBaseService {
 	@Override
 	public int insert(BookBase entity) throws Exception {
 		// 插入bookBase表返回bookBase对象，如果没有同类书籍的话自然String是null，所以不用判断他是否存在
-		BookBase book = bookBaseMapper.find(entity);
+		BookBase book = bookBaseMapper.find(entity,DataStatusEnum.NORMAL_USED.getCode());
 		Integer num = entity.getBookNum();
 		Integer id = book.getId();
 		Integer person = entity.getCreator();
@@ -121,13 +121,13 @@ public class BookBaseServiceImpl implements BookBaseService {
 
 	@Override
 	public List<BookBase> find(String title) {
-		List<BookBase> bookBaseList = bookBaseMapper.findByTitle(title);
+		List<BookBase> bookBaseList = bookBaseMapper.findByTitle(title,DataStatusEnum.NORMAL_USED.getCode());
 		return bookBaseList;
 	}
 
 	@Override
 	public List<BookBase> selectAll() throws Exception {
-		List<BookBase> bookBaseList = bookBaseMapper.selectAll();
+		List<BookBase> bookBaseList = bookBaseMapper.selectAll(DataStatusEnum.NORMAL_USED.getCode());
 		return bookBaseList;
 	}
 

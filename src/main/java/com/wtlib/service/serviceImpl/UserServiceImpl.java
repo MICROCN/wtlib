@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import com.wtlib.constants.DataStatusEnum;
 import com.wtlib.dao.UserInfoMapper;
 import com.wtlib.dao.UserMapper;
 import com.wtlib.dto.UserWebDto;
@@ -28,7 +29,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	public UserWebDto find(String loginId) {
-		UserWebDto user= userMapper.selectByLoginId(loginId);
+		UserWebDto user= userMapper.selectByLoginId(loginId,DataStatusEnum.NORMAL_USED.getCode());
 		return user;
 	}
 
@@ -57,7 +58,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User selectById(Object id) throws Exception {
-		User user= userMapper.selectById(id);
+		User user= userMapper.selectById(id,DataStatusEnum.NORMAL_USED.getCode());
 		return user;
 	}
 
@@ -69,7 +70,7 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	public List<User> selectAll() throws Exception {
-		List<User> userList= userMapper.selectAll();
+		List<User> userList= userMapper.selectAll(DataStatusEnum.NORMAL_USED.getCode());
 
 		  return userList;
 	}
@@ -85,7 +86,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserWebDto selectAllById(Integer userid) {
-		UserWebDto user= userMapper.selectAllById(userid);
+		UserWebDto user= userMapper.selectAllById(userid,DataStatusEnum.NORMAL_USED.getCode());
 		return user;
 	}
 

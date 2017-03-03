@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import com.wtlib.constants.DataStatusEnum;
 import com.wtlib.dao.UserInfoMapper;
 import com.wtlib.dto.UserWebDto;
 import com.wtlib.pojo.UserInfo;
@@ -31,7 +32,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 
 	@Override
 	public UserWebDto find(String username) {	
-		UserWebDto user= userInfoMapper.selectByUsername(username);
+		UserWebDto user= userInfoMapper.selectByUsername(username,DataStatusEnum.NORMAL_USED.getCode());
 		Assert.isTrue(user!=null,"查无此人");
 		return user;
 	}
@@ -76,7 +77,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 
 	@Override
 	public UserInfo selectByUserId(Integer nowReviser) {
-		UserInfo info = userInfoMapper.selectByUserId(nowReviser);
+		UserInfo info = userInfoMapper.selectByUserId(nowReviser,DataStatusEnum.NORMAL_USED.getCode());
 		return info;
 	}
 

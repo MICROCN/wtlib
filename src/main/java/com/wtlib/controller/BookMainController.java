@@ -19,6 +19,7 @@ import com.Message;
 import com.alibaba.fastjson.JSON;
 import com.wtlib.constants.BorrowStatusEnum;
 import com.wtlib.constants.Code;
+import com.wtlib.constants.DataStatusEnum;
 import com.wtlib.dto.SupportWebDto;
 import com.wtlib.pojo.BookBase;
 import com.wtlib.pojo.BookBaseSupport;
@@ -159,28 +160,28 @@ public class BookMainController {
 			return Message.error(Code.ERROR_CONNECTION, "找不到书籍！");
 		}
 	}
-	
+	//这个是需要评价的标签
 	@RequestMapping("/get/back")
 	public Message getBackRecoder(HttpSession session){
 		String id = session.getAttribute("id").toString();// 以后会改
 		try {
-			List<BorrowRecord> borrowRecordList= borrowRecordService.selectAllByUserId(id,BorrowStatusEnum.TICK_LABEL.getCode());
+			List<BorrowRecord> borrowRecordList= borrowRecordService.selectAllByUserId(id,BorrowStatusEnum.TICK_LABEL.getCode(),DataStatusEnum.NORMAL_USED.getCode());
 			return Message.success(Code.SUCCESS, "查找成功", borrowRecordList);
 		} catch (Exception e) {
 			log.error(e.toString());
-			return Message.error(Code.ERROR_CONNECTION, "找不到书籍！");
+			return Message.error(Code.ERROR_CONNECTION, "找不到记录！");
 		}
 	}
-	
+	//这个是已经评价过的标签
 	@RequestMapping("/get/labelRecord")
 	public Message getLabel(HttpSession session){
 		String id = session.getAttribute("id").toString();// 以后会改
 		try {
-			List<BorrowRecord> borrowRecordList= borrowRecordService.selectAllByUserId(id,BorrowStatusEnum.GIVE_BACK.getCode());
+			List<BorrowRecord> borrowRecordList= borrowRecordService.selectAllByUserId(id,BorrowStatusEnum.GIVE_BACK.getCode(),DataStatusEnum.NORMAL_USED.getCode());
 			return Message.success(Code.SUCCESS, "查找成功", borrowRecordList);
 		} catch (Exception e) {
 			log.error(e.toString());
-			return Message.error(Code.ERROR_CONNECTION, "找不到书籍！");
+			return Message.error(Code.ERROR_CONNECTION, "找不到记录！");
 		}
 	}
 	//bookbasesupport

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import com.wtlib.constants.DataStatusEnum;
 import com.wtlib.dao.UserLevelMapper;
 import com.wtlib.pojo.UserLevel;
 import com.wtlib.service.UserLevelService;
@@ -34,7 +35,7 @@ public class UserLevelServiceImpl implements UserLevelService {
 
 	@Override
 	public List<UserLevel> selectAll() throws Exception {
-		List<UserLevel> levelList= userLevelMapper.selectAll();
+		List<UserLevel> levelList= userLevelMapper.selectAll(DataStatusEnum.NORMAL_USED.getCode());
 		return levelList;
 	}
 	
@@ -46,7 +47,7 @@ public class UserLevelServiceImpl implements UserLevelService {
 	
 	@Override
 	public UserLevel selectById(Object id) throws Exception {
-		UserLevel level = userLevelMapper.selectById(id);
+		UserLevel level = userLevelMapper.selectById(id,DataStatusEnum.NORMAL_USED.getCode());
 		return level;
 	}
 	

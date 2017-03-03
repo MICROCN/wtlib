@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.wtlib.constants.DataStatusEnum;
 import com.wtlib.dao.FeedBackMapper;
 import com.wtlib.pojo.FeedBack;
 import com.wtlib.service.FeedBackService;
@@ -38,7 +39,7 @@ public class FeedBackServiceImpl implements FeedBackService {
 
 	@Override
 	public List<FeedBack> selectAll() throws Exception {
-		List<FeedBack> list = feedBackMapper.selectAll();
+		List<FeedBack> list = feedBackMapper.selectAll(DataStatusEnum.NORMAL_USED.getCode());
 		return list;
 	}
 

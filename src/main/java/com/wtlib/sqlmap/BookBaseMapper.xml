@@ -24,18 +24,18 @@
   </sql>
   
   <select id="findByTitle" parameterType="java.lang.String" resultMap="BookBaseMap">
-  	select * from t_book_base WHERE book_title like "%#{title}%"
+  	select * from t_book_base WHERE book_title like "%#{title}%" and data_status = #{dataStatus} 
   </select>
   
   <select id="selectAll" resultMap="BookBaseMap">
-  	SELECT * from t_book_base
+  	SELECT * from t_book_base where data_status = #{dataStatus}
   </select>
   
   <select id="selectById" resultMap="BookBaseMap" parameterType="java.lang.Integer" >
     select 
     <include refid="comList" />
     from t_book_base
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER} and data_status = #{dataStatus} 
   </select>
   
   <delete id="deleteById" parameterType="java.lang.Integer" >
@@ -169,7 +169,7 @@
       </if>
       <if test="updateTime != null" >
         update_time = #{updateTime,jdbcType=TIMESTAMP},
-      </if>
+      </if> 
       <if test="dataStatus != null" >
         data_status = #{dataStatus,jdbcType=CHAR},
       </if>

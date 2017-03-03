@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.wtlib.constants.DataStatusEnum;
 import com.wtlib.dao.CreditInfoMapper;
 import com.wtlib.pojo.CreditInfo;
 import com.wtlib.service.CreditInfoService;
@@ -30,7 +31,7 @@ public class CreditInfoServiceImpl implements CreditInfoService {
 
 	@Override
 	public CreditInfo selectById(Object id) throws Exception {
-		creditInfoMapper.selectById(id);
+		creditInfoMapper.selectById(id,DataStatusEnum.NORMAL_USED.getCode());
 		return null;
 	}
 
