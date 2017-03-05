@@ -9,6 +9,7 @@ import com.wtlib.pojo.LabelInfo;
 
 public interface LabelInfoMapper extends BaseDao<LabelInfo>{
 
-	List<LabelInfo> selectByBaseId(@Param("id")Integer id,@Param("dataStatus") String dataStatus);
+	List<LabelInfo> selectByBaseId(@Param("id")Integer id,@Param("dataStatus")String dataStatus);
+
 
 }

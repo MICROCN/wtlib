@@ -1,4 +1,4 @@
-package com.wtlib.service.serviceImpl;
+﻿package com.wtlib.service.serviceImpl;
 
 import java.util.List;
 
@@ -24,7 +24,7 @@ public class LabelInfoServiceImpl implements LabelInfoService {
 	BookBaseLabelInfoService bookBaseLabelInfoService;
 
 	@Override
-	public int insert(LabelInfo info) throws Exception {
+	public Integer insert(LabelInfo info) throws Exception {
 		// 将信息写入LabelInfo表
 		Integer id = labelInfoMapper.insert(info);
 		Integer userId = info.getUserId();
@@ -35,25 +35,30 @@ public class LabelInfoServiceImpl implements LabelInfoService {
 	}
 
 	@Override
-	public int deleteById(Object id) throws Exception {
-		int labelId = labelInfoMapper.deleteById(id);
-		bookBaseLabelInfoService.deleteByLabelId(labelId);
+	public int deleteById(Object id,Object reviser) throws Exception {
+		int labelId = labelInfoMapper.deleteById(id,reviser);
+		bookBaseLabelInfoService.deleteByLabelId(labelId,reviser);
 		return labelId;
 	}
 
+	@Override
+	public List<LabelInfo> selectByBaseId(Integer id,String dataStatus) {
+		return labelInfoMapper.selectByBaseId(id,dataStatus);
+	}
+	
 	@Override
 	public int insertBatch(List<LabelInfo> entityList) throws Exception {
 		return 0;
 	}
 
 	@Override
-	public LabelInfo selectById(Object id) throws Exception {
+	public LabelInfo selectById(Object id,String dataStatus) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<LabelInfo> selectAll() throws Exception {
+	public List<LabelInfo> selectAll(String dataStatus) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -70,9 +75,5 @@ public class LabelInfoServiceImpl implements LabelInfoService {
 		return null;
 	}
 
-	@Override
-	public List<LabelInfo> selectByBaseId(Integer id) {
-		return labelInfoMapper.selectByBaseId(id,DataStatusEnum.NORMAL_USED.getCode());
-	}
 
 }

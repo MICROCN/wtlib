@@ -31,7 +31,11 @@
 
 	<select id="selectById" resultMap="BaseBookSupportMap"
 		parameterType="java.lang.Integer">
-
+		select
+		* from t_book_base_support
+		where id =
+		#{id,jdbcType=INTEGER}
+		AND data_status=#{dataStatus}
 	</select>
 	<delete id="deleteById" parameterType="java.lang.Integer">
 
@@ -110,6 +114,44 @@
 			now()
 		</trim>
 	</insert>
+
+	<update id="update" parameterType="com.wtlib.pojo.BookBaseSupport">
+		update t_book_base_support
+		<set>
+			<if test="isReservateAble != null">
+				is_reservate_able = #{isReservateAble,jdbcType=CHAR},
+			</if>
+			<if test="isBorrowAble != null">
+				is_borrow_able = #{isBorrowAble,jdbcType=CHAR},
+			</if>
+			<if test="currentLeftBookNumber != null">
+				current_left_book_number =
+				#{currentLeftBookNumber,jdbcType=INTEGER},
+			</if>
+			<if test="currentReservateNumber != null">
+				current_reservate_number =
+				#{currentReservateNumber,jdbcType=INTEGER},
+			</if>
+			<if test="singleBookNumber != null">
+				single_book_number =
+				#{singleBookNumber,jdbcType=INTEGER},
+			</if>
+			<if test="creator != null">
+				creator = #{creator,jdbcType=INTEGER},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="reviser != null">
+				reviser = #{reviser,jdbcType=INTEGER},
+			</if>
+			<if test="dataStatus != null">
+				data_status = #{dataStatus,jdbcType=VARCHAR},
+			</if>
+			update_time = now()
+		</set>
+	</update>
+
 
 	<update id="updateByBookId" parameterType="com.wtlib.pojo.BookBaseSupport">
 		update t_book_base_support

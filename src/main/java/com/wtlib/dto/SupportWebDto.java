@@ -1,5 +1,6 @@
 package com.wtlib.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.wtlib.pojo.BaseEntity;
@@ -51,8 +52,11 @@ public class SupportWebDto extends BaseEntity{
 		this.userDto = userDto;
 	}
 
-	public void setUserDto(UserWebDto user) {
-		userDto.add(user);
+	@Override
+	public String toString() {
+		return "SupportWebDto [book=" + book + ", labelList=" + labelList
+				+ ", support=" + support + ", userDto=" + userDto + "]";
 	}
+	
 	
 }

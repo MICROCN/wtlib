@@ -17,7 +17,8 @@ public interface UserMapper extends BaseDao<User> {
 
 	UserWebDto selectByLoginId(@Param("loginId") String loginId,@Param("dataStatus") String dataStatus);
 	
-	Integer confirm(User user);
+	Integer confirm(@Param("user")User user,@Param("dataStatus") String dataStatus);
 
-	UserWebDto selectAllById(Integer userId,@Param("dataStatus") String dataStatus);
+	UserWebDto selectAllById(@Param("userId")Integer userId,@Param("dataStatus") String dataStatus);
+
 }

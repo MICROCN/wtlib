@@ -19,6 +19,8 @@ public class UserInfo extends BaseEntity {
 
 	private String userName;
 
+	public UserInfo(){}
+	
 	public UserInfo(Integer userId, String userName) {
 		this.userId = userId;
 		this.userName = userName;

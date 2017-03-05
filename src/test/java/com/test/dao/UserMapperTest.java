@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.unitils.spring.annotation.SpringBean;
 
 import com.test.BaseTestStarter;
+import com.wtlib.constants.DataStatusEnum;
 import com.wtlib.dao.UserMapper;
 import com.wtlib.dto.UserWebDto;
 
@@ -19,7 +20,7 @@ public class UserMapperTest extends BaseTestStarter {
 
 	@Test
 	public void findUserById() throws Exception {
-		UserWebDto user = (UserWebDto) userMapper.selectByLoginId("jc");
+		UserWebDto user = (UserWebDto) userMapper.selectByLoginId("jc",DataStatusEnum.NORMAL_USED.toString());
 		assertNotNull(user);
 	}
 }

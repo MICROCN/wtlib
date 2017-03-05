@@ -14,5 +14,5 @@ public interface BookSingleMapper extends BaseDao<BookSingle> {
 
 	public BookSingle findById(@Param("id") Object id,@Param("dataStatus") String dataStatus);
 
-	public void deleteByBaseId(Integer id);
+	public void deleteByBaseId(@Param("id")Integer id,@Param("reviser") Integer reviser);
 }

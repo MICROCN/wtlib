@@ -15,4 +15,5 @@ public interface BookBaseMapper extends BaseDao<BookBase> {
 	List<BookBase> findByTitle(@Param("title") String title,@Param("dataStatus") String dataStatus);
 
 	BookBase find(@Param("book") BookBase entity,@Param("dataStatus")String dataStatus);
+
 }

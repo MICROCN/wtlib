@@ -22,7 +22,7 @@ public class UserLevelServiceImpl implements UserLevelService {
 	UserLevelMapper userLevelMapper;
 	
 	@Override
-	public int insert(UserLevel entity) throws Exception {
+	public Integer insert(UserLevel entity) throws Exception {
 		int num= userLevelMapper.insert(entity);
 		return num;
 	}
@@ -34,19 +34,19 @@ public class UserLevelServiceImpl implements UserLevelService {
 	}
 
 	@Override
-	public List<UserLevel> selectAll() throws Exception {
+	public List<UserLevel> selectAll(String dataStatus) throws Exception {
 		List<UserLevel> levelList= userLevelMapper.selectAll(DataStatusEnum.NORMAL_USED.getCode());
 		return levelList;
 	}
 	
 	@Override
-	public int deleteById(Object id) throws Exception {
-		int num= userLevelMapper.deleteById(id);
+	public int deleteById(Object id,Object reviser) throws Exception {
+		int num= userLevelMapper.deleteById(id,reviser);
 		return num;
 	}
 	
 	@Override
-	public UserLevel selectById(Object id) throws Exception {
+	public UserLevel selectById(Object id,String dataStatus) throws Exception {
 		UserLevel level = userLevelMapper.selectById(id,DataStatusEnum.NORMAL_USED.getCode());
 		return level;
 	}

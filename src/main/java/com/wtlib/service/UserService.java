@@ -1,5 +1,6 @@
 package com.wtlib.service;
 
+
 import com.wtlib.dto.UserWebDto;
 import com.wtlib.pojo.User;
 
@@ -15,10 +16,11 @@ public interface UserService extends BaseService<User> {
 
 	public int update(User user) throws Exception;
 
-	public UserWebDto find(String user) throws Exception;
+	public UserWebDto find(String user,String dataStatus) throws Exception;
 	
 	public Integer confirm(User user) throws Exception;
 
-	public UserWebDto selectAllById(Integer userid);
+	public UserWebDto selectAllById(Integer userid,String dataStatus);
+
 
 }

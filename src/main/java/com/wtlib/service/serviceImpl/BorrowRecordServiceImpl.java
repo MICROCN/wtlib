@@ -28,9 +28,9 @@ public class BorrowRecordServiceImpl implements BorrowRecordService {
 	}
 	
 	@Override
-	public int insert(BorrowRecord entity) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+	public Integer insert(BorrowRecord entity) throws Exception {
+		int num = borrowRecordMapper.insert(entity);
+		return num;
 	}
 
 	@Override
@@ -40,19 +40,19 @@ public class BorrowRecordServiceImpl implements BorrowRecordService {
 	}
 
 	@Override
-	public BorrowRecord selectById(Object id) throws Exception {
+	public BorrowRecord selectById(Object id,String dataStatus) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<BorrowRecord> selectAll() throws Exception {
+	public List<BorrowRecord> selectAll(String dataStatus) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public int deleteById(Object id) throws Exception {
+	public int deleteById(Object id,Object reviser) throws Exception {
 		// TODO Auto-generated method stub
 		return 0;
 	}

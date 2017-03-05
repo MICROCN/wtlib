@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.wtlib.dao.BookBaseLabelInfoMapper">
-	<resultMap id="BookBaseLaelMap" type="com.wtlib.pojo.BookBaseLabelInfo">
+	<resultMap id="BookBaseLabelMap" type="com.wtlib.pojo.BookBaseLabelInfo">
 		<id column="id" property="id" jdbcType="INTEGER" />
 		<result column="book_base_id" property="bookBaseId" jdbcType="INTEGER" />
 		<result column="label_info_id" property="labelInfoId" jdbcType="INTEGER" />
@@ -17,18 +17,18 @@
 		update_time, data_status
 	</sql>
 
-	<select id="selectById" resultMap="BookBaseLaelMap" parameterType="java.lang.Integer">
+	<select id="selectById" resultMap="BookBaseLabelMap">
 		select
 		<include refid="comList" />
 		from t_book_base_label_info
-		where id = #{id,jdbcType=INTEGER}
+		where id = #{id,jdbcType=INTEGER} and data_status = #{dataStatus}
 	</select>
 
 	<delete id="deleteByLabelId" parameterType="java.lang.Integer">
 		update
-		t_book_base_label_info set data_status
+		t_book_base_label_info set data_status = "000",reviser = #{reviser}
 		where book_base_id =
-		#{id,jdbcType=INTEGER}
+		#{labelId,jdbcType=INTEGER}
 	</delete>
 
 	<insert id="insert" parameterType="com.wtlib.pojo.BookBaseLabelInfo">
@@ -46,9 +46,6 @@
 			<if test="creator != null">
 				creator,
 			</if>
-			<if test="createTime != null">
-				create_time,
-			</if>
 			<if test="reviser != null">
 				reviser,
 			</if>
@@ -58,6 +55,7 @@
 			<if test="dataStatus != null">
 				data_status,
 			</if>
+			create_time
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -72,9 +70,7 @@
 			<if test="creator != null">
 				#{creator,jdbcType=INTEGER},
 			</if>
-			<if test="createTime != null">
-				#{createTime,jdbcType=TIMESTAMP},
-			</if>
+			
 			<if test="reviser != null">
 				#{reviser,jdbcType=INTEGER},
 			</if>
@@ -84,9 +80,10 @@
 			<if test="dataStatus != null">
 				#{dataStatus,jdbcType=CHAR},
 			</if>
+				now()
 		</trim>
 	</insert>
-	<update id="updateById" parameterType="com.wtlib.pojo.BookBaseLabelInfo">
+	<update id="update" parameterType="com.wtlib.pojo.BookBaseLabelInfo">
 		update t_book_base_label_info
 		<set>
 			<if test="bookBaseId != null">
@@ -104,12 +101,10 @@
 			<if test="reviser != null">
 				reviser = #{reviser,jdbcType=INTEGER},
 			</if>
-			<if test="updateTime != null">
-				update_time = #{updateTime,jdbcType=TIMESTAMP},
-			</if>
 			<if test="dataStatus != null">
 				data_status = #{dataStatus,jdbcType=CHAR},
 			</if>
+				update_time = now()
 		</set>
 		where id = #{id,jdbcType=INTEGER}
 	</update>

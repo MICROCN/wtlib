@@ -24,14 +24,16 @@
 		UPDATE t_user_info,
 		t_user
 		SET t_user_info.data_status = "000",
-		t_user.data_status = "000"
+		t_user.data_status = "000",
+		t_user.reviser = #{reviser},
+		t_user_info.reviser = #{reviser}
 		WHERE
 		t_user_info.user_id = #{id}
 		AND t_user.id = t_user_info.user_id
 	</update>
 
 	<select id="selectByUserId" resultMap="UserInfoMap">
-
+		select *  from t_user_info where user_id = #{id} and data_status = #{dataStatus}
 	</select>
 
 	<insert id="insert" parameterType="com.wtlib.pojo.UserInfo">
@@ -89,7 +91,7 @@
 			now()
 		</trim>
 	</insert>
-	<update id="updateById" parameterType="com.wtlib.pojo.UserInfo">
+	<update id="update" parameterType="com.wtlib.pojo.UserInfo">
 		update t_user_info
 		<set>
 			<if test="userId != null">
@@ -144,6 +146,6 @@
 		AND t_user.id
 		= user_id
 		AND user_level_id =
-		t_user_level.id;
+		t_user_level.id and t_user.data_status=#{dataStatus} and t_user_info.data_status=#{dataStatus} and t_user_level.data_status=#{dataStatus} ;
 	</select>
 </mapper>

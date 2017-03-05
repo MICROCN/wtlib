@@ -21,7 +21,7 @@ public class FeedBackServiceImpl implements FeedBackService {
 	@Autowired
 	FeedBackMapper feedBackMapper;
 	@Override
-	public int insert(FeedBack entity) throws Exception {
+	public Integer insert(FeedBack entity) throws Exception {
 		int num = feedBackMapper.insert(entity);
 		return num;
 	}
@@ -33,19 +33,19 @@ public class FeedBackServiceImpl implements FeedBackService {
 	}
 
 	@Override
-	public FeedBack selectById(Object id) throws Exception {
+	public FeedBack selectById(Object id,String dataStatus) throws Exception {
 		return null;
 	}
 
 	@Override
-	public List<FeedBack> selectAll() throws Exception {
+	public List<FeedBack> selectAll(String dataStatus) throws Exception {
 		List<FeedBack> list = feedBackMapper.selectAll(DataStatusEnum.NORMAL_USED.getCode());
 		return list;
 	}
 
 	@Override
-	public int deleteById(Object id) throws Exception {
-		int num = feedBackMapper.deleteById(id);
+	public int deleteById(Object id,Object reviser) throws Exception {
+		int num = feedBackMapper.deleteById(id,reviser);
 		return num;
 	}
 

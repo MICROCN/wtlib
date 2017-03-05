@@ -49,9 +49,10 @@ public class LabelController {
 
 	@RequestMapping("/delete")
 	@ResponseBody
-	public Message deleteLabel(@RequestParam("id") Integer id) {
+	public Message deleteLabel(@RequestParam("id") Integer id,HttpSession session) {
+		String reviser = session.getAttribute("id").toString();// 以后会改
 		try {
-			labelInfoService.deleteById(id);
+			labelInfoService.deleteById(id,reviser);
 			return Message.success("删除成功", Code.SUCCESS);
 		} catch (Exception e) {
 			log.error(JSON.toJSONString(id) + "\n\t" + e.toString());

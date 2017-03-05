@@ -34,7 +34,7 @@ public class BookReservationServiceImpl implements BookReservationService {
 	private BookBaseSupportService bookBaseSupportService;
 
 	@Override
-	public int insert(BookReservation entity) throws Exception {
+	public Integer insert(BookReservation entity) throws Exception {
 		return bookReservationMapper
 				.insert(entity);
 	}
@@ -45,17 +45,17 @@ public class BookReservationServiceImpl implements BookReservationService {
 	}
 
 	@Override
-	public BookReservation selectById(Object id) throws Exception {
+	public BookReservation selectById(Object id,String dataStatus) throws Exception {
 		return null;
 	}
 
 	@Override
-	public List<BookReservation> selectAll() throws Exception {
+	public List<BookReservation> selectAll(String dataStatus) throws Exception {
 		return null;
 	}
 
 	@Override
-	public int deleteById(Object id) throws Exception {
+	public int deleteById(Object id,Object reviser) throws Exception {
 		return 0;
 	}
 

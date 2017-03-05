@@ -53,7 +53,7 @@ public interface BaseDao<T> {
 	 * @return 返回删除的条数
 	 * @throws Exception
 	 */
-	public int deleteById(Object id) throws Exception;
+	public int deleteById(@Param("id")Object id,@Param("reviser")Object reviser) throws Exception;
 
 	/**
 	 * 根据实体类id更新实体所有属性

@@ -18,18 +18,18 @@
     id, book_base_id, book_hash, current_owner, last_lender, last_lend_time, creator, 
     create_time, reviser, update_time, data_status
   </sql>
-  <select id="selectById" resultMap="BookSingleMap" parameterType="java.lang.Integer" >
+  <select id="selectById" resultMap="BookSingleMap">
     select 
     <include refid="comList" />
     from t_book_single
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER} and data_status = #{dataStatus}
   </select>
   <delete id="deleteById" parameterType="java.lang.Integer" >
-    
+    update t_book_single set data_status = "000",reviser = #{reviser} where id = #{id}
   </delete>
   
 	<select id="findByHash" parameterType ="java.lang.String" resultMap="BookSingleMap">
-		select * from t_book_single where book_hash = #{hash}
+		select * from t_book_single where book_hash = #{hash} and  data_status = #{dataStatus}
 	</select>
  
   <insert id="insert" parameterType="com.wtlib.pojo.BookSingle" >
@@ -97,9 +97,9 @@
       now()
     </trim>
   </insert>
-  <update id="updateById" parameterType="com.wtlib.pojo.BookSingle" >
+  <update id="update" parameterType="com.wtlib.pojo.BookSingle" >
     update t_book_single
-    <set >
+    <set>
       <if test="bookBaseId != null" >
         book_base_id = #{bookBaseId,jdbcType=INTEGER},
       </if>
@@ -129,7 +129,7 @@
       </if>
         update_time = now()
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where book_hash = #{bookHash}
   </update>
   
 </mapper>

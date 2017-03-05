@@ -59,6 +59,10 @@ public class BookMainController {
 		String url = book.getBookCoverUrl();
 		String writer = book.getBookWriter();
 		String publicsher = book.getBookPublisher();
+		Integer num = book.getBookNum();
+		if(num == 0 || num ==null){
+			return Message.error(Code.PARAMATER, "数目不得为空！");
+		}
 		if (title == null) {
 			return Message.error(Code.PARAMATER, "书名不得为空！");
 		}
@@ -73,7 +77,6 @@ public class BookMainController {
 		}
 		String id = session.getAttribute("id").toString();// 以后会改
 		book.setCreator(new Integer(id));
-		book.setBookNum(0);
 		try {
 			baseService.insert(book);
 		} catch (Exception e) {
@@ -84,10 +87,11 @@ public class BookMainController {
 	}
 
 	@RequestMapping("/delete/book")
-	public Message deleteBook(@RequestParam("id") Integer id) {
+	public Message deleteBook(@RequestParam("id") Integer id,HttpSession session) {
 		// 传入的是singleid。
+		String reviser = session.getAttribute("id").toString();// 以后会改
 		try {
-			baseService.deleteById(id);
+			baseService.deleteById(id,reviser);
 			return Message.success("删除成功");
 		} catch (Exception e) {
 			log.error(JSON.toJSONString(id) + "\n\t" + e.toString());
@@ -96,10 +100,11 @@ public class BookMainController {
 	}
 
 	@RequestMapping("/delete/allbook")
-	public Message deleteAllBook(@RequestParam("id") Integer id) {
+	public Message deleteAllBook(@RequestParam("id") Integer id,HttpSession session) {
 		// 传入的是base_id。
+		String reviser = session.getAttribute("id").toString();// 以后会改
 		try {
-			baseService.deleteByBaseId(id);
+			baseService.deleteByBaseId(id,reviser);
 			return Message.success("删除成功");
 		} catch (Exception e) {
 			log.error(JSON.toJSONString(id) + "\n\t" + e.toString());
@@ -154,7 +159,7 @@ public class BookMainController {
 	@RequestMapping("/get/book")
 	public Message getBook() {
 		try {
-			List<BookBase> bookList = baseService.selectAll();
+			List<BookBase> bookList = baseService.selectAll(DataStatusEnum.NORMAL_USED.getCode());
 			return Message.success(Code.SUCCESS, "查找成功", bookList);
 		} catch (Exception e) {
 			log.error(e.toString());

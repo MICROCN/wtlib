@@ -11,9 +11,9 @@ import com.wtlib.pojo.UserInfo;
  */
 public interface UserInfoMapper extends BaseDao<UserInfo> {
 	
-	public UserWebDto selectByUsername(@Param("username")String username,@Param("dataStatus") String dataStatus);
+	public UserWebDto selectByUsername(@Param("username")String username,@Param("dataStatus")String dataStatus);
 
-	public UserInfo selectByUserId(@Param("reviser")Integer nowReviser,@Param("dataStatus") String dataStatus);
+	public UserInfo selectByUserId(@Param("id")Integer id,@Param("dataStatus")String dataStatus);
 
 	public UserInfo updateLevel(UserInfo userInfo);
 

@@ -20,7 +20,7 @@
 		select
 		<include refid="comList" />
 		from t_feedback
-		where id = #{id,jdbcType=INTEGER}
+		where id = #{id,jdbcType=INTEGER} and  data_status = #{dataStatus}
 	</select>
 	<delete id="deleteById" parameterType="java.lang.Integer">
 

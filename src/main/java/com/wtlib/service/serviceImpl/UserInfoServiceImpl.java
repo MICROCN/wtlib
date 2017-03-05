@@ -25,15 +25,14 @@ public class UserInfoServiceImpl implements UserInfoService {
 	UserInfoMapper userInfoMapper;
 	
 	@Override
-	public int insert(UserInfo entity) throws Exception {
+	public Integer insert(UserInfo entity) throws Exception {
 		int num= userInfoMapper.insert(entity);
 		return num;
 	}
 
 	@Override
-	public UserWebDto find(String username) {	
-		UserWebDto user= userInfoMapper.selectByUsername(username,DataStatusEnum.NORMAL_USED.getCode());
-		Assert.isTrue(user!=null,"查无此人");
+	public UserWebDto find(String username,String dataStatus) {	
+		UserWebDto user= userInfoMapper.selectByUsername(username,dataStatus);
 		return user;
 	}
 	
@@ -45,9 +44,9 @@ public class UserInfoServiceImpl implements UserInfoService {
 
 
 	@Override
-	public int deleteById(Object id) throws Exception {
+	public int deleteById(Object id,Object reviser) throws Exception {
 		//delete不仅要把userInfo表的status设为000还要把user表的status设为000
-		int num= userInfoMapper.deleteById(id);
+		int num= userInfoMapper.deleteById(id,reviser);
 		return num;
 	}
 	
@@ -58,13 +57,13 @@ public class UserInfoServiceImpl implements UserInfoService {
 	}
 
 	@Override
-	public UserInfo selectById(Object id) throws Exception {
+	public UserInfo selectById(Object id,String dataStatus) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<UserInfo> selectAll() throws Exception {
+	public List<UserInfo> selectAll(String dataStatus) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -76,8 +75,8 @@ public class UserInfoServiceImpl implements UserInfoService {
 	}
 
 	@Override
-	public UserInfo selectByUserId(Integer nowReviser) {
-		UserInfo info = userInfoMapper.selectByUserId(nowReviser,DataStatusEnum.NORMAL_USED.getCode());
+	public UserInfo selectByUserId(Integer nowReviser,String dataStatus) {
+		UserInfo info = userInfoMapper.selectByUserId(nowReviser,dataStatus);
 		return info;
 	}
 
