@@ -61,4 +61,10 @@ public class FeedBackServiceImpl implements FeedBackService {
 		return null;
 	}
 
+	@Override
+	public List<FeedBack> selectAllByUserId(String userId, String dataStatus) {
+		List<FeedBack> feedBackList = feedBackMapper.selectAllByUserId(userId,dataStatus);
+		return feedBackList;
+	}
+
 }

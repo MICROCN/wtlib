@@ -26,7 +26,7 @@ import com.wtlib.service.FeedBackService;
  * @date 2017年1月22日 下午2:45:10
  */
 @Controller
-@RequestMapping("/feedback/")
+@RequestMapping("/feedback")
 public class FeedBackController {
 	@Autowired
 	private FeedBackService feedBackService;
@@ -71,6 +71,18 @@ public class FeedBackController {
 	public Message getFeedBack() {
 		try {
 			List<FeedBack> feedBackList= feedBackService.selectAll(DataStatusEnum.NORMAL_USED.getCode());
+			return Message.success(Code.SUCCESS, "查找成功",feedBackList);
+		} catch (Exception e) {
+			log.error(e.toString());
+			return Message.error(Code.ERROR_CONNECTION, "找不到记录！");
+		}
+	}
+	
+	@RequestMapping("/get/user/feedBack")
+	public Message getFeedBackByUserId(HttpSession session) {
+		String userId = session.getAttribute("id").toString();// 以后会改
+		try {
+			List<FeedBack> feedBackList= feedBackService.selectAllByUserId(userId,DataStatusEnum.NORMAL_USED.getCode());
 			return Message.success(Code.SUCCESS, "查找成功",feedBackList);
 		} catch (Exception e) {
 			log.error(e.toString());
