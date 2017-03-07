@@ -103,4 +103,17 @@ public class BookBaseSupport extends BaseEntity implements Serializable {
 	public void setSingleBookNumber(Integer singleBookNumber) {
 		this.singleBookNumber = singleBookNumber;
 	}
+
+
+
+	@Override
+	public String toString() {
+		return "BookBaseSupport [id=" + id + ", bookBaseId=" + bookBaseId
+				+ ", isReservateAble=" + isReservateAble + ", isBorrowAble="
+				+ isBorrowAble + ", currentLeftBookNumber="
+				+ currentLeftBookNumber + ", currentReservateNumber="
+				+ currentReservateNumber + ", singleBookNumber="
+				+ singleBookNumber + "]";
+	}
+	
 }

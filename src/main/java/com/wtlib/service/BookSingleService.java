@@ -1,5 +1,6 @@
 package com.wtlib.service;
 
+
 import com.wtlib.pojo.BookSingle;
 
 /**
@@ -16,5 +17,7 @@ public interface BookSingleService extends BaseService<BookSingle> {
 	 * @throws Exception
 	 */
 	void editReturnBack(BookSingle entity) throws Exception;
+
+	BookSingle selectById(Object id,String dataStatus) throws Exception;
 
 }

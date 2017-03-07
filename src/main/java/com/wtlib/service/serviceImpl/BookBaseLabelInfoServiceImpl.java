@@ -16,13 +16,14 @@ public class BookBaseLabelInfoServiceImpl implements BookBaseLabelInfoService {
 	private BookBaseLabelInfoMapper bookBaseLabelInfoMapper;
 
 	@Override
-	public int insert(BookBaseLabelInfo entity) throws Exception {
+	public Integer insert(BookBaseLabelInfo entity) throws Exception {
+		System.out.println(entity);
 		Integer num = bookBaseLabelInfoMapper.insert(entity);
 		return num;
 	}
 
 	@Override
-	public int deleteById(Object id) throws Exception {
+	public int deleteById(Object id,Object reviser) throws Exception {
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -34,13 +35,13 @@ public class BookBaseLabelInfoServiceImpl implements BookBaseLabelInfoService {
 	}
 
 	@Override
-	public BookBaseLabelInfo selectById(Object id) throws Exception {
+	public BookBaseLabelInfo selectById(Object id,String dataStatus) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<BookBaseLabelInfo> selectAll() throws Exception {
+	public List<BookBaseLabelInfo> selectAll(String dataStatus) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -58,9 +59,8 @@ public class BookBaseLabelInfoServiceImpl implements BookBaseLabelInfoService {
 	}
 
 	@Override
-	public void deleteByLabelId(int labelId) {
-		// TODO Auto-generated method stub
-
+	public void deleteByLabelId(Object labelId,Object reviser) {
+		bookBaseLabelInfoMapper.deleteByLabelId(labelId,reviser);
 	}
 
 }

@@ -24,34 +24,35 @@
   </sql>
   
   <select id="findByTitle" parameterType="java.lang.String" resultMap="BookBaseMap">
-  	select * from t_book_base WHERE book_title like "%#{title}%"
+  	select * from t_book_base WHERE book_title like "%#{title}%" and data_status = #{dataStatus} 
   </select>
   
   <select id="selectAll" resultMap="BookBaseMap">
-  	SELECT * from t_book_base
+  	SELECT * from t_book_base where data_status = #{dataStatus}
   </select>
   
-  <select id="selectById" resultMap="BookBaseMap" parameterType="java.lang.Integer" >
+  <select id="selectById" resultMap="BookBaseMap">
     select 
     <include refid="comList" />
     from t_book_base
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER} and data_status = #{dataStatus} 
   </select>
   
-  <delete id="deleteById" parameterType="java.lang.Integer" >
+  <update id="deleteById" parameterType="java.lang.Integer" >
 	  	UPDATE t_book_base,
 	 t_book_base_support,
 	 t_book_single
 	SET t_book_base.data_status = "000",
 	 t_book_base_support.data_status = "000",
-	 t_book_single.data_status = "000"
+	 t_book_single.data_status = "000",
+	 reviser = #{reviser}
 	WHERE
-		t_book_single.book_base_id = 1
-	AND t_book_base.id = 1
-	AND t_book_base_support.book_base_id = 1
-  </delete>
+		t_book_single.book_base_id = #{id}
+	AND t_book_base.id = #{id}
+	AND t_book_base_support.book_base_id = #{id}
+  </update>
   
-  <insert id="insert" parameterType="com.wtlib.pojo.BookBase" keyProperty="id">
+  <insert id="insert" parameterType="com.wtlib.pojo.BookBase" useGeneratedKeys="true" keyProperty="id">
     insert into t_book_base
     <trim prefix="(" suffix=")" suffixOverrides="," >
      
@@ -165,17 +166,30 @@
         book_num = #{bookNum,jdbcType=INTEGER},
       </if>
       <if test="createTime != null" >
-        create_time = #{createTime,jdbcType=TIMESTAMP},
+        reviser = #{reviser},
       </if>
       <if test="updateTime != null" >
         update_time = #{updateTime,jdbcType=TIMESTAMP},
-      </if>
+      </if> 
       <if test="dataStatus != null" >
         data_status = #{dataStatus,jdbcType=CHAR},
       </if>
-        reviser = now()
+        update_time = now()
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="find" parameterType="com.wtlib.pojo.BookBase" resultMap="BookBaseMap">
+	SELECT
+		*
+	FROM
+		`t_book_base`
+	WHERE
+		data_status = #{dataStatus}
+	AND book_title = #{book.bookTitle}
+	AND book_cover_url = #{book.bookCoverUrl}
+	AND book_writer = #{book.bookWriter}
+	AND book_publisher = #{book.bookPublisher}
+	and creator = #{book.creator};
+  </select>
   
 </mapper>

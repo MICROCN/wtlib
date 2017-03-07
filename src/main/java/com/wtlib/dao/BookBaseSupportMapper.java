@@ -16,7 +16,7 @@ public interface BookBaseSupportMapper extends BaseDao<BookBaseSupport> {
 
 	public BookBaseSupport selectBookBaseSupportByBookBaseId(
 			@Param("bookBaseId") Integer bookBaseId,
-			@Param("dataStatus") String dataStatus);//wogaide
+			@Param("dataStatus") String dataStatus);
 	
 
 	/**
@@ -30,7 +30,7 @@ public interface BookBaseSupportMapper extends BaseDao<BookBaseSupport> {
 	public Integer updateByBookId(BookBaseSupport bookBaseSupportTemp);
 
 
-	public void deleteByBaseId(Integer id);
+	public void deleteByBaseId(@Param("id")Integer id,@Param("reviser") Integer reviser);
 
 
 }

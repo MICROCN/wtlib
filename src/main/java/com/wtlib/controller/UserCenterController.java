@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.Message;
 import com.alibaba.fastjson.JSON;
 import com.wtlib.constants.Code;
+import com.wtlib.constants.DataStatusEnum;
 import com.wtlib.dto.UserWebDto;
 import com.wtlib.pojo.User;
 import com.wtlib.pojo.UserInfo;
@@ -118,9 +119,10 @@ public class UserCenterController {
 
 	@RequestMapping("/delete/user")
 	@ResponseBody
-	public Message deleteUser(@RequestParam("id") Integer id) {
+	public Message deleteUser(@RequestParam("id") Integer id,HttpSession session) {
+		String reviser = session.getAttribute("id").toString();// 以后会改
 		try {
-			userService.deleteById(id);
+			userService.deleteById(id,reviser);
 			return Message.success("删除成功", Code.SUCCESS);
 		} catch (Exception e) {
 			log.error(JSON.toJSONString(id) + "\n\t" + e.toString());
@@ -169,7 +171,7 @@ public class UserCenterController {
 			return Message.error(Code.PARAMATER, "账号为空");
 		}
 		try {
-			UserWebDto dto = userService.find(loginId);
+			UserWebDto dto = userService.find(loginId,DataStatusEnum.NORMAL_USED.getCode());
 			return Message.success(Code.SUCCESS, "查找成功", dto);
 		} catch (Exception e) {
 			log.error(JSON.toJSONString(user) + "\n\t" + e.toString());
@@ -181,9 +183,10 @@ public class UserCenterController {
 
 	@RequestMapping("/delete/info")
 	@ResponseBody
-	public Message deleteUserInfo(@RequestParam("id") Integer id) {
+	public Message deleteUserInfo(@RequestParam("id") Integer id,HttpSession session) {
+		String reviser = session.getAttribute("id").toString();// 以后会改
 		try {
-			userInfoService.deleteById(id);
+			userInfoService.deleteById(id,reviser);
 			return Message.success("删除成功");
 		} catch (Exception e) {
 			log.error(JSON.toJSONString(id) + "\n\t" + e.toString());
@@ -225,7 +228,7 @@ public class UserCenterController {
 			return Message.error(Code.PARAMATER, "不得为空");
 		}
 		try {
-			UserWebDto dto = userInfoService.find(username);
+			UserWebDto dto = userInfoService.find(username,DataStatusEnum.NORMAL_USED.getCode());
 			return Message.success("查找成功", Code.SUCCESS);
 		} catch (Exception e) {
 			log.error(JSON.toJSONString(userInfo) + "\n\t" + e.toString());
@@ -269,9 +272,10 @@ public class UserCenterController {
 
 	@RequestMapping("/delete/level")
 	@ResponseBody
-	public Message deleteLevel(@RequestParam("id") Integer id) {
+	public Message deleteLevel(@RequestParam("id") Integer id,HttpSession session) {
+		String reviser = session.getAttribute("id").toString();// 以后会改
 		try {
-			userLevelService.deleteById(id);
+			userLevelService.deleteById(id,reviser);
 			return Message.success("删除成功", Code.SUCCESS);
 		} catch (Exception e) {
 			log.error(JSON.toJSONString(id) + "\n\t" + e.toString());
@@ -314,7 +318,7 @@ public class UserCenterController {
 	@ResponseBody
 	public Message findLevel() {
 		try {
-			List<UserLevel> userLevelList = userLevelService.selectAll();
+			List<UserLevel> userLevelList = userLevelService.selectAll(DataStatusEnum.NORMAL_USED.getCode());
 			return Message.success(Code.SUCCESS, "查找成功", userLevelList);
 		} catch (Exception e) {
 			log.error(e.toString());

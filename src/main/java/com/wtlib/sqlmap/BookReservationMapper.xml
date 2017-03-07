@@ -18,7 +18,7 @@
     select 
     <include refid="comList" />
     from t_book_reservation
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER} and  dataStatus = #{dataStatus}
   </select>
   <delete id="deleteById" parameterType="java.lang.Integer" >
 

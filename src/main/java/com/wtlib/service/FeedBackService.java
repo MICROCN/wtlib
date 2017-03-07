@@ -1,5 +1,7 @@
 package com.wtlib.service;
 
+import java.util.List;
+
 import com.wtlib.pojo.FeedBack;
 
 /**
@@ -8,5 +10,7 @@ import com.wtlib.pojo.FeedBack;
  * @date 2017年1月22日 下午1:49:06
  */
 public interface FeedBackService extends BaseService<FeedBack> {
+
+	List<FeedBack> selectAllByUserId(String userId, String dataStatus);
 
 }

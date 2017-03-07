@@ -1,5 +1,9 @@
 package com.wtlib.dao;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.wtlib.pojo.BorrowRecord;
 
 /**
@@ -8,8 +12,10 @@ import com.wtlib.pojo.BorrowRecord;
  */
 public interface BorrowRecordMapper extends BaseDao<BorrowRecord> {
 
-	Integer findRecord(BorrowRecord record);
+	Integer findRecord(@Param("record") BorrowRecord record,@Param("dataStatus") String dataStatus);
 
-	BorrowRecord selectBySingleId(Integer singleId);
+	BorrowRecord selectBySingleId(@Param("singleId")Integer singleId,@Param("dataStatus") String dataStatus);
+
+	List<BorrowRecord> selectAllByUserId(@Param("id")Object id, String code,@Param("dataStatus") String dataStatus);
 	
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.wtlib.constants.DataStatusEnum;
 import com.wtlib.dao.FeedBackMapper;
 import com.wtlib.pojo.FeedBack;
 import com.wtlib.service.FeedBackService;
@@ -20,7 +21,7 @@ public class FeedBackServiceImpl implements FeedBackService {
 	@Autowired
 	FeedBackMapper feedBackMapper;
 	@Override
-	public int insert(FeedBack entity) throws Exception {
+	public Integer insert(FeedBack entity) throws Exception {
 		int num = feedBackMapper.insert(entity);
 		return num;
 	}
@@ -32,19 +33,19 @@ public class FeedBackServiceImpl implements FeedBackService {
 	}
 
 	@Override
-	public FeedBack selectById(Object id) throws Exception {
+	public FeedBack selectById(Object id,String dataStatus) throws Exception {
 		return null;
 	}
 
 	@Override
-	public List<FeedBack> selectAll() throws Exception {
-		List<FeedBack> list = feedBackMapper.selectAll();
+	public List<FeedBack> selectAll(String dataStatus) throws Exception {
+		List<FeedBack> list = feedBackMapper.selectAll(DataStatusEnum.NORMAL_USED.getCode());
 		return list;
 	}
 
 	@Override
-	public int deleteById(Object id) throws Exception {
-		int num = feedBackMapper.deleteById(id);
+	public int deleteById(Object id,Object reviser) throws Exception {
+		int num = feedBackMapper.deleteById(id,reviser);
 		return num;
 	}
 
@@ -58,6 +59,12 @@ public class FeedBackServiceImpl implements FeedBackService {
 	public FeedBack find(Object str) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public List<FeedBack> selectAllByUserId(String userId, String dataStatus) {
+		List<FeedBack> feedBackList = feedBackMapper.selectAllByUserId(userId,dataStatus);
+		return feedBackList;
 	}
 
 }

@@ -11,6 +11,6 @@ import com.wtlib.pojo.BookReservation;
  */
 public interface BookReservationMapper extends BaseDao<BookReservation> {
 	
-	public Integer reservationBookByUser(@Param("userId") Integer userId);
+	public Integer reservationBookByUser(@Param("userId") Integer userId,@Param("dataStatus") String dataStatus);
 
 }

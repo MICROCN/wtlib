@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.wtlib.constants.DataStatusEnum;
 import com.wtlib.dao.CreditInfoMapper;
 import com.wtlib.pojo.CreditInfo;
 import com.wtlib.service.CreditInfoService;
@@ -19,8 +20,9 @@ public class CreditInfoServiceImpl implements CreditInfoService {
 	@Autowired
 	CreditInfoMapper creditInfoMapper;
 	@Override
-	public int insert(CreditInfo entity) throws Exception {
-		return 0;
+	public Integer insert(CreditInfo entity) throws Exception {
+		Integer num = creditInfoMapper.insert(entity);
+		return num;
 	}
 
 	@Override
@@ -29,19 +31,21 @@ public class CreditInfoServiceImpl implements CreditInfoService {
 	}
 
 	@Override
-	public CreditInfo selectById(Object id) throws Exception {
-		creditInfoMapper.selectById(id);
-		return null;
+	public CreditInfo selectById(Object id,String dataStatus) throws Exception {
+		CreditInfo info = creditInfoMapper.selectById(id,dataStatus);
+		return info;
 	}
 
 	@Override
-	public List<CreditInfo> selectAll() throws Exception {
-		return null;
+	public List<CreditInfo> selectAll(String dataStatus) throws Exception {
+		List<CreditInfo> creditList = creditInfoMapper.selectAll(dataStatus);
+		return creditList;
 	}
 
 	@Override
-	public int deleteById(Object id) throws Exception {
-		return 0;
+	public int deleteById(Object id,Object reviser) throws Exception {
+		int num = creditInfoMapper.deleteById(id, reviser);
+		return num;
 	}
 
 	@Override

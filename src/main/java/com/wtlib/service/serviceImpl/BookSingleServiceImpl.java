@@ -7,21 +7,13 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.omg.PortableInterceptor.SUCCESSFUL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import com.wtlib.constants.CreditEnum;
 import com.wtlib.constants.DataStatusEnum;
-import com.wtlib.dao.BookBaseSupportMapper;
 import com.wtlib.dao.BookSingleMapper;
-import com.wtlib.dao.BorrowRecordMapper;
-import com.wtlib.dao.CreditInfoMapper;
-import com.wtlib.dao.CreditRecordMapper;
-import com.wtlib.dao.UserInfoMapper;
-import com.wtlib.dao.UserLevelMapper;
-import com.wtlib.dao.UserMapper;
 import com.wtlib.pojo.BookBaseSupport;
 import com.wtlib.pojo.BookSingle;
 import com.wtlib.pojo.BorrowRecord;
@@ -62,23 +54,23 @@ public class BookSingleServiceImpl implements BookSingleService {
 	UserLevelService userLevelService;
 
 	@Override
-	public int insert(BookSingle entity) throws Exception {
+	public Integer insert(BookSingle entity) throws Exception {
 		Integer num = bookSingleMapper.insert(entity);
 		return num;
 	}
 
 	@Override
-	public int deleteById(Object id) throws Exception {
-		Integer num = bookSingleMapper.deleteById(id);
+	public int deleteById(Object id,Object reviser) throws Exception {
+		Integer num = bookSingleMapper.deleteById(id,reviser);
 		return num;
 	}
 
 	@Override
 	public int update(BookSingle entity) throws Exception {
-		Integer id = entity.getBookBaseId();
+		Integer baseId = entity.getBookBaseId();
 		Integer reviser = entity.getReviser();
 		BookBaseSupport support = bookBaseSupportService
-				.selectBookBaseSupportByBookBaseId(id,
+				.selectBookBaseSupportByBookBaseId(baseId,
 						DataStatusEnum.NORMAL_USED.getCode());
 		support.setReviser(reviser);
 		Integer book = support.getCurrentLeftBookNumber() - 1;
@@ -87,6 +79,7 @@ public class BookSingleServiceImpl implements BookSingleService {
 		// 如果有预定的人，则就提示所有预定的人书已被借。
 		if (reservation != 0) {
 			// TODO 通知所有预定的人书已经被借走，是否预定。
+			System.out.println("书已经被借走了");
 		}
 		if (book == 0) {
 			support.setCurrentLeftBookNumber(0);
@@ -95,14 +88,16 @@ public class BookSingleServiceImpl implements BookSingleService {
 		} else {
 			support.setCurrentLeftBookNumber(book);
 		}
-		Integer num = bookSingleMapper.update(entity);
+		bookSingleMapper.update(entity);
+		entity = bookSingleMapper.findByHash(entity.getBookHash(), DataStatusEnum.NORMAL_USED.getCode());
+		Integer id = entity.getId();
 		bookBaseSupportService.update(support);
 		// 添加一条借阅记录
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.DATE, 30);
 		Date date = cal.getTime();
 		BorrowRecord record = new BorrowRecord(id, reviser, date);
-		borrowRecordService.insert(record);
+		int num = borrowRecordService.insert(record);
 		return num;
 	}
 
@@ -112,7 +107,7 @@ public class BookSingleServiceImpl implements BookSingleService {
 		// 先要保存现在的修改者的id
 		Integer nowReviser = entity.getReviser();
 		String hash = entity.getBookHash();
-		entity = bookSingleMapper.findByHash(hash);
+		entity = bookSingleMapper.findByHash(hash,DataStatusEnum.NORMAL_USED.getCode());
 		Integer baseId = entity.getBookBaseId();
 		Date oldUpdateTime = entity.getUpdateTime();
 		Integer oldReviser = entity.getReviser();
@@ -137,16 +132,18 @@ public class BookSingleServiceImpl implements BookSingleService {
 		BorrowRecord record = borrowRecordService.selectBySingleId(singleId);
 		String borrowStatus = record.getBorrowStatus();
 		// 用userid查userlevelid与userlevel表匹配
-		UserInfo userInfo = userInfoService.selectByUserId(nowReviser);
+		UserInfo userInfo = userInfoService.selectByUserId(nowReviser,DataStatusEnum.NORMAL_USED.getCode());
 		Integer levelId = userInfo.getUserLevelId();
-		UserLevel level = userLevelService.selectById(levelId);
+		UserLevel level = userLevelService.selectById(levelId,DataStatusEnum.NORMAL_USED.getCode());
 		Double levelWeight = level.getLevelWeight();
 		double levelValue;
 		CreditRecord creditRecord = new CreditRecord();
+		creditRecord.setCreator(nowReviser);
+		creditRecord.setUserId(nowReviser);
 		if (borrowStatus.equals("002")) {
 			// 就是说他超时未还。
 			CreditInfo CreditInfo = creditInfoService
-					.selectById(CreditEnum.overtime.getId());
+					.selectById(CreditEnum.overtime.getId(),DataStatusEnum.NORMAL_USED.getCode());
 			String plus = CreditInfo.getIsPlus();
 			creditRecord.setCreditIsPlus(plus);
 			creditRecord.setCreditInfoId(CreditEnum.overtime.getId());
@@ -161,7 +158,7 @@ public class BookSingleServiceImpl implements BookSingleService {
 		} else {
 			// 就是说他还书成功
 			CreditInfo CreditInfo = creditInfoService
-					.selectById(CreditEnum.successReturn.getId());
+					.selectById(CreditEnum.successReturn.getId(),DataStatusEnum.NORMAL_USED.getCode());
 			String plus = CreditInfo.getIsPlus();
 			creditRecord.setCreditIsPlus(plus);
 			creditRecord.setCreditIsPlus(plus);
@@ -202,19 +199,19 @@ public class BookSingleServiceImpl implements BookSingleService {
 	}
 
 	@Override
-	public BookSingle selectById(Object id) throws Exception {
-		BookSingle single = bookSingleMapper.findById(id);
-		return single;
-	}
-
-	@Override
-	public List<BookSingle> selectAll() throws Exception {
+	public List<BookSingle> selectAll(String dataStatus) throws Exception {
 		return null;
 	}
 
 	@Override
 	public BookSingle find(Object str) {
 		return null;
+	}
+
+	@Override
+	public BookSingle selectById(Object id, String dataStatus) throws Exception {
+		BookSingle single = bookSingleMapper.selectById(id, dataStatus);
+		return single;
 	}
 
 }

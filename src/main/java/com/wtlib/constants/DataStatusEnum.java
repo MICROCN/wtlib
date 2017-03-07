@@ -3,7 +3,7 @@ package com.wtlib.constants;
 import org.apache.commons.lang.StringUtils;
 
 /**
- * @Description: 数据撞他枚举类
+ * @Description: 数据data枚举类
  * @author zongzi
  * @date 2017年1月22日 下午3:10:29
  */

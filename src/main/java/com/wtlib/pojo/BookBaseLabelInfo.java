@@ -20,6 +20,8 @@ public class BookBaseLabelInfo {
     private String dataStatus;
     
 
+    public BookBaseLabelInfo(){}
+    
     public BookBaseLabelInfo(Integer id, Integer creator) {
     	this.id = id;
     	this.creator = creator;
@@ -88,4 +90,15 @@ public class BookBaseLabelInfo {
     public void setDataStatus(String dataStatus) {
         this.dataStatus = dataStatus == null ? null : dataStatus.trim();
     }
+
+	@Override
+	public String toString() {
+		return "BookBaseLabelInfo [id=" + id + ", bookBaseId=" + bookBaseId
+				+ ", labelInfoId=" + labelInfoId + ", creator=" + creator
+				+ ", createTime=" + createTime + ", reviser=" + reviser
+				+ ", updateTime=" + updateTime + ", dataStatus=" + dataStatus
+				+ "]";
+	}
+    
+    
 }

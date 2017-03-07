@@ -1,5 +1,7 @@
 package com.wtlib.dao;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.wtlib.pojo.UserLevel;
 
 /**
@@ -8,5 +10,5 @@ import com.wtlib.pojo.UserLevel;
  */
 public interface UserLevelMapper extends BaseDao<UserLevel> {
 
-	Double selectByUserId(Integer nowReviser);
+	Double selectByUserId(@Param("reviser")Integer nowReviser,@Param("dataStatus") String dataStatus);
 }

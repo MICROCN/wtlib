@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.Message;
 import com.alibaba.fastjson.JSON;
 import com.wtlib.constants.Code;
+import com.wtlib.constants.DataStatusEnum;
 import com.wtlib.pojo.FeedBack;
 import com.wtlib.service.FeedBackService;
 
@@ -25,7 +26,7 @@ import com.wtlib.service.FeedBackService;
  * @date 2017年1月22日 下午2:45:10
  */
 @Controller
-@RequestMapping("/feedback/")
+@RequestMapping("/feedback")
 public class FeedBackController {
 	@Autowired
 	private FeedBackService feedBackService;
@@ -54,9 +55,10 @@ public class FeedBackController {
 
 	@RequestMapping("/delete")
 	@ResponseBody
-	public Message deleteFeedBack(@RequestParam("id") Integer id) {
+	public Message deleteFeedBack(@RequestParam("id") Integer id,HttpSession session) {
+		String reviser = session.getAttribute("id").toString();// 以后会改
 		try {
-			feedBackService.deleteById(id);
+			feedBackService.deleteById(id,reviser);
 			return Message.success("删除成功", Code.SUCCESS);
 		} catch (Exception e) {
 			log.error(JSON.toJSONString(id) + "\n\t" + e.toString());
@@ -68,7 +70,19 @@ public class FeedBackController {
 	@RequestMapping("/get")
 	public Message getFeedBack() {
 		try {
-			List<FeedBack> feedBackList= feedBackService.selectAll();
+			List<FeedBack> feedBackList= feedBackService.selectAll(DataStatusEnum.NORMAL_USED.getCode());
+			return Message.success(Code.SUCCESS, "查找成功",feedBackList);
+		} catch (Exception e) {
+			log.error(e.toString());
+			return Message.error(Code.ERROR_CONNECTION, "找不到记录！");
+		}
+	}
+	
+	@RequestMapping("/get/user/feedBack")
+	public Message getFeedBackByUserId(HttpSession session) {
+		String userId = session.getAttribute("id").toString();// 以后会改
+		try {
+			List<FeedBack> feedBackList= feedBackService.selectAllByUserId(userId,DataStatusEnum.NORMAL_USED.getCode());
 			return Message.success(Code.SUCCESS, "查找成功",feedBackList);
 		} catch (Exception e) {
 			log.error(e.toString());

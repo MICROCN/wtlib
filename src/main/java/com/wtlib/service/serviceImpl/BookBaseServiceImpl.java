@@ -1,4 +1,4 @@
-package com.wtlib.service.serviceImpl;
+﻿package com.wtlib.service.serviceImpl;
 
 import java.util.List;
 import java.util.UUID;
@@ -37,14 +37,16 @@ public class BookBaseServiceImpl implements BookBaseService {
 	BookSingleService bookSingleService;
 
 	@Override
-	public int insert(BookBase entity) throws Exception {
+	public Integer insert(BookBase entity) throws Exception {
 		// 插入bookBase表返回bookBase对象，如果没有同类书籍的话自然String是null，所以不用判断他是否存在
-		BookBase book = bookBaseMapper.find(entity);
+		BookBase book = bookBaseMapper.find(entity,DataStatusEnum.NORMAL_USED.getCode());
 		Integer num = entity.getBookNum();
-		Integer id = book.getId();
+		System.out.println(book);
 		Integer person = entity.getCreator();
 		BookBaseSupport support;
-		if (id != null) {
+		Integer id ;
+		if (book != null) {
+			id= book.getId();
 			Integer currentNum = book.getBookNum() + num;
 			book.setBookNum(currentNum);
 			book.setReviser(person);
@@ -65,15 +67,16 @@ public class BookBaseServiceImpl implements BookBaseService {
 			bookBaseSupportService.update(support);
 		} else {
 			// 如果查找不到即没有此类书籍。
-			entity.setStartDate("001");
-			id = bookBaseMapper.insert(entity);
+			bookBaseMapper.insert(entity);
+			id=entity.getId();
 			support = new BookBaseSupport(id, "0", "1", num, 0, num);
-			support.setStartDate("001");
 			support.setCreator(person);
 			bookBaseSupportService.insert(support);
 		}
 		for (int i = 0; i < num; i++) {
-			BookSingle bookSingle = new BookSingle(id, "id" + UUID.randomUUID());
+			String uuid = UUID.randomUUID().toString();
+			uuid = uuid.replace("-", "");
+			BookSingle bookSingle = new BookSingle(id,uuid);
 			bookSingle.setCreator(person);
 			bookSingleService.insert(bookSingle);
 		}
@@ -81,17 +84,20 @@ public class BookBaseServiceImpl implements BookBaseService {
 	}
 
 	@Override
-	public int deleteById(Object id) throws Exception {
+	public int deleteById(Object id,Object reviser) throws Exception {
 		// update booksingleMapper通过singleMap找到bookBaseid
-		int num = bookSingleService.deleteById(id);
-		BookSingle single = bookSingleService.selectById(id);
+		BookSingle single = bookSingleService.selectById(id,DataStatusEnum.NORMAL_USED.getCode());
+		Assert.isTrue(single!=null,"查无此书");
+		int num = bookSingleService.deleteById(id,reviser);
 		Integer baseId = single.getBookBaseId();
 		BookBaseSupport support = bookBaseSupportService
 				.selectBookBaseSupportByBookBaseId(baseId,
 						DataStatusEnum.NORMAL_USED.getCode());
-		Integer singleBookNum = support.getSingleBookNumber();
-		if (singleBookNum == 0)
-			deleteByBaseId(baseId);
+		Integer singleBookNum = support.getSingleBookNumber()-1;
+		if (singleBookNum == 0){
+			deleteByBaseId(baseId,reviser);
+			return num;
+		}
 		else
 			support.setSingleBookNumber(singleBookNum);
 		Integer currentBookNum = support.getCurrentLeftBookNumber() - 1;
@@ -109,8 +115,9 @@ public class BookBaseServiceImpl implements BookBaseService {
 	}
 
 	@Override
-	public void deleteByBaseId(Integer id) throws Exception {
-		bookBaseMapper.deleteById(id);
+	public void deleteByBaseId(Integer id,Object reviser) throws Exception {
+		//将basesupport和base和single中的baseid=id的记录删除
+		bookBaseMapper.deleteById(id,reviser);
 	}
 
 	@Override
@@ -121,19 +128,20 @@ public class BookBaseServiceImpl implements BookBaseService {
 
 	@Override
 	public List<BookBase> find(String title) {
-		List<BookBase> bookBaseList = bookBaseMapper.findByTitle(title);
+		List<BookBase> bookBaseList = bookBaseMapper.findByTitle(title,DataStatusEnum.NORMAL_USED.getCode());
 		return bookBaseList;
 	}
 
 	@Override
-	public List<BookBase> selectAll() throws Exception {
-		List<BookBase> bookBaseList = bookBaseMapper.selectAll();
+	public List<BookBase> selectAll(String dataStatus) throws Exception {
+		List<BookBase> bookBaseList = bookBaseMapper.selectAll(dataStatus);
 		return bookBaseList;
 	}
 
 	@Override
-	public BookBase selectById(Object id) throws Exception {
-		return null;
+	public BookBase selectById(Object id,String dataStatus) throws Exception {
+		BookBase base = bookBaseMapper.selectById(id, dataStatus);
+		return base;
 	}
 
 	@Override

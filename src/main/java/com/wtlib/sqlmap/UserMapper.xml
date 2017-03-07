@@ -17,7 +17,9 @@
 		UPDATE t_user_info,
 		t_user
 		SET t_user_info.data_status = "000",
-		t_user.data_status = "000"
+		t_user.data_status = "000",
+		t_user_info.reviser =#{reviser},
+		t_user.reviser = #{reviser}
 		WHERE
 		t_user.id = #{id}
 		AND t_user_info.user_id = t_user.id
@@ -113,8 +115,9 @@
 		t_user_level
 		WHERE
 		t_user.id = #{userId}
+		AND t_user_info.user_id = t_user.id
 		AND
-		user_level_id = t_user_level.id;
+		user_level_id = t_user_level.id and t_user.data_status = #{dataStatus} and t_user_info.data_status = #{dataStatus} and t_user_level.data_status = #{dataStatus};
 	</select>
 
 	<select id="selectByLoginId" parameterType="java.lang.String"
@@ -137,15 +140,14 @@
 		t_user_level
 		WHERE
 		login_id = #{loginId}
-		AND t_user.id
-		= user_id
+		AND t_user.id = user_id
 		AND user_level_id =
-		t_user_level.id;
+		t_user_level.id and  t_user.data_status = #{dataStatus} and  t_user_info.data_status = #{dataStatus} and  t_user_level.data_status = #{dataStatus};
 	</select>
 
 	<select id="confirm" parameterType="com.wtlib.pojo.User">
 		SELECT id FROM t_user WHERE
-		login_id = #{loginId} AND password = #{password}
+		login_id = #{user.loginId} AND password = #{user.password} and dataStatus = #{dataStatus}
 	</select>
 
 </mapper>

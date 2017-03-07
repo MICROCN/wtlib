@@ -1,5 +1,7 @@
 package com.wtlib.service;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.wtlib.dto.UserWebDto;
 import com.wtlib.pojo.UserInfo;
 
@@ -10,9 +12,9 @@ import com.wtlib.pojo.UserInfo;
  */
 public interface UserInfoService extends BaseService<UserInfo> {
 	
-	public UserWebDto find(String username);
+	public UserWebDto find(String username,String dataStataus);
 
-	public UserInfo selectByUserId(Integer nowReviser);
+	public UserInfo selectByUserId(Integer reviser,String dataStataus);
 	
 	
 }

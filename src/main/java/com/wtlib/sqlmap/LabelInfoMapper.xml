@@ -15,21 +15,23 @@
     id, user_id, value, creator, create_time, reviser, update_time, data_status
   </sql>
   <select id="selectByBaseId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-	select * from t_book_base_label_info where book_base_id = #{id}
+	SELECT
+		t_label_info.*
+	FROM
+		t_book_base_label_info,
+		t_label_info
+	WHERE
+		book_base_id = #{id}
+	AND t_book_base_label_info.data_status = "001"
+	AND t_label_info.data_status = "001"
+	AND t_label_info.id = t_book_base_label_info.label_info_id
   </select>
   <delete id="deleteById" parameterType="java.lang.Integer" >
-    update t_label_info set data_status = "000"
+    update t_label_info set data_status = "000",reviser = #{reviser}
     where id = #{id,jdbcType=INTEGER}
   </delete>
+ 
   <insert id="insert" parameterType="com.wtlib.pojo.LabelInfo" >
-    insert into t_label_info (id, user_id, value, 
-      creator, create_time, reviser, 
-      update_time, data_status)
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{value,jdbcType=VARCHAR}, 
-      #{creator,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{reviser,jdbcType=INTEGER}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{dataStatus,jdbcType=CHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="com.wtlib.pojo.LabelInfo" >
     insert into t_label_info
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -44,9 +46,6 @@
       <if test="creator != null" >
         creator,
       </if>
-      <if test="createTime != null" >
-        create_time,
-      </if>
       <if test="reviser != null" >
         reviser,
       </if>
@@ -56,6 +55,7 @@
       <if test="dataStatus != null" >
         data_status,
       </if>
+      create_time
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -70,9 +70,6 @@
       <if test="creator != null" >
         #{creator,jdbcType=INTEGER},
       </if>
-      <if test="createTime != null" >
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
       <if test="reviser != null" >
         #{reviser,jdbcType=INTEGER},
       </if>
@@ -82,6 +79,7 @@
       <if test="dataStatus != null" >
         #{dataStatus,jdbcType=CHAR},
       </if>
+      now()
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.wtlib.pojo.LabelInfo" >

@@ -1,5 +1,6 @@
 package com.wtlib.service.serviceImpl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -44,21 +45,23 @@ public class BookBaseSupportServiceImpl implements BookBaseSupportService{
 		BookBaseSupport support = baseSupportMapper.selectBookBaseSupportByBookBaseId(id,DataStatusEnum.NORMAL_USED.getCode());
 		SupportWebDto dto = new SupportWebDto();
 		dto.setSupport(support);
-		BookBase base = bookBaseService.selectById(id);
+		BookBase base = bookBaseService.selectById(id,DataStatusEnum.NORMAL_USED.getCode());
 		dto.setBook(base);
-		List<LabelInfo> labelInfo= labelInfoService.selectByBaseId(id);
+		List<LabelInfo> labelInfo= labelInfoService.selectByBaseId(id,DataStatusEnum.NORMAL_USED.getCode());
 		dto.setLabelList(labelInfo);
+		List<UserWebDto> UserWebDtoList = new ArrayList<UserWebDto>();
 		for(LabelInfo info :labelInfo){
 			Integer userid = info.getUserId();
-		    UserWebDto userDto =userService.selectAllById(userid);
-		    dto.setUserDto(userDto);
+		    UserWebDto userDto =userService.selectAllById(userid,DataStatusEnum.NORMAL_USED.getCode());
+		    UserWebDtoList.add(userDto);
 		}
+		dto.setUserDto(UserWebDtoList);
 		return dto;
 	}
 	
 	@Override
-	public int deleteById(Object id) throws Exception {
-		Integer num = baseSupportMapper.deleteById(id);
+	public int deleteById(Object id,Object reviser) throws Exception {
+		Integer num = baseSupportMapper.deleteById(id,reviser);
 		return num;
 	}
 
@@ -70,7 +73,7 @@ public class BookBaseSupportServiceImpl implements BookBaseSupportService{
 	
 	
 	@Override
-	public int insert(BookBaseSupport entity) throws Exception {
+	public Integer insert(BookBaseSupport entity) throws Exception {
 		Integer num = baseSupportMapper.insert(entity);
 		return num;
 	}
@@ -82,7 +85,7 @@ public class BookBaseSupportServiceImpl implements BookBaseSupportService{
 
 
 	@Override
-	public List<BookBaseSupport> selectAll() throws Exception {
+	public List<BookBaseSupport> selectAll(String dataStatus) throws Exception {
 		return null;
 	}
 
@@ -93,7 +96,7 @@ public class BookBaseSupportServiceImpl implements BookBaseSupportService{
 	}
 
 	@Override
-	public BookBaseSupport selectById(Object id) throws Exception {
+	public BookBaseSupport selectById(Object id,String dataStatus) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -101,7 +104,7 @@ public class BookBaseSupportServiceImpl implements BookBaseSupportService{
 	@Override
 	public BookBaseSupport selectBookBaseSupportByBookBaseId(Integer id,
 			String code) {
-		BookBaseSupport support= baseSupportMapper.selectBookBaseSupportByBookBaseId(id,DataStatusEnum.NORMAL_USED.getCode());
+		BookBaseSupport support= baseSupportMapper.selectBookBaseSupportByBookBaseId(id,code);
 		return support;
 	}
 

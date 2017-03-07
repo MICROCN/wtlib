@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.Message;
 import com.alibaba.fastjson.JSON;
 import com.wtlib.constants.Code;
+import com.wtlib.constants.DataStatusEnum;
 import com.wtlib.pojo.CreditInfo;
 import com.wtlib.pojo.FeedBack;
 import com.wtlib.service.CreditInfoService;
@@ -57,9 +58,10 @@ public class CreditInfoController {
 
 	@RequestMapping("/delete")
 	@ResponseBody
-	public Message deleteCreditInfo(@RequestParam("id") Integer id) {
+	public Message deleteCreditInfo(@RequestParam("id") Integer id,HttpSession session) {
+		String reviser = session.getAttribute("id").toString();// 以后会改
 		try {
-			creditInfoService.deleteById(id);
+			creditInfoService.deleteById(id,reviser);
 			return Message.success("删除成功", Code.SUCCESS);
 		} catch (Exception e) {
 			log.error(JSON.toJSONString(id) + "\n\t" + e.toString());
@@ -90,7 +92,7 @@ public class CreditInfoController {
 	@RequestMapping("/get")
 	public Message getCreditInfo() {
 		try {
-			List<CreditInfo> creditInfoList= creditInfoService.selectAll();
+			List<CreditInfo> creditInfoList= creditInfoService.selectAll(DataStatusEnum.NORMAL_USED.getCode());
 			return Message.success(Code.SUCCESS, "查找成功",creditInfoList);
 		} catch (Exception e) {
 			log.error(e.toString());

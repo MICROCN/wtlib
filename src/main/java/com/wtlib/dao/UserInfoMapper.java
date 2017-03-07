@@ -10,10 +10,10 @@ import com.wtlib.pojo.UserInfo;
  * @date 2017年1月21日 下午6:15:14
  */
 public interface UserInfoMapper extends BaseDao<UserInfo> {
+	
+	public UserWebDto selectByUsername(@Param("username")String username,@Param("dataStatus")String dataStatus);
 
-	public UserWebDto selectByUsername(@Param("userName") String userName);
-
-	public UserInfo selectByUserId(Integer nowReviser);
+	public UserInfo selectByUserId(@Param("id")Integer id,@Param("dataStatus")String dataStatus);
 
 	public UserInfo updateLevel(UserInfo userInfo);
 

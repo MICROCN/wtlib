@@ -20,7 +20,7 @@ public class CreditRecordServiceImpl implements CreditRecordService {
 	CreditRecordMapper creditRecordMapper;
 	
 	@Override
-	public int insert(CreditRecord entity) throws Exception {
+	public Integer insert(CreditRecord entity) throws Exception {
 		int num = creditRecordMapper.insert(entity);
 		return num;
 	}
@@ -32,19 +32,19 @@ public class CreditRecordServiceImpl implements CreditRecordService {
 	}
 
 	@Override
-	public CreditRecord selectById(Object id) throws Exception {
+	public CreditRecord selectById(Object id,String dataStatus) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<CreditRecord> selectAll() throws Exception {
+	public List<CreditRecord> selectAll(String dataStatus) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public int deleteById(Object id) throws Exception {
+	public int deleteById(Object id,Object reviser) throws Exception {
 		// TODO Auto-generated method stub
 		return 0;
 	}
