@@ -3,6 +3,7 @@ package com.test.service;
 import static org.mockito.Mockito.*;
 import static org.junit.Assert.*;
 
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +22,7 @@ import com.wtlib.constants.DataStatusEnum;
 import com.wtlib.dao.BookBaseMapper;
 import com.wtlib.dao.BookBaseSupportMapper;
 import com.wtlib.dao.BookReservationMapper;
+import com.wtlib.pojo.BookBaseLabelInfo;
 import com.wtlib.pojo.BookBaseSupport;
 import com.wtlib.pojo.BookReservation;
 import com.wtlib.service.BookReservationService;
@@ -39,7 +41,7 @@ public class BookReservationServiceTest extends BaseTestStarter {
 	@SpringBean(value = "bookReservationService")
 	private BookReservationService bookReservationService;
 
-	@Test
+//	@Test
 	@DataSet("dataSetXls/BookReservationService/insertNewBookReservation.xls")
 	@ExpectedDataSet("dataSetXls/BookReservationService/insertNewBookReservation.expect.xls")
 	public void testInsertNewBookReservation() {
@@ -66,6 +68,13 @@ public class BookReservationServiceTest extends BaseTestStarter {
 
 	@Test
 	public void testStart() {
+		 try {
+			BookBaseLabelInfo newInstance = BookBaseLabelInfo.class.newInstance();
+			System.out.println(newInstance);
+		} catch (InstantiationException | IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Test

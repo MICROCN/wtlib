@@ -18,6 +18,7 @@ public class BookBaseLabelInfo {
     private Date updateTime;
 
     private String dataStatus;
+    
 
     public BookBaseLabelInfo(Integer id, Integer creator) {
     	this.id = id;
